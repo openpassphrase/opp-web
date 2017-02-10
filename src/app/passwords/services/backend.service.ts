@@ -15,7 +15,7 @@ export interface IBackendService {
   removeItem(id: number): Observable<any>;
 }
 
-const baseUrl = `${window.location.protocol}//${window.location.hostname}${environment.baseHref}`;
+const baseUrl = `${window.location.protocol}//${window.location.hostname}:${window.location.port}${environment.baseHref}`;
 
 @Injectable()
 export class BackendService implements IBackendService {
