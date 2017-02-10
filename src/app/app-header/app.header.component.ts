@@ -27,4 +27,10 @@ export class AppHeaderComponent implements OnInit {
         }
       });
   }
+
+  signOut() {
+    this.secretPhrase.setValue('');
+    this.secretPhrase.markAsPristine();
+    this.logout.emit();
+  }
 }

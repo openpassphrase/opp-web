@@ -1,6 +1,6 @@
 <app-header
   [loggedIn]="isLoggedIn"
-  (logout)="logout()"
+  (logout)="auth.logout()"
   (secretPhraseChange)="secretPhraseChange($event)"
   ></app-header>
 

@@ -27,12 +27,13 @@ export class AppComponent {
     });
   }
 
-  logout() {
-    this.auth.logout();
-    this.router.navigate(['/']);
-  }
-
   secretPhraseChange(secret: string) {
     this.store.dispatch(new category.SecretPhraseChangeAction(secret) as any);
+  }
+
+  private logout() {
+    this.store.dispatch(new category.SecretPhraseChangeAction(undefined) as any);
+    this.store.dispatch({ type: 'USER_LOGOUT' });
+    this.router.navigate(['/']);
   }
 }
