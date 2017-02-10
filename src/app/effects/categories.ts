@@ -20,14 +20,15 @@ export class CategoryEffects {
   @Effect()
   loadCategories$: Observable<any> = this.action$
     .filter(a => a instanceof category.LoadCategoriesAction)
-    .switchMap(a => this.backend.fetchAll())
-    .mergeMap((resp: any) => {
-      return Observable.from([
-        new category.LoadCategoriesSuccessAction(resp.categories),
-        new item.LoadItemsSuccessAction(resp.items)
-      ]);
-    })
-    .catch(er => of({}))
+    .switchMap(a => this.backend.fetchAll()
+      .mergeMap((resp)=> {
+        return Observable.from([
+            new category.LoadCategoriesSuccessAction(resp.categories),
+            new item.LoadItemsSuccessAction(resp.items)
+          ]);
+      })
+      .catch(er => of({}))
+    );
 
   @Effect()
   addCategory$: Observable<any> = this.action$
