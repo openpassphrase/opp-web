@@ -2,6 +2,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/from';
+import 'rxjs/add/observable/throw';
 
 import { Injectable } from '@angular/core';
 import { Effect, Actions } from '@ngrx/effects';
@@ -20,14 +21,15 @@ export class CategoryEffects {
   @Effect()
   loadCategories$: Observable<any> = this.action$
     .filter(a => a instanceof category.LoadCategoriesAction)
-    .switchMap(a => this.backend.fetchAll())
-    .mergeMap((resp: any) => {
-      return Observable.from([
-        new category.LoadCategoriesSuccessAction(resp.categories),
-        new item.LoadItemsSuccessAction(resp.items)
-      ]);
-    })
-    .catch(er => of({}))
+    .switchMap(a => this.backend.fetchAll()
+      .mergeMap((resp)=> {
+        return Observable.from([
+            new category.LoadCategoriesSuccessAction(resp.categories),
+            new item.LoadItemsSuccessAction(resp.items)
+          ]);
+      })
+      .catch(er => of({}))
+    );
 
   @Effect()
   addCategory$: Observable<any> = this.action$
