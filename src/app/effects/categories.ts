@@ -20,18 +20,14 @@ export class CategoryEffects {
   @Effect()
   loadCategories$: Observable<any> = this.action$
     .filter(a => a instanceof category.LoadCategoriesAction)
-    .switchMap(() => this.backend.fetchAll()
-      .catch(ex => {
-        console.log('error in loadCategories');
-        return of({});
-      })
-    )
+    .switchMap(a => this.backend.fetchAll())
     .mergeMap((resp: any) => {
       return Observable.from([
         new category.LoadCategoriesSuccessAction(resp.categories),
         new item.LoadItemsSuccessAction(resp.items)
       ]);
-    });
+    })
+    .catch(er => of({}))
 
   @Effect()
   addCategory$: Observable<any> = this.action$
@@ -75,7 +71,8 @@ export class CategoryEffects {
     .map((a) => {
       this.backend.secretPassphraseChange(a.payload);
       return new category.LoadCategoriesAction();
-    });
+    })
+    .catch(er => of({}));
 
   constructor(private action$: Actions, private backend: BackendService) { }
 }

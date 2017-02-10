@@ -7,7 +7,7 @@ import { environment } from '../../../environments/environment';
 
 import 'rxjs/add/observable/timer';
 
-const baseUrl = `${window.location.protocol}//${window.location.hostname}${environment.baseHref}`;
+const baseUrl = `${window.location.protocol}//${window.location.hostname}:${window.location.port}${environment.baseHref}`;
 
 @Injectable()
 export class Auth {
