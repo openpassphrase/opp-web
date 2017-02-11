@@ -16,7 +16,7 @@ export class Auth {
   constructor(private http: Http) {
     this.isLoggedIn = new Observable<boolean>(s => {
       Observable.timer(0, 1000).subscribe(x => {
-        const token = localStorage.getItem('id_token');
+        const token = sessionStorage.getItem('id_token');
         const isNotExpired = tokenNotExpired('id_token', token);
         s.next(isNotExpired);
       });
@@ -29,6 +29,6 @@ export class Auth {
   }
 
   logout() {
-    localStorage.removeItem('id_token');
+    sessionStorage.removeItem('id_token');
   }
 }
