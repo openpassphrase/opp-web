@@ -18,7 +18,10 @@ import { Auth } from '../auth/auth.module';
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig({
     headerName: 'x-opp-jwt',
-    noTokenScheme: true
+    noTokenScheme: true,
+    tokenGetter: () => {
+      return sessionStorage.getItem('id_token');
+    }
   }), http, options);
 }
 

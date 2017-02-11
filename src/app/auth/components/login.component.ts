@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit {
         // We're assuming the response will be an object
         // with the JWT on an id_token key
         data => {
-          localStorage.setItem('id_token', data.access_token);
+          sessionStorage.setItem('id_token', data.access_token);
           this.router.navigate(['passwords']);
         },
         error => {
