@@ -13,7 +13,7 @@
       <form novalidate [formGroup]="authForm" (ngSubmit)="login()">
         <div>
           <md-input-container>
-            <input md-input formControlName="username" placeholder="User name" required type="text" autocomplete="off" focused>
+            <input md-input formControlName="username" placeholder="User name" required type="text" [autocomplete]="userNameAutocompleteState" focused>
           </md-input-container>
 
           <md-input-container>

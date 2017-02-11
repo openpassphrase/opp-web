@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  baseHref: '/opp'
+  baseHref: '/opp',
+  isUserNameAutocompleteEnabled: false
 };
