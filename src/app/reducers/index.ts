@@ -21,6 +21,9 @@ const reducers = {
 };
 
 export function reducer(state: any, action: any) {
+  if (action && action.type === 'USER_LOGOUT') {
+    state = undefined;
+  }
   return combineReducers(reducers)(state, action);
 };
 

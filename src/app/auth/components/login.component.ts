@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { MdSnackBar } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Auth } from '../services/auth.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -11,6 +12,7 @@ import { Auth } from '../services/auth.service';
 })
 export class LoginComponent implements OnInit {
   authForm: FormGroup;
+  userNameAutocompleteState = 'off';
 
   constructor(
     private auth: Auth,
@@ -41,6 +43,8 @@ export class LoginComponent implements OnInit {
       exp_delta_amountCtrl.setValidators(notEmpty ? Validators.required : null);
       exp_delta_amountCtrl.updateValueAndValidity({ emitEvent: false });
     });
+
+    this.userNameAutocompleteState = environment.isUserNameAutocompleteEnabled ? 'on' : 'off';
   }
 
   login() {

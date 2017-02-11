@@ -71,7 +71,9 @@ export class CategoryEffects {
     .filter(a => a instanceof category.SecretPhraseChangeAction)
     .map((a) => {
       this.backend.secretPassphraseChange(a.payload);
-      return new category.LoadCategoriesAction();
+      if (a.payload !== undefined) {
+        return new category.LoadCategoriesAction();
+      }
     })
     .catch(er => of({}));
 
