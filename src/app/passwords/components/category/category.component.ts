@@ -23,9 +23,9 @@ const speedOut = '200ms ease-out';
       transition('0 <=> 1', [animate(speedIn, style({ height: '*' })), animate(speedOut)])
     ]),
     trigger('expandForShadow', [
-      state('false, void', style({ 'padding': '0 2px 1px 2px' })),
-      state('true', style({ padding: '3px', margin: '12px -27px' })),
-      transition('0 <=> 1', [animate(speedIn, style({ padding: '3px', margin: '10px -27px' })), animate(speedOut)])
+      state('false, void', style({ 'padding': '0 2px 1px 2px', margin: '0' })),
+      state('true', style({ padding: '3px 3px 3px 3px', margin: '12px -27px' })),
+      transition('0 <=> 1', [animate(speedIn, style({ padding: '3px 3px 3px 3px', margin: '10px -27px' })), animate(speedOut)])
     ]),
     trigger('offsetExpand', [
       state('false, void', style({ 'padding': '0px' })),
