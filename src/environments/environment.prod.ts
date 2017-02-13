@@ -1,5 +1,6 @@
 export const environment = {
   production: true,
   baseHref: '/opp',
-  isUserNameAutocompleteEnabled: false
+  isUserNameAutocompleteEnabled: false,
+  showTokenExpirationCustomization: false
 };

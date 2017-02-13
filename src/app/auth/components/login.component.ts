@@ -13,6 +13,7 @@ import { environment } from '../../../environments/environment';
 export class LoginComponent implements OnInit {
   authForm: FormGroup;
   userNameAutocompleteState = 'off';
+  showTokenExp = false;
 
   constructor(
     private auth: Auth,
@@ -45,6 +46,7 @@ export class LoginComponent implements OnInit {
     });
 
     this.userNameAutocompleteState = environment.isUserNameAutocompleteEnabled ? 'on' : 'off';
+    this.showTokenExp = environment.showTokenExpirationCustomization;
   }
 
   login() {
