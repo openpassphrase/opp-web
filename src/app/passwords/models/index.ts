@@ -8,6 +8,7 @@ export interface IItem {
   name?: string;
   url?: string;
   account?: string;
+  username?: string;
   password?: string;
   blob?: string;
   category_id?: number;
