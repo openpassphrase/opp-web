@@ -15,10 +15,14 @@ export class Auth {
 
   constructor(private http: Http) {
     this.isLoggedIn = new Observable<boolean>(s => {
+      let prevState = undefined;
       Observable.timer(0, 1000).subscribe(x => {
         const token = sessionStorage.getItem('id_token');
         const isNotExpired = tokenNotExpired('id_token', token);
-        s.next(isNotExpired);
+        if (isNotExpired !== prevState) {
+          prevState = isNotExpired;
+          s.next(isNotExpired);
+        }
       });
     });
   }

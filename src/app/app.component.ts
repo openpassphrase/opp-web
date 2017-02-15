@@ -12,18 +12,17 @@ import * as category from './actions/categories';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  isLoggedIn: boolean;
-
   constructor(
     public auth: Auth,
     private router: Router,
     private store: Store<fromRoot.State>
   ) {
+    let isLoggedIn: boolean = false;
     this.auth.isLoggedIn.subscribe(newState => {
-      if (!newState && this.isLoggedIn) {
+      if (!newState && isLoggedIn) {
         this.logout();
       }
-      this.isLoggedIn = newState;
+      isLoggedIn = newState;
     });
   }
 

@@ -2,8 +2,8 @@
   <div fxFlexFill fxLayout="row" fxLayoutAlign="space-between center">
     <span>Open Pass Phrase</span>
 
-    <md-input-container *ngIf="loggedIn" dividerColor="accent" fxFlex="265px">
-      <input md-input [formControl]="secretPhrase" autocomplete="off" type="password" placeholder="secret phrase to decode data" focused>
+    <md-input-container *ngIf="loggedIn | async" dividerColor="accent" fxFlex="265px">
+      <input md-input [formControl]="secretPhrase" autocomplete="off" type="password" placeholder="secret phrase to decode data" #secretInput>
       <md-hint *ngIf="secretPhrase.dirty && !secretPhrase.valid">Must be at least 6 chars</md-hint>
     </md-input-container>
 
