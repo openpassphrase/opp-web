@@ -10,6 +10,10 @@
   {{item.account}}
 </div>
 
+<div fxFlex ngxClipboard [cbContent]="item.username" (cbOnSuccess)="copied()">
+  {{item.username}}
+</div>
+
 <div fxFlex ngxClipboard [cbContent]="item.password" (cbOnSuccess)="copied()">
   {{item.password}}
 </div>

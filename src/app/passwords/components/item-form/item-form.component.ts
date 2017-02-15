@@ -26,6 +26,7 @@ export class ItemFormComponent implements OnInit {
       name: [this.item.name, Validators.required],
       url: [this.item.url],
       account: [this.item.account],
+      username: [this.item.username],
       password: [this.item.password],
       blob: [this.item.blob],
       category_id: [this.item.category_id]
