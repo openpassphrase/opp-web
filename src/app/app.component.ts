@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Auth } from './auth/auth.module';
-//import { StoreService } from './passwords/services/store.service';
 import { Store } from '@ngrx/store';
 import * as fromRoot from './reducers';
 import * as category from './actions/categories';

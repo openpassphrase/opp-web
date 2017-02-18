@@ -13,11 +13,11 @@ import {
 
 
 @Component({
-  selector: 'app-passwords',
-  templateUrl: './passwords.component.html',
-  styleUrls: ['./passwords.component.scss']
+  selector: 'app-content',
+  templateUrl: './content.component.html',
+  styleUrls: ['./content.component.scss']
 })
-export class PasswordsComponent implements OnInit {
+export class ContentComponent implements OnInit {
   categories$: Observable<ICategoryItems[]>;
   loading$: Observable<boolean>;
   itemsWithoutCategory$: Observable<IItem[]>;

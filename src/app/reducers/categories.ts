@@ -1,6 +1,6 @@
 import '@ngrx/core/add/operator/select';
 import { Observable } from 'rxjs/Observable';
-import { ICategory } from '../passwords/models';
+import { ICategory } from '../content/models';
 import * as category from '../actions/categories';
 
 export interface State {
