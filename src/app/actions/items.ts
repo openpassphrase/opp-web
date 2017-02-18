@@ -1,4 +1,4 @@
-import { IItem, IUpdateItemPayload } from '../passwords/models';
+import { IItem, IUpdateItemPayload } from '../content/models';
 
 export class LoadItemsSuccessAction {
   constructor(public payload: IItem[]) { }

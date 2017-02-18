@@ -6,8 +6,8 @@ import { MaterialModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AuthHttp, AuthConfig } from 'angular2-jwt';
 import { ClipboardModule } from 'ngx-clipboard';
-import { PasswordsRoutingModule } from './passwords-routing.module';
-import { PasswordsComponent } from './passwords.component';
+import { ContentRoutingModule } from './content-routing.module';
+import { ContentComponent } from './content.component';
 import { BackendService } from './services/backend.service';
 import { AddCategoryFormComponent } from './components/add-category-form/add-category-form.component';
 import { CategoryComponent, DeleteCategoryDialogComponent } from './components/category/category.component';
@@ -28,14 +28,14 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
 @NgModule({
   imports: [
     CommonModule,
-    PasswordsRoutingModule,
+    ContentRoutingModule,
     ReactiveFormsModule,
     MaterialModule,
     FlexLayoutModule,
     ClipboardModule
   ],
   declarations: [
-    PasswordsComponent,
+    ContentComponent,
     AddCategoryFormComponent,
     CategoryComponent,
     DeleteCategoryDialogComponent,
@@ -57,4 +57,4 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     DeleteItemDialogComponent
   ]
 })
-export class PasswordsModule { }
+export class ContentModule { }

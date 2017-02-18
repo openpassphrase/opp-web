@@ -10,7 +10,7 @@ import { EffectsModule } from '@ngrx/effects';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AuthModule } from './auth/auth.module';
-import { PasswordsModule } from './passwords/passwords.module';
+import { ContentModule } from './content/content.module';
 
 import { AppComponent } from './app.component';
 import { AppHeaderComponent } from './app-header/app.header.component';
@@ -31,7 +31,7 @@ import { ItemEffects } from './effects/items';
     MaterialModule.forRoot(),
     FlexLayoutModule,
     AuthModule,
-    PasswordsModule,
+    ContentModule,
     ReactiveFormsModule,
     StoreModule.provideStore(reducer),
     EffectsModule.run(CategoryEffects),
