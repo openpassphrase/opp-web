@@ -17,7 +17,7 @@ export class UnAuthGuard implements CanActivate {
       .map(isLoggedIn => !isLoggedIn)
       .do(isNotLoggedIn => {
         if (!isNotLoggedIn) {
-          this.router.navigate(['passwords']);
+          this.router.navigate(['content']);
         }
       });
   }

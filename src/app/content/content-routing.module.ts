@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { PasswordsComponent } from './passwords.component';
+import { ContentComponent } from './content.component';
 import { AuthGuard } from '../auth/auth.module';
 
 const routes: Routes = [
-  { path: 'passwords', component: PasswordsComponent, canActivate: [AuthGuard] }
+  { path: 'content', component: ContentComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({
@@ -12,4 +12,4 @@ const routes: Routes = [
   exports: [RouterModule],
   providers: []
 })
-export class PasswordsRoutingModule { }
+export class ContentRoutingModule { }
