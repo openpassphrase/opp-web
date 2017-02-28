@@ -24,8 +24,6 @@ export function reducer(state = initialState, action: item.Actions): State {
       items: [...state.items, action.payload]
     };
   } else if (action instanceof item.AddItemSuccessAction) {
-    console.log(state.items);
-    console.log('s', action.payload);
     return {
       loading: false,
       items: state.items.map(x => x.id === null && x.name === action.payload.name
