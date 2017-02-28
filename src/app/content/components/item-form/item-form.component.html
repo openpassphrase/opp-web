@@ -1,5 +1,5 @@
 <h1>Add new item</h1>
-<form novalidate [formGroup]="saveItemForm" (ngSubmit)="saveItem()">
+<form novalidate [formGroup]="saveItemForm" (ngSubmit)="saveItem()" fxLayout="column" fxLayoutGap="10px">
   <div>
     <md-input-container>
       <input md-input 
@@ -9,6 +9,9 @@
         autocomplete="off"
         type="text"
         focused>
+      <md-hint [val-messages]="saveItemForm.get('name')">
+        <span val-message="required">Required</span>
+      </md-hint>
     </md-input-container>
 
     <md-input-container>
@@ -17,6 +20,9 @@
         placeholder="URL"
         autocomplete="off"
         type="url">
+      <md-hint [val-messages]="saveItemForm.get('url')">
+        <span val-message="url">Not a valid URL</span>
+      </md-hint>
     </md-input-container>
 
     <md-input-container>

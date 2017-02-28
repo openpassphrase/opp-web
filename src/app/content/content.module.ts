@@ -6,6 +6,8 @@ import { MaterialModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AuthHttp, AuthConfig } from 'angular2-jwt';
 import { ClipboardModule } from 'ngx-clipboard';
+import { NgxMessagesModule } from 'ngx-messages';
+
 import { ContentRoutingModule } from './content-routing.module';
 import { ContentComponent } from './content.component';
 import { BackendService } from './services/backend.service';
@@ -32,7 +34,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ReactiveFormsModule,
     MaterialModule,
     FlexLayoutModule,
-    ClipboardModule
+    ClipboardModule,
+    NgxMessagesModule
   ],
   declarations: [
     ContentComponent,
