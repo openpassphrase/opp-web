@@ -35,15 +35,18 @@ export class AppHeaderComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.loggedIn.subscribe((isLoggedIn) => {
-      if (isLoggedIn && this.secretInput) {
-        this.renderer.invokeElementMethod(this.secretInput.nativeElement, 'focus');
+      if (isLoggedIn) {
+        if (this.secretInput) {
+          this.renderer.invokeElementMethod(this.secretInput.nativeElement, 'focus');
+        }
+      } else {
+        this.secretPhrase.setValue('');
+        this.secretPhrase.markAsPristine();
       }
     });
   }
 
   signOut() {
-    this.secretPhrase.setValue('');
-    this.secretPhrase.markAsPristine();
     this.logout.emit();
   }
 }
