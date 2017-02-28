@@ -28,3 +28,12 @@ button[md-mini-fab] {
     padding: 4px 0;
   }
 }
+
+.cell {
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  a {
+    white-space: nowrap;
+  }
+}

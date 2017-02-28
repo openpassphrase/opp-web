@@ -2,6 +2,7 @@ import { Component, OnInit,Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { MdDialogRef } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
+import { CustomValidators } from 'ng2-validation';
 import { IItem } from '../../models';
 
 
@@ -24,7 +25,7 @@ export class ItemFormComponent implements OnInit {
     this.saveItemForm = this._fb.group({
       id: [this.item.id],
       name: [this.item.name, Validators.required],
-      url: [this.item.url],
+      url: [this.item.url, CustomValidators.url],
       account: [this.item.account],
       username: [this.item.username],
       password: [this.item.password],

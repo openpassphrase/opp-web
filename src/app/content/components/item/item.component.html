@@ -1,24 +1,20 @@
-<div fxFlex ngxClipboard [cbContent]="item.name" (cbOnSuccess)="copied()">
-  {{item.name}}
+<div fxFlex class="cell">
+  <a [href]="item.url" target="_blank">{{item.name}}</a>
 </div>
 
-<div fxFlex ngxClipboard [cbContent]="item.url" (cbOnSuccess)="copied()">
-  {{item.url}}
-</div>
-
-<div fxFlex ngxClipboard [cbContent]="item.account" (cbOnSuccess)="copied()">
+<div fxFlex ngxClipboard [cbContent]="item.account" (cbOnSuccess)="copied()" class="cell">
   {{item.account}}
 </div>
 
-<div fxFlex ngxClipboard [cbContent]="item.username" (cbOnSuccess)="copied()">
+<div fxFlex ngxClipboard [cbContent]="item.username" (cbOnSuccess)="copied()" class="cell">
   {{item.username}}
 </div>
 
-<div fxFlex ngxClipboard [cbContent]="item.password" (cbOnSuccess)="copied()">
+<div fxFlex ngxClipboard [cbContent]="item.password" (cbOnSuccess)="copied()" class="cell">
   {{item.password}}
 </div>
 
-<div fxFlex ngxClipboard [cbContent]="item.blob" (cbOnSuccess)="copied()">
+<div fxFlex ngxClipboard [cbContent]="item.blob" (cbOnSuccess)="copied()" class="cell">
   {{item.blob}}
 </div>
 
