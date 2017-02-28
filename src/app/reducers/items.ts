@@ -26,7 +26,7 @@ export function reducer(state = initialState, action: item.Actions): State {
   } else if (action instanceof item.AddItemSuccessAction) {
     return {
       loading: false,
-      items: state.items.map(x => x.id === undefined && x.name === action.payload.name
+      items: state.items.map(x => x.id === null && x.name === action.payload.name
         ? Object.assign({}, x, { id: action.payload.id })
         : x)
     };

@@ -1,5 +1,6 @@
 <div fxFlex class="cell">
-  <a [href]="item.url" target="_blank">{{item.name}}</a>
+  <a *ngIf="item.url" [href]="item.url" target="_blank">{{item.name}}</a>
+  <span *ngIf="!item.url">{{item.name}}</span>
 </div>
 
 <div fxFlex ngxClipboard [cbContent]="item.account" (cbOnSuccess)="copied()" class="cell">
