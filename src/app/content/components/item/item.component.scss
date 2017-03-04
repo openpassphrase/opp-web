@@ -32,8 +32,18 @@ button[md-mini-fab] {
 .cell {
   overflow: hidden;
   text-overflow: ellipsis;
-
+  
   a {
     white-space: nowrap;
+  }
+  
+  a:visited, a:link, a:active {
+    color: #0000EE;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    color: #FEFEFE;
+    background-color: #212121;
   }
 }
