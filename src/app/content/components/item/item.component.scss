@@ -1,26 +1,27 @@
-$highlightColor: #fff6d0;
+$highlight-color: #fff6d0;
 
 :host {
   padding: 5px 0;
 
   &:hover {
-    background: $highlightColor;
+    background: $highlight-color;
   }
 }
 
 [ngxClipboard] {
-  margin: 5px;
   cursor: pointer;
   line-height: 24px;
+  margin: 5px;
 
   &:hover {
-    background: darken($highlightColor, 10);
+    background: darken($highlight-color, 10);
   }
 }
 
+// sass-lint:disable force-attribute-nesting
 button[md-mini-fab] {
-  width: 30px;
   height: 30px;
+  width: 30px;
 
   md-icon {
     font-size: 18px;
@@ -32,18 +33,20 @@ button[md-mini-fab] {
 .cell {
   overflow: hidden;
   text-overflow: ellipsis;
-  
+
   a {
     white-space: nowrap;
-  }
-  
-  a:visited, a:link, a:active {
-    color: #0000EE;
-    text-decoration: none;
-  }
-  
-  a:hover {
-    color: #FEFEFE;
-    background-color: #212121;
+
+    &:visited,
+    &:link,
+    &:active {
+      color: #00e;
+      text-decoration: none;
+    }
+
+    &:hover {
+      background-color: #212121;
+      color: #fefefe;
+    }
   }
 }
