@@ -24,6 +24,11 @@ export class ContentComponent implements OnInit {
 
   ngOnInit() {
     this.loading$ = this.store.let(fromRoot.getLoading);
+    this.auth.isLoggedIn.subscribe(isLoggedIn => {
+      if (!isLoggedIn) {
+        this.logout();
+      }
+    });
   }
   
   secretPhraseChange(secret: string) {
