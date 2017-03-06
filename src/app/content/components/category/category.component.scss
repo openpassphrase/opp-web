@@ -9,9 +9,9 @@
 }
 
 .shadow {
-  border-radius: $md-card-border-radius;
-  @include md-elevation(2);
-  @include md-elevation-transition;
+  border-radius: $mat-card-border-radius;
+  @include mat-elevation(2);
+  @include mat-elevation-transition;
 }
 
 .category-name {
