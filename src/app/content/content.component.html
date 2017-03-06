@@ -1,3 +1,10 @@
+<app-header
+  [loggedIn]="auth.isLoggedIn"
+  (logout)="auth.logout()"
+  (secretPhraseChange)="secretPhraseChange($event)"
+  ></app-header>
+
+
 <div fxLayout fxLayoutAlign="center start">
   <div fxFlex="800px" fxFlex.xs="100">
     <md-progress-bar 

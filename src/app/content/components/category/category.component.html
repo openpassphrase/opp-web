@@ -35,7 +35,7 @@
         <div *ngIf="isInEditMode">
           <form novalidate [formGroup]="changeCategoryForm" (ngSubmit)="saveCategoryName()">
             <md-input-container>
-              <input md-input formControlName="newName" type="text" placeholder="Category name">
+              <input mdInput formControlName="newName" type="text" placeholder="Category name">
             </md-input-container>
 
             <button md-mini-fab type="submit">

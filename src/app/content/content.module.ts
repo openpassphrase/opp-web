@@ -1,12 +1,14 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { HttpModule, Http, RequestOptions, BaseRequestOptions } from '@angular/http';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MaterialModule } from '@angular/material';
-import { FlexLayoutModule } from '@angular/flex-layout';
+import { Http, RequestOptions } from '@angular/http';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 import { AuthHttp, AuthConfig } from 'angular2-jwt';
 import { ClipboardModule } from 'ngx-clipboard';
 import { NgxMessagesModule } from 'ngx-messages';
+
+import { reducer } from './store/reducers';
+import { CategoryEffects } from './store/effects/categories';
+import { ItemEffects } from './store/effects/items';
 
 import { ContentRoutingModule } from './content-routing.module';
 import { ContentComponent } from './content.component';
@@ -15,7 +17,6 @@ import { AddCategoryFormComponent } from './components/add-category-form/add-cat
 import { CategoryComponent, DeleteCategoryDialogComponent } from './components/category/category.component';
 import { ItemComponent, DeleteItemDialogComponent } from './components/item/item.component';
 import { ItemFormComponent } from './components/item-form/item-form.component';
-import { Auth } from '../auth/auth.module';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig({
@@ -29,13 +30,12 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
 
 @NgModule({
   imports: [
-    CommonModule,
     ContentRoutingModule,
-    ReactiveFormsModule,
-    MaterialModule,
-    FlexLayoutModule,
     ClipboardModule,
-    NgxMessagesModule
+    NgxMessagesModule,
+    StoreModule.provideStore(reducer),
+    EffectsModule.run(CategoryEffects),
+    EffectsModule.run(ItemEffects),
   ],
   declarations: [
     ContentComponent,

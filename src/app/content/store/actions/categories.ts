@@ -1,4 +1,4 @@
-import { ICategory, IUpdateCategoryPayload, IRemoveCategoryPayload } from '../content/models';
+import { ICategory, IUpdateCategoryPayload, IRemoveCategoryPayload } from '../../models';
 
 export class SecretPhraseChangeAction {
   constructor(public payload: string) { }

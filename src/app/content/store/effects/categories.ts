@@ -9,10 +9,10 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { combineLatest } from 'rxjs/observable/combineLatest';
 
-import { BackendService } from '../content/services/backend.service';
+import { BackendService } from '../../services/backend.service';
 import * as category from '../actions/categories';
 import * as item from '../actions/items';
-import { ICategory } from '../content/models';
+import { ICategory } from '../../models';
 
 @Injectable()
 export class CategoryEffects {

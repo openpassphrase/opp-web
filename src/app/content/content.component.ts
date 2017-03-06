@@ -3,9 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Store } from '@ngrx/store';
-import * as fromRoot from '../reducers';
-import * as category from '../actions/categories';
-import * as item from '../actions/items';
+import * as fromRoot from './store/reducers';
+import * as category from './store/actions/categories';
+import * as item from './store/actions/items';
 import {
   ICategory, IItem, ICategoryItems, IUpdateCategoryPayload,
   IRemoveCategoryPayload, IUpdateItemPayload
