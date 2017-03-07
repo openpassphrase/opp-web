@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs/Observable';
 import * as item from '../actions/items';
-import { IItem } from '../content/models';
+import { IItem } from '../../models';
 
 export interface State {
   loading: boolean;

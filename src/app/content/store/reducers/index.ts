@@ -8,7 +8,7 @@ import { compose } from '@ngrx/core/compose';
 
 import * as fromCategories from './categories';
 import * as fromItems from './items';
-import { ICategoryItems } from '../content/models';
+import { ICategoryItems } from '../../models';
 
 export interface State {
   categories: fromCategories.State;

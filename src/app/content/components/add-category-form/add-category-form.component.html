@@ -1,6 +1,6 @@
 <form novalidate [formGroup]="addCategoryForm" (ngSubmit)="addCategory()">
   <md-input-container>
-    <input md-input 
+    <input mdInput 
       formControlName="category"
       placeholder="New group"
       (keyup.escape)="clear()"

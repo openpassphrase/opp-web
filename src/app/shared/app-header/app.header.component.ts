@@ -34,6 +34,9 @@ export class AppHeaderComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
+    if (!this.loggedIn) {
+      this.loggedIn = Observable.of(false);
+    }
     this.loggedIn.subscribe((isLoggedIn) => {
       if (isLoggedIn) {
         if (this.secretInput) {

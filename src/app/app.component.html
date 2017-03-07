@@ -1,9 +1,1 @@
-<app-header
-  [loggedIn]="auth.isLoggedIn"
-  (logout)="auth.logout()"
-  (secretPhraseChange)="secretPhraseChange($event)"
-  ></app-header>
-
-<main class="main">
-  <router-outlet></router-outlet>
-</main>
+<router-outlet></router-outlet>

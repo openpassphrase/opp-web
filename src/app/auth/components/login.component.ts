@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MdSnackBar } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Auth } from '../services/auth.service';
+import { Auth } from '../../shared/auth-services';
 import { environment } from '../../../environments/environment';
 
 @Component({
