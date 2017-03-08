@@ -1,10 +1,9 @@
-import { Component, Input, OnInit, AfterViewInit, ViewChild, ElementRef, Renderer } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, Renderer } from '@angular/core';
 import { Router } from '@angular/router';
 import { MdSnackBar } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Auth } from '../../shared/auth-services';
 import { environment } from '../../../environments/environment';
-import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +11,6 @@ import { Observable } from 'rxjs/Observable';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit, AfterViewInit {
-  @Input() loggedIn: Observable<boolean>;
 
   @ViewChild('username') username: ElementRef;
 
@@ -56,16 +54,9 @@ export class LoginComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    if (!this.loggedIn) {
-      this.loggedIn = Observable.of(false);
+    if (this.username) {
+      this.renderer.invokeElementMethod(this.username.nativeElement, 'focus');
     }
-    this.loggedIn.subscribe((isLoggedIn) => {
-      if (!isLoggedIn) {
-        if (this.username) {
-          this.renderer.invokeElementMethod(this.username.nativeElement, 'focus');
-        }
-      }
-    });
   }
 
   login() {
