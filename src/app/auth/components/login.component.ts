@@ -1,16 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit, ViewChild, ElementRef, Renderer } from '@angular/core';
 import { Router } from '@angular/router';
 import { MdSnackBar } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Auth } from '../../shared/auth-services';
 import { environment } from '../../../environments/environment';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, AfterViewInit {
+  @Input() loggedIn: Observable<boolean>;
+
+  @ViewChild('username') username: ElementRef;
+
   authForm: FormGroup;
   userNameAutocompleteState = 'off';
   showTokenExp = false;
@@ -19,7 +24,8 @@ export class LoginComponent implements OnInit {
     private auth: Auth,
     private router: Router,
     private _fb: FormBuilder,
-    private snackBar: MdSnackBar
+    private snackBar: MdSnackBar,
+    private renderer: Renderer
   ) { }
 
   ngOnInit() {
@@ -47,6 +53,19 @@ export class LoginComponent implements OnInit {
 
     this.userNameAutocompleteState = environment.isUserNameAutocompleteEnabled ? 'on' : 'off';
     this.showTokenExp = environment.showTokenExpirationCustomization;
+  }
+
+  ngAfterViewInit() {
+    if (!this.loggedIn) {
+      this.loggedIn = Observable.of(false);
+    }
+    this.loggedIn.subscribe((isLoggedIn) => {
+      if (!isLoggedIn) {
+        if (this.username) {
+          this.renderer.invokeElementMethod(this.username.nativeElement, 'focus');
+        }
+      }
+    });
   }
 
   login() {
