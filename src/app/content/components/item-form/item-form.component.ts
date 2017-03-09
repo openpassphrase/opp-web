@@ -1,9 +1,9 @@
-import { Component, OnInit,Input } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
+import { Component, OnInit, Input } from '@angular/core';
+import { FormBuilder, FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { MdDialogRef } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { CustomValidators } from 'ng2-validation';
-import { IItem } from '../../models';
+import { IItem, IItemFormResult } from '../../models';
 
 
 @Component({
@@ -13,8 +13,9 @@ import { IItem } from '../../models';
 })
 export class ItemFormComponent implements OnInit {
   @Input() item: IItem;
-
   saveItemForm: FormGroup;
+  genopts: FormGroup;
+  autoGenPassword: FormControl;
 
   constructor(
     public dialogRef: MdDialogRef<ItemFormComponent>,
@@ -22,6 +23,8 @@ export class ItemFormComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.autoGenPassword = new FormControl(false);
+
     this.saveItemForm = this._fb.group({
       id: [this.item.id],
       name: [this.item.name, Validators.required],
@@ -32,11 +35,20 @@ export class ItemFormComponent implements OnInit {
       blob: [this.item.blob],
       category_id: [this.item.category_id]
     });
+
+    this.genopts = this._fb.group({
+      numwords: [1]
+    });
   }
 
   saveItem() {
     if (this.saveItemForm.valid) {
-      this.dialogRef.close(this.saveItemForm.value);
+      const result: IItemFormResult = {
+        item: this.saveItemForm.value,
+        auto_pass: this.autoGenPassword.value,
+        genopts: this.genopts.value
+      }
+      this.dialogRef.close(result);
     }
   }
 }

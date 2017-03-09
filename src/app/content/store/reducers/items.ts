@@ -21,13 +21,13 @@ export function reducer(state = initialState, action: item.Actions): State {
   } else if (action instanceof item.AddItemAction) {
     return {
       loading: true,
-      items: [...state.items, action.payload]
+      items: [...state.items, action.payload.item]
     };
   } else if (action instanceof item.AddItemSuccessAction) {
     return {
       loading: false,
       items: state.items.map(x => x.id === null && x.name === action.payload.name
-        ? Object.assign({}, x, { id: action.payload.id })
+        ? Object.assign({}, x, { id: action.payload.id, password: action.payload.password })
         : x)
     };
   } else if (action instanceof item.AddItemFailAction) {
@@ -38,8 +38,8 @@ export function reducer(state = initialState, action: item.Actions): State {
   } else if (action instanceof item.UpdateItemAction) {
     return {
       loading: true,
-      items: state.items.map(x => x.id === action.payload.newItem.id
-        ? Object.assign({}, action.payload.newItem)
+      items: state.items.map(x => x.id === action.payload.newInfo.item.id
+        ? Object.assign({}, action.payload.newInfo.item)
         : x)
     };
   } else if (action instanceof item.UpdateItemFailAction) {
@@ -52,7 +52,9 @@ export function reducer(state = initialState, action: item.Actions): State {
   } else if (action instanceof item.UpdateItemSuccessAction) {
     return {
       loading: false,
-      items: state.items
+      items: state.items.map(x => x.id === action.payload.id
+        ? Object.assign({}, x, { password: action.payload.password })
+        : x)
     };
   } else if (action instanceof item.RemoveItemAction) {
     return {

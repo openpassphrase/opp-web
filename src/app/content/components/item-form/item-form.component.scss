@@ -1,0 +1,14 @@
+form {
+  min-width: 500px;
+  
+  .input-height /deep/ {
+    .mat-checkbox-layout {
+      padding: 14px 0 18px;
+    }
+  }
+
+  h5 {
+    margin-top: 0;
+    padding-bottom: 12px;
+  }
+}

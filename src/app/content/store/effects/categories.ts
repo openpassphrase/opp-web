@@ -18,8 +18,8 @@ import { ICategory } from '../../models';
 export class CategoryEffects {
 
   @Effect()
-  loadCategories$: Observable<any> = this.action$
-    .filter(a => a instanceof category.LoadCategoriesAction)
+  loadCategories$ = (<Observable<category.Actions>>this.action$)
+    .filter<category.LoadCategoriesAction>(a => a instanceof category.LoadCategoriesAction)
     .switchMap(a => this.backend.fetchAll()
       .mergeMap((resp)=> {
         return Observable.from([
@@ -31,8 +31,8 @@ export class CategoryEffects {
     );
 
   @Effect()
-  addCategory$: Observable<any> = this.action$
-    .filter(a => a instanceof category.AddCategoryAction)
+  addCategory$ = (<Observable<category.Actions>>this.action$)
+    .filter<category.AddCategoryAction>(a => a instanceof category.AddCategoryAction)
     .switchMap(a => this.backend.addCategory(a.payload)
       .map(resp => new category.AddCategorySuccessAction(resp))
       .catch(er => {
@@ -44,8 +44,8 @@ export class CategoryEffects {
     });
 
   @Effect()
-  editCategory$: Observable<any> = this.action$
-    .filter(a => a instanceof category.EditCategoryAction)
+  editCategory$ = (<Observable<category.Actions>>this.action$)
+    .filter<category.EditCategoryAction>(a => a instanceof category.EditCategoryAction)
     .switchMap(a => this.backend.updateCategory(a.payload)
       .map(resp => new category.EditCategorySuccessAction())
       .catch(er => {
@@ -57,8 +57,8 @@ export class CategoryEffects {
     });
 
   @Effect()
-  removeCategory$: Observable<any> = this.action$
-    .filter(a => a instanceof category.RemoveCategoryAction)
+  removeCategory$ = (<Observable<category.Actions>>this.action$)
+    .filter<category.RemoveCategoryAction>(a => a instanceof category.RemoveCategoryAction)
     .switchMap(a => this.backend.removeCategory({
       id: a.payload.category.id, cascade: a.payload.cascade
     })
@@ -67,8 +67,8 @@ export class CategoryEffects {
     );
 
   @Effect()
-  secretPhraseChange$: Observable<any> = this.action$
-    .filter(a => a instanceof category.SecretPhraseChangeAction)
+  secretPhraseChange$ = (<Observable<category.Actions>>this.action$)
+    .filter<category.SecretPhraseChangeAction>(a => a instanceof category.SecretPhraseChangeAction)
     .map((a) => {
       this.backend.secretPassphraseChange(a.payload);
       if (a.payload !== undefined) {
@@ -77,5 +77,8 @@ export class CategoryEffects {
     })
     .catch(er => of({}));
 
-  constructor(private action$: Actions, private backend: BackendService) { }
+  constructor(
+    private action$: Actions,
+    private backend: BackendService
+  ) { }
 }

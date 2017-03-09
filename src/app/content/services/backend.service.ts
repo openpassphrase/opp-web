@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { AuthHttp } from 'angular2-jwt';
-import { ICategory, IItem } from '../models';
+import { ICategory, IItem, IItemFormResult } from '../models';
 import { environment } from '../../../environments/environment';
 
 export interface IBackendService {
@@ -10,8 +10,8 @@ export interface IBackendService {
   addCategory(name: string): Observable<ICategory>;
   updateCategory(category: ICategory): Observable<any>;
   removeCategory(opts: { id: number, cascade: boolean }): Observable<any>;
-  addItem(item: IItem): Observable<IItem>;
-  updateItem(item: IItem): Observable<any>;
+  addItem(info: IItemFormResult): Observable<IItem>;
+  updateItem(info: IItemFormResult): Observable<any>;
   removeItem(id: number): Observable<any>;
 }
 
@@ -72,15 +72,24 @@ export class BackendService implements IBackendService {
       .map(x => x.items);
   }
 
-  addItem(item: IItem): Observable<IItem> {
-    return this.http.put(`${baseUrl}/api/v1/items`, { items: [item] }, { headers: this.headers })
+  addItem(info: IItemFormResult): Observable<IItem> {
+    return this.http.put(`${baseUrl}/api/v1/items`, {
+      items: [info.item],
+      auto_pass: info.auto_pass,
+      genopts: info.genopts
+    }, { headers: this.headers })
       .map(res => res.json())
       .map(x => x.items[0]);
   }
 
-  updateItem(item: IItem): Observable<void> {
-    return this.http.post(`${baseUrl}/api/v1/items`, { items: [item] }, { headers: this.headers })
-      .map(res => res.json());
+  updateItem(info: IItemFormResult): Observable<IItem> {
+    return this.http.post(`${baseUrl}/api/v1/items`, {
+      items: [info.item],
+      auto_pass: info.auto_pass,
+      genopts: info.genopts
+    }, { headers: this.headers })
+      .map(res => res.json())
+      .map(x => x.items[0]);
   }
 
   removeItem(id: number): Observable<void> {
