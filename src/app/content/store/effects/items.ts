@@ -27,7 +27,7 @@ export class ItemEffects {
   @Effect()
   updateItem$: Observable<any> = this.action$
     .filter(a => a instanceof item.UpdateItemAction)
-    .switchMap((a) => this.backend.updateItem(a.payload.newItem)
+    .switchMap((a) => this.backend.updateItem(a.payload.newInfo)
       .map(resp => new item.UpdateItemSuccessAction())
       .catch(er => of(new item.UpdateItemFailAction(a.payload.initialItem)))
     );

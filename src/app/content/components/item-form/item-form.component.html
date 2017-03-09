@@ -1,57 +1,87 @@
 <h1>Add new item</h1>
-<form novalidate [formGroup]="saveItemForm" (ngSubmit)="saveItem()" fxLayout="column" fxLayoutGap="10px">
-  <div>
-    <md-input-container>
-      <input mdInput 
-        formControlName="name"
-        placeholder="Name"
-        required
-        autocomplete="off"
-        type="text"
-        focused>
-      <md-hint [val-messages]="saveItemForm.get('name')">
-        <span val-message="required">Required</span>
-      </md-hint>
-    </md-input-container>
+<form novalidate [formGroup]="saveItemForm" (ngSubmit)="saveItem()">
+  <div fxLayout fxLayoutGap="10px">
+    <div fxFlex>
+      <div>
+        <md-input-container>
+          <input mdInput 
+            formControlName="name"
+            placeholder="Name"
+            required
+            autocomplete="off"
+            type="text"
+            focused>
+          <md-hint [val-messages]="saveItemForm.get('name')">
+            <span val-message="required">Required</span>
+          </md-hint>
+        </md-input-container>
+      </div>
 
-    <md-input-container>
-      <input mdInput 
-        formControlName="url"
-        placeholder="URL"
-        autocomplete="off"
-        type="url">
-      <md-hint [val-messages]="saveItemForm.get('url')">
-        <span val-message="url">Not a valid URL</span>
-      </md-hint>
-    </md-input-container>
+      <div>
+        <md-input-container>
+          <input mdInput 
+            formControlName="url"
+            placeholder="URL"
+            autocomplete="off"
+            type="url">
+          <md-hint [val-messages]="saveItemForm.get('url')">
+            <span val-message="url">Not a valid URL</span>
+          </md-hint>
+        </md-input-container>
+      </div>
 
-    <md-input-container>
-      <input mdInput 
-        formControlName="account"
-        placeholder="Account"
-        autocomplete="off"
-        type="text">
-    </md-input-container>
+      <div>
+        <md-input-container>
+          <input mdInput 
+            formControlName="account"
+            placeholder="Account"
+            autocomplete="off"
+            type="text">
+        </md-input-container>
+      </div>
+    </div>
+
+    <div fxFlex>
+      <div>
+        <md-input-container>
+          <input mdInput 
+            formControlName="username"
+            placeholder="Username"
+            autocomplete="off"
+            type="text">
+        </md-input-container>
+      </div>
+
+      <div>
+        <md-checkbox [formControl]="autoGenPassword" class="input-height">Auto-generate password</md-checkbox>
+      </div>
+
+      <div *ngIf="!autoGenPassword.value">
+        <md-input-container>
+          <input mdInput 
+            formControlName="password"
+            placeholder="Password"
+            autocomplete="off"
+            type="text">
+        </md-input-container>
+      </div>
+
+      <md-card *ngIf="autoGenPassword.value" [formGroup]="genopts">
+        <div>
+          <h5>Password generation options:</h5>
+        </div>
+
+        <div>
+          <md-select placeholder="Number of words to generate" formControlName="numwords">
+            <md-option *ngFor="let num of [1,2,3,4,5,6]" [value]="num">
+              {{num}}
+            </md-option>
+          </md-select>
+        </div>
+      </md-card>
+    </div>
   </div>
-
-  <div>
-    <md-input-container>
-      <input mdInput 
-        formControlName="username"
-        placeholder="Username"
-        autocomplete="off"
-        type="text">
-    </md-input-container>
-
-    <md-input-container>
-      <input mdInput 
-        formControlName="password"
-        placeholder="Password"
-        autocomplete="off"
-        type="text">
-    </md-input-container>
-  </div>
-
+  
   <div fxLayout>
     <md-input-container fxFlex>
       <textarea mdInput 

@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MdSnackBar, MdDialog, MdDialogRef } from '@angular/material';
 import { ItemFormComponent } from '../item-form/item-form.component';
-import { IItem, IUpdateItemPayload } from '../../models';
+import { IItem, IItemFormResult, IUpdateItemPayload } from '../../models';
 
 @Component({
   selector: 'app-item',
@@ -21,10 +21,10 @@ export class ItemComponent implements OnInit {
   promptEdit() {
     const dialogRef = this.dialog.open(ItemFormComponent);
     dialogRef.componentInstance.item = this.item;
-    dialogRef.afterClosed().subscribe((newItem: IItem) => {
-      if (newItem) {
+    dialogRef.afterClosed().subscribe((result: IItemFormResult) => {
+      if (result) {
         this.updateItem.emit({
-          newItem: newItem,
+          newInfo: result,
           initialItem: this.item
         });
       }

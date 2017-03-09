@@ -14,6 +14,20 @@ export interface IItem {
   category_id?: number;
 }
 
+export interface IGenopts {
+  min_length?: number;
+  max_length?: number;
+  valid_chars?: string;
+  numwords?: number;
+  delimiter?: string;
+}
+
+export interface IItemFormResult {
+  item: IItem,
+  auto_pass: boolean;
+  genopts: IGenopts;
+}
+
 export interface ICategoryItems extends ICategory {
   items: IItem[];
 }
@@ -28,6 +42,6 @@ export interface IRemoveCategoryPayload {
 }
 
 export interface IUpdateItemPayload {
-  newItem: IItem;
+  newInfo: IItemFormResult;
   initialItem: IItem;
 }

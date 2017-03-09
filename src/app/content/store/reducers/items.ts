@@ -38,8 +38,8 @@ export function reducer(state = initialState, action: item.Actions): State {
   } else if (action instanceof item.UpdateItemAction) {
     return {
       loading: true,
-      items: state.items.map(x => x.id === action.payload.newItem.id
-        ? Object.assign({}, action.payload.newItem)
+      items: state.items.map(x => x.id === action.payload.newInfo.item.id
+        ? Object.assign({}, action.payload.newInfo.item)
         : x)
     };
   } else if (action instanceof item.UpdateItemFailAction) {
