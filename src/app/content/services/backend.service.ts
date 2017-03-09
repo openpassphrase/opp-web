@@ -78,13 +78,14 @@ export class BackendService implements IBackendService {
       .map(x => x.items[0]);
   }
 
-  updateItem(info: IItemFormResult): Observable<void> {
+  updateItem(info: IItemFormResult): Observable<IItem> {
     return this.http.post(`${baseUrl}/api/v1/items`, {
       items: [info.item],
       auto_pass: info.auto_pass,
       genopts: info.genopts
     }, { headers: this.headers })
-      .map(res => res.json());
+      .map(res => res.json())
+      .map(x => x.items[0]);
   }
 
   removeItem(id: number): Observable<void> {

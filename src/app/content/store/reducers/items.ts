@@ -52,7 +52,9 @@ export function reducer(state = initialState, action: item.Actions): State {
   } else if (action instanceof item.UpdateItemSuccessAction) {
     return {
       loading: false,
-      items: state.items
+      items: state.items.map(x => x.id === action.payload.id
+        ? Object.assign({}, x, { password: action.payload.password })
+        : x)
     };
   } else if (action instanceof item.RemoveItemAction) {
     return {

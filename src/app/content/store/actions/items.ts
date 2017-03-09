@@ -21,7 +21,7 @@ export class UpdateItemAction {
 }
 
 export class UpdateItemSuccessAction {
-  constructor() { }
+  constructor(public payload: IItem) { }
 }
 
 export class UpdateItemFailAction {
