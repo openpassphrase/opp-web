@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MdDialog, MdDialogRef, MdTooltip } from '@angular/material';
 import { ItemFormComponent } from '../item-form/item-form.component';
 import {
-  ICategory, IItem, ICategoryItems, IUpdateCategoryPayload,
+  ICategory, IItem, IItemFormResult, ICategoryItems, IUpdateCategoryPayload,
   IRemoveCategoryPayload, IUpdateItemPayload
 } from '../../models';
 
@@ -54,7 +54,7 @@ export class CategoryComponent implements OnInit {
   @Input() readonly isExpanded = false;
   @Output() update = new EventEmitter<IUpdateCategoryPayload>(false);
   @Output() remove = new EventEmitter<IRemoveCategoryPayload>(false);
-  @Output() addItem = new EventEmitter<IItem>(false);
+  @Output() addItem = new EventEmitter<IItemFormResult>(false);
   @Output() updateItem = new EventEmitter<IUpdateItemPayload>(false);
   @Output() removeItem = new EventEmitter<IItem>(false);
   @Output() toggleCategoryExpanded = new EventEmitter(false);
@@ -101,7 +101,7 @@ export class CategoryComponent implements OnInit {
   promptAddItem() {
     const dialogRef = this.dialog.open(ItemFormComponent);
     dialogRef.componentInstance.item = { category_id: this.category.id } as any;
-    dialogRef.afterClosed().subscribe(newItem => {
+    dialogRef.afterClosed().subscribe((newItem: IItemFormResult) => {
       if (newItem) {
         this.addItem.emit(newItem);
       }

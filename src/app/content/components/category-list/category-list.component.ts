@@ -8,7 +8,7 @@ import * as category from '../../store/actions/categories';
 import * as item from '../../store/actions/items';
 
 import {
-  ICategory, IItem, ICategoryItems, IUpdateCategoryPayload,
+  ICategory, IItem, IItemFormResult, ICategoryItems, IUpdateCategoryPayload,
   IRemoveCategoryPayload, IUpdateItemPayload
 } from '../../models';
 
@@ -53,8 +53,8 @@ export class CategoryListComponent implements OnInit {
     this.store.dispatch(new category.EditCategoryAction(info) as any);
   }
 
-  addItem(itemModel: IItem) {
-    this.store.dispatch(new item.AddItemAction(itemModel) as any);
+  addItem(info: IItemFormResult) {
+    this.store.dispatch(new item.AddItemAction(info) as any);
   }
 
   updateItem(info: IUpdateItemPayload) {

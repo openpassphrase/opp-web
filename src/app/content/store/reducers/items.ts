@@ -21,7 +21,7 @@ export function reducer(state = initialState, action: item.Actions): State {
   } else if (action instanceof item.AddItemAction) {
     return {
       loading: true,
-      items: [...state.items, action.payload]
+      items: [...state.items, action.payload.item]
     };
   } else if (action instanceof item.AddItemSuccessAction) {
     return {

@@ -1,11 +1,11 @@
-import { IItem, IUpdateItemPayload } from '../../models';
+import { IItem, IUpdateItemPayload, IItemFormResult } from '../../models';
 
 export class LoadItemsSuccessAction {
   constructor(public payload: IItem[]) { }
 }
 
 export class AddItemAction {
-  constructor(public payload: IItem) { }
+  constructor(public payload: IItemFormResult) { }
 }
 
 export class AddItemSuccessAction {
