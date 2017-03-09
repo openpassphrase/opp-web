@@ -17,7 +17,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
   authForm: FormGroup;
   userNameAutocompleteState = 'off';
   showTokenExp = false;
-
+  loading = false;
+  
   constructor(
     private auth: Auth,
     private router: Router,
@@ -66,14 +67,17 @@ export class LoginComponent implements OnInit, AfterViewInit {
         password: this.authForm.value.password,
         exp_delta: this.authForm.value.exp_delta_amount * this.authForm.value.exp_delta_multiplier
       };
+      this.loading = true;
       this.auth.login(toSubmit).subscribe(
         // We're assuming the response will be an object
         // with the JWT on an id_token key
         data => {
+          this.loading = false;
           sessionStorage.setItem('id_token', data.access_token);
           this.router.navigate(['content']);
         },
         error => {
+          this.loading = false;
           if (error.status === 401) {
             this.snackBar.open('invalid user name or password.', undefined, { duration: 6000 });
           } else {
