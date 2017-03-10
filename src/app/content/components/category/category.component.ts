@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ChangeDetectionStrategy, HostListener, Inject } from '@angular/core';
 import { trigger, state, transition, style, animate, AnimationTransitionEvent } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MdDialog, MdDialogRef, MdTooltip } from '@angular/material';
@@ -7,6 +7,7 @@ import {
   ICategory, IItem, IItemFormResult, ICategoryItems, IUpdateCategoryPayload,
   IRemoveCategoryPayload, IUpdateItemPayload
 } from '../../models';
+import { DOCUMENT } from '@angular/platform-browser';
 
 const speedIn = '300ms ease-in';
 const speedOut = '200ms ease-out';
@@ -59,7 +60,10 @@ export class CategoryComponent implements OnInit {
   @Output() removeItem = new EventEmitter<IItem>(false);
   @Output() toggleCategoryExpanded = new EventEmitter(false);
 
-  constructor(private _fb: FormBuilder, private dialog: MdDialog) { }
+  constructor(
+    private _fb: FormBuilder,
+    private dialog: MdDialog,
+    @Inject(DOCUMENT) private document: Document) { }
 
   ngOnInit() {
     this.changeCategoryForm = this._fb.group({
@@ -114,6 +118,14 @@ export class CategoryComponent implements OnInit {
       setTimeout(() => {
         this.addItemTooltip.hide();
       }, 2000);
+    }
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  keyboardInput(event: KeyboardEvent) {
+    if (this.document.activeElement.nodeName !== 'INPUT' &&
+        event.key === this.category.name.substr(0, 1).toLocaleLowerCase()) {
+      this.toggle();
     }
   }
 }
