@@ -3,6 +3,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/from';
 
+import { MdSnackBar } from '@angular/material';
 import { Injectable } from '@angular/core';
 import { Effect, Actions } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
@@ -21,13 +22,16 @@ export class CategoryEffects {
   loadCategories$ = (<Observable<category.Actions>>this.action$)
     .filter<category.LoadCategoriesAction>(a => a instanceof category.LoadCategoriesAction)
     .switchMap(a => this.backend.fetchAll()
-      .mergeMap((resp)=> {
+      .mergeMap((resp) => {
         return Observable.from([
-            new category.LoadCategoriesSuccessAction(resp.categories),
-            new item.LoadItemsSuccessAction(resp.items)
-          ]);
+          new category.LoadCategoriesSuccessAction(resp.categories),
+          new item.LoadItemsSuccessAction(resp.items)
+        ]);
       })
-      .catch(er => of({}))
+      .catch(er => {
+         this.snackbar.open('Incorrect passphrase', undefined, { duration: 2000 });
+         return of(new category.LoadCategoriesFailAction());
+      })
     );
 
   @Effect()
@@ -79,6 +83,7 @@ export class CategoryEffects {
 
   constructor(
     private action$: Actions,
-    private backend: BackendService
+    private backend: BackendService, 
+    private snackbar: MdSnackBar
   ) { }
 }

@@ -12,6 +12,8 @@ export class LoadCategoriesSuccessAction {
   constructor(public payload: ICategory[]) { }
 }
 
+export class LoadCategoriesFailAction { }
+
 export class AddCategoryAction {
   constructor(public payload: string) { }
 }
@@ -52,6 +54,7 @@ export type Actions
   = SecretPhraseChangeAction
   | LoadCategoriesAction
   | LoadCategoriesSuccessAction
+  | LoadCategoriesFailAction
   | AddCategoryAction
   | AddCategorySuccessAction
   | AddCategoryFailAction

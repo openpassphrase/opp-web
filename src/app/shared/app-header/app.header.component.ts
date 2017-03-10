@@ -27,9 +27,7 @@ export class AppHeaderComponent implements OnInit, AfterViewInit {
     this.secretPhrase.valueChanges
       .debounceTime(500)
       .subscribe((newValue) => {
-        if (this.secretPhrase.valid) {
-          this.secretPhraseChange.emit(newValue);
-        }
+        this.secretPhraseChange.emit(this.secretPhrase.valid ? newValue : undefined);
       });
   }
 

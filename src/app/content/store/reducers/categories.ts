@@ -24,6 +24,11 @@ export function reducer(state = initialState, action: category.Actions): State {
       loading: false,
       categories: [...action.payload]
     };
+  } else if (action instanceof category.LoadCategoriesFailAction) {
+    return {
+      loading: false,
+      categories: []
+    }
   } else if (action instanceof category.AddCategoryAction) {
     return {
       loading: true,
@@ -81,6 +86,11 @@ export function reducer(state = initialState, action: category.Actions): State {
       loading: false,
       categories: state.categories
     };
+  } else if (action instanceof category.SecretPhraseChangeAction) {
+    return {
+      loading: state.loading,
+      categories: []
+    }
   } else {
     return state;
   }

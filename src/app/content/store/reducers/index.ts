@@ -71,5 +71,5 @@ export const getLoading = function (state$: Observable<State>) {
     state$.let(getCategoriesLoading),
     state$.let(getItemsLoading)
   )
-    .map(([c, i]) => c && i);
+    .map(([c, i]) => c || i);
 };
