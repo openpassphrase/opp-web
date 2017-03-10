@@ -1,6 +1,6 @@
 <div fxLayout>
   <span fxFlex></span>
-  <app-add-category-form (add)="addCategory($event)"></app-add-category-form>
+  <app-add-category-form *ngIf="(categories$ | async)?.length" (add)="addCategory($event)"></app-add-category-form>
 </div>
 
 <div>
