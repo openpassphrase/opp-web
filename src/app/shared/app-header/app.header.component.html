@@ -1,6 +1,9 @@
 <md-toolbar color="primary">
   <div fxFlexFill fxLayout="row" fxLayoutAlign="space-between center">
-    <span>Open Pass Phrase</span>
+    <span>
+      Open Pass Phrase<br>
+      <font size="-1">{{version}}</font>
+    </span>
 
     <md-input-container *ngIf="loggedIn | async" dividerColor="accent" fxFlex="265px">
       <input mdInput [formControl]="secretPhrase" autocomplete="off" type="password" placeholder="secret phrase to decode data" #secretInput>

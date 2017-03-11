@@ -3,6 +3,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/debounceTime';
 
+var versionFile = require('../../../assets/version.json')
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -21,8 +22,10 @@ export class AppHeaderComponent implements OnInit, AfterViewInit {
   constructor(private renderer: Renderer) { }
 
   secretPhrase: FormControl;
+  version: String;
 
   ngOnInit() {
+    this.version = 'Version: ' + versionFile.version;
     this.secretPhrase = new FormControl('', [Validators.required, Validators.minLength(6)]);
     this.secretPhrase.valueChanges
       .debounceTime(500)
