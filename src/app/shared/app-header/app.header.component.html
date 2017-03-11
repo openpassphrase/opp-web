@@ -1,12 +1,14 @@
 <md-toolbar color="primary">
-  <div fxFlexFill fxLayout="row" fxLayoutAlign="space-between center">
-    <span>
+  <div
+    fxFlexFill fxLayout="row"
+    fxLayoutAlign="space-between center">
+    <span fxHide.xs>
       Open Pass Phrase<br>
       <font size="-1">{{version}}</font>
     </span>
 
-    <md-input-container *ngIf="loggedIn | async" dividerColor="accent" fxFlex="265px">
-      <input mdInput [formControl]="secretPhrase" autocomplete="off" type="password" placeholder="secret phrase to decode data" #secretInput>
+    <md-input-container *ngIf="loggedIn | async" dividerColor="accent" fxFlex="265px" fxFlex.xs>
+      <input mdInput [formControl]="secretPhrase" autocomplete="off" type="password" placeholder="secret phrase to decrypt data" #secretInput>
       <md-hint *ngIf="secretPhrase.dirty && !secretPhrase.valid">Must be at least 6 chars</md-hint>
     </md-input-container>
 
