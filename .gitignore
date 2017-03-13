@@ -30,6 +30,7 @@
 *debug.log
 testem.log
 /typings
+src/assets/version.json
 
 # e2e
 /e2e/*.js
