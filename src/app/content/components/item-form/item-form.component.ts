@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, HostListener } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { MdDialogRef } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
@@ -16,6 +16,7 @@ export class ItemFormComponent implements OnInit {
   saveItemForm: FormGroup;
   genopts: FormGroup;
   autoGenPassword: FormControl;
+  public action: String;
 
   constructor(
     public dialogRef: MdDialogRef<ItemFormComponent>,
@@ -49,6 +50,13 @@ export class ItemFormComponent implements OnInit {
         genopts: this.genopts.value
       }
       this.dialogRef.close(result);
+    }
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  keyboardInput(event: KeyboardEvent) {
+    if (event.keyCode === 27) {
+      this.dialogRef.close(null);
     }
   }
 }

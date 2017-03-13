@@ -21,6 +21,7 @@ export class ItemComponent implements OnInit {
   promptEdit() {
     const dialogRef = this.dialog.open(ItemFormComponent);
     dialogRef.componentInstance.item = this.item;
+    dialogRef.componentInstance.action = 'Edit item';
     dialogRef.afterClosed().subscribe((result: IItemFormResult) => {
       if (result) {
         this.updateItem.emit({
