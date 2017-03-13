@@ -1,19 +1,17 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { Http } from '@angular/http';
+import { Location } from '@angular/common';
 import { tokenNotExpired } from 'angular2-jwt';
 import { Observable } from 'rxjs/Observable';
 import { Subscriber } from 'rxjs/Subscriber';
-import { environment } from '../../../environments/environment';
 
 import 'rxjs/add/observable/timer';
-
-const baseUrl = `${window.location.protocol}//${window.location.hostname}:${window.location.port}${environment.baseHref}`;
 
 @Injectable()
 export class Auth {
   public isLoggedIn: Observable<boolean>;
 
-  constructor(private http: Http) {
+  constructor(private http: Http, private location: Location) {
     this.isLoggedIn = new Observable<boolean>(s => {
       let prevState = undefined;
       Observable.timer(0, 1000).subscribe(x => {
@@ -28,7 +26,7 @@ export class Auth {
   }
 
   login(data: { username: string, password: string }) {
-    return this.http.post(`${baseUrl}/api/v1/auth`, data)
+    return this.http.post(this.location.prepareExternalUrl('api/v1/auth'), data)
       .map(res => res.json());
   }
 

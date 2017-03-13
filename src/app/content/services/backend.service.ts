@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Headers } from '@angular/http';
+import { Location } from '@angular/common';
 import { Observable } from 'rxjs/Observable';
 import { AuthHttp } from 'angular2-jwt';
 import { ICategory, IItem, IItemFormResult } from '../models';
-import { environment } from '../../../environments/environment';
 
 export interface IBackendService {
   fetchAll(): Observable<{ categories: ICategory[], items: IItem[] }>;
@@ -15,13 +15,16 @@ export interface IBackendService {
   removeItem(id: number): Observable<any>;
 }
 
-const baseUrl = `${window.location.protocol}//${window.location.hostname}:${window.location.port}${environment.baseHref}`;
-
 @Injectable()
 export class BackendService implements IBackendService {
   private headers: Headers;
+  private categoriesEndpoint: string;
+  private itemsEndpoint: string
 
-  constructor(private http: AuthHttp) { }
+  constructor(private http: AuthHttp, private location: Location) {
+    this.categoriesEndpoint = this.location.prepareExternalUrl('api/v1/categories');
+    this.itemsEndpoint = this.location.prepareExternalUrl('api/v1/items')
+  }
 
   secretPassphraseChange(secret: string) {
     if (!this.headers) {
@@ -31,18 +34,18 @@ export class BackendService implements IBackendService {
   }
 
   fetchAll(): Observable<{ categories: ICategory[], items: IItem[] }> {
-    return this.http.get(`${baseUrl}/api/v1/fetchall`, { headers: this.headers })
+    return this.http.get(this.location.prepareExternalUrl('api/v1/fetchall'), { headers: this.headers })
       .map(res => res.json());
   }
 
   getCategories(): Observable<ICategory[]> {
-    return this.http.get(`${baseUrl}/api/v1/categories`, { headers: this.headers })
+    return this.http.get(this.categoriesEndpoint, { headers: this.headers })
       .map(res => res.json())
       .map(x => x.categories);
   }
 
   addCategory(name: string): Observable<ICategory> {
-    return this.http.put(`${baseUrl}/api/v1/categories`,
+    return this.http.put(this.categoriesEndpoint,
       { category_names: [name] },
       { headers: this.headers }
     ).map(res => res.json())
@@ -50,14 +53,14 @@ export class BackendService implements IBackendService {
   }
 
   updateCategory(category: ICategory): Observable<void> {
-    return this.http.post(`${baseUrl}/api/v1/categories`,
+    return this.http.post(this.categoriesEndpoint,
       { categories: [category] },
       { headers: this.headers }
     ).map(res => res.json());
   }
 
   removeCategory(opts: { id: number, cascade: boolean }): Observable<void> {
-    return this.http.delete(`${baseUrl}/api/v1/categories`, {
+    return this.http.delete(this.categoriesEndpoint, {
       body: {
         cascade: opts.cascade,
         ids: [opts.id]
@@ -67,13 +70,13 @@ export class BackendService implements IBackendService {
   }
 
   getItems(): Observable<IItem[]> {
-    return this.http.get(`${baseUrl}/api/v1/items`, { headers: this.headers })
+    return this.http.get(this.itemsEndpoint, { headers: this.headers })
       .map(res => res.json())
       .map(x => x.items);
   }
 
   addItem(info: IItemFormResult): Observable<IItem> {
-    return this.http.put(`${baseUrl}/api/v1/items`, {
+    return this.http.put(this.itemsEndpoint, {
       items: [info.item],
       auto_pass: info.auto_pass,
       genopts: info.genopts
@@ -83,7 +86,7 @@ export class BackendService implements IBackendService {
   }
 
   updateItem(info: IItemFormResult): Observable<IItem> {
-    return this.http.post(`${baseUrl}/api/v1/items`, {
+    return this.http.post(this.itemsEndpoint, {
       items: [info.item],
       auto_pass: info.auto_pass,
       genopts: info.genopts
@@ -93,7 +96,7 @@ export class BackendService implements IBackendService {
   }
 
   removeItem(id: number): Observable<void> {
-    return this.http.delete(`${baseUrl}/api/v1/items`, {
+    return this.http.delete(this.itemsEndpoint, {
       body: { ids: [id] },
       headers: this.headers
     }).map(res => res.json());
