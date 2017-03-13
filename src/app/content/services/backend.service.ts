@@ -3,7 +3,6 @@ import { Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { AuthHttp } from 'angular2-jwt';
 import { ICategory, IItem, IItemFormResult } from '../models';
-import { environment } from '../../../environments/environment';
 
 export interface IBackendService {
   fetchAll(): Observable<{ categories: ICategory[], items: IItem[] }>;

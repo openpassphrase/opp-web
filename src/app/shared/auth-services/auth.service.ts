@@ -3,7 +3,6 @@ import { Http } from '@angular/http';
 import { tokenNotExpired } from 'angular2-jwt';
 import { Observable } from 'rxjs/Observable';
 import { Subscriber } from 'rxjs/Subscriber';
-import { environment } from '../../../environments/environment';
 
 import 'rxjs/add/observable/timer';
 
