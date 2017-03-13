@@ -21,6 +21,8 @@ export class BackendService implements IBackendService {
   private baseUrl: String;
 
   constructor(private http: AuthHttp) {
+    // Note (alex_bash): This will have to be updated if other routes
+    // are added. Currently, only 'content' route exists.
     this.baseUrl = `${window.location.href}`.replace('/content', '');
     if (!this.baseUrl.endsWith('/')) {
       this.baseUrl += '/';

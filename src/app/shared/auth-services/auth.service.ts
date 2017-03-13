@@ -24,6 +24,8 @@ export class Auth {
         }
       });
     });
+    // Note (alex_bash): This will have to be updated if other routes
+    // are added. Currently, only 'content' route exists.
     this.baseUrl = `${window.location.href}`.replace('/content', '');
     if (!this.baseUrl.endsWith('/')) {
       this.baseUrl += '/';
@@ -31,7 +33,6 @@ export class Auth {
   }
 
   login(data: { username: string, password: string }) {
-    console.log("Sending request to: " + `${this.baseUrl}api/v1/auth`)
     return this.http.post(`${this.baseUrl}api/v1/auth`, data)
       .map(res => res.json());
   }
