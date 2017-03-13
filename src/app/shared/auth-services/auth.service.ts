@@ -7,11 +7,10 @@ import { environment } from '../../../environments/environment';
 
 import 'rxjs/add/observable/timer';
 
-const baseUrl = `${window.location.protocol}//${window.location.hostname}:${window.location.port}${environment.baseHref}`;
-
 @Injectable()
 export class Auth {
   public isLoggedIn: Observable<boolean>;
+  private baseUrl: String;
 
   constructor(private http: Http) {
     this.isLoggedIn = new Observable<boolean>(s => {
@@ -25,10 +24,15 @@ export class Auth {
         }
       });
     });
+    this.baseUrl = `${window.location.href}`.replace('/content', '');
+    if (!this.baseUrl.endsWith('/')) {
+      this.baseUrl += '/';
+    }  
   }
 
   login(data: { username: string, password: string }) {
-    return this.http.post(`${baseUrl}/api/v1/auth`, data)
+    console.log("Sending request to: " + `${this.baseUrl}api/v1/auth`)
+    return this.http.post(`${this.baseUrl}api/v1/auth`, data)
       .map(res => res.json());
   }
 

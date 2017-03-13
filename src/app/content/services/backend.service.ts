@@ -15,13 +15,17 @@ export interface IBackendService {
   removeItem(id: number): Observable<any>;
 }
 
-const baseUrl = `${window.location.protocol}//${window.location.hostname}:${window.location.port}${environment.baseHref}`;
-
 @Injectable()
 export class BackendService implements IBackendService {
   private headers: Headers;
+  private baseUrl: String;
 
-  constructor(private http: AuthHttp) { }
+  constructor(private http: AuthHttp) {
+    this.baseUrl = `${window.location.href}`.replace('/content', '');
+    if (!this.baseUrl.endsWith('/')) {
+      this.baseUrl += '/';
+    }  
+  }
 
   secretPassphraseChange(secret: string) {
     if (!this.headers) {
@@ -31,18 +35,18 @@ export class BackendService implements IBackendService {
   }
 
   fetchAll(): Observable<{ categories: ICategory[], items: IItem[] }> {
-    return this.http.get(`${baseUrl}/api/v1/fetchall`, { headers: this.headers })
+    return this.http.get(`${this.baseUrl}api/v1/fetchall`, { headers: this.headers })
       .map(res => res.json());
   }
 
   getCategories(): Observable<ICategory[]> {
-    return this.http.get(`${baseUrl}/api/v1/categories`, { headers: this.headers })
+    return this.http.get(`${this.baseUrl}api/v1/categories`, { headers: this.headers })
       .map(res => res.json())
       .map(x => x.categories);
   }
 
   addCategory(name: string): Observable<ICategory> {
-    return this.http.put(`${baseUrl}/api/v1/categories`,
+    return this.http.put(`${this.baseUrl}api/v1/categories`,
       { category_names: [name] },
       { headers: this.headers }
     ).map(res => res.json())
@@ -50,14 +54,14 @@ export class BackendService implements IBackendService {
   }
 
   updateCategory(category: ICategory): Observable<void> {
-    return this.http.post(`${baseUrl}/api/v1/categories`,
+    return this.http.post(`${this.baseUrl}api/v1/categories`,
       { categories: [category] },
       { headers: this.headers }
     ).map(res => res.json());
   }
 
   removeCategory(opts: { id: number, cascade: boolean }): Observable<void> {
-    return this.http.delete(`${baseUrl}/api/v1/categories`, {
+    return this.http.delete(`${this.baseUrl}api/v1/categories`, {
       body: {
         cascade: opts.cascade,
         ids: [opts.id]
@@ -67,13 +71,13 @@ export class BackendService implements IBackendService {
   }
 
   getItems(): Observable<IItem[]> {
-    return this.http.get(`${baseUrl}/api/v1/items`, { headers: this.headers })
+    return this.http.get(`${this.baseUrl}api/v1/items`, { headers: this.headers })
       .map(res => res.json())
       .map(x => x.items);
   }
 
   addItem(info: IItemFormResult): Observable<IItem> {
-    return this.http.put(`${baseUrl}/api/v1/items`, {
+    return this.http.put(`${this.baseUrl}api/v1/items`, {
       items: [info.item],
       auto_pass: info.auto_pass,
       genopts: info.genopts
@@ -83,7 +87,7 @@ export class BackendService implements IBackendService {
   }
 
   updateItem(info: IItemFormResult): Observable<IItem> {
-    return this.http.post(`${baseUrl}/api/v1/items`, {
+    return this.http.post(`${this.baseUrl}api/v1/items`, {
       items: [info.item],
       auto_pass: info.auto_pass,
       genopts: info.genopts
@@ -93,7 +97,7 @@ export class BackendService implements IBackendService {
   }
 
   removeItem(id: number): Observable<void> {
-    return this.http.delete(`${baseUrl}/api/v1/items`, {
+    return this.http.delete(`${this.baseUrl}api/v1/items`, {
       body: { ids: [id] },
       headers: this.headers
     }).map(res => res.json());

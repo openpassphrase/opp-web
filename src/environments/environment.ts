@@ -5,7 +5,6 @@
 
 export const environment = {
   production: false,
-  baseHref: '',
   isUserNameAutocompleteEnabled: true,
   showTokenExpirationCustomization: false
 };
