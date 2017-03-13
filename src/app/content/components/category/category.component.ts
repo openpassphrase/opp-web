@@ -105,6 +105,7 @@ export class CategoryComponent implements OnInit {
   promptAddItem() {
     const dialogRef = this.dialog.open(ItemFormComponent);
     dialogRef.componentInstance.item = { category_id: this.category.id } as any;
+    dialogRef.componentInstance.action = 'Add new item';
     dialogRef.afterClosed().subscribe((newItem: IItemFormResult) => {
       if (newItem) {
         this.addItem.emit(newItem);
