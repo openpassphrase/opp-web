@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, OnInit, AfterViewInit, ViewChild, ElementRef, Renderer } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, OnInit, AfterViewInit, ViewChild, ElementRef, Renderer, HostListener } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/debounceTime';
@@ -52,5 +52,14 @@ export class AppHeaderComponent implements OnInit, AfterViewInit {
 
   signOut() {
     this.logout.emit();
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  keyboardInput(event: KeyboardEvent) {
+    if (event.key === 'o' &&
+      event.altKey &&
+      event.ctrlKey) {
+      this.signOut();
+    }
   }
 }
