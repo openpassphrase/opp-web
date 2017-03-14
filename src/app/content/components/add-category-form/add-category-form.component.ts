@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, ViewChild, ElementRef, Renderer } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewChild, ElementRef, Renderer, HostListener } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -30,5 +30,14 @@ export class AddCategoryFormComponent implements OnInit {
 
   clear() {
     this.addCategoryForm.get('category').setValue('');
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  keyboardInput(event: KeyboardEvent) {
+    if (event.key === 'n' &&
+      event.altKey &&
+      event.ctrlKey) {
+      this.renderer.invokeElementMethod(this.categoryInput.nativeElement, 'focus');
+    }
   }
 }

@@ -125,7 +125,8 @@ export class CategoryComponent implements OnInit {
   @HostListener('document:keydown', ['$event'])
   keyboardInput(event: KeyboardEvent) {
     if (this.document.activeElement.nodeName !== 'INPUT' &&
-        this.document.activeElement.nodeName != 'TEXTAREA' &&  
+        this.document.activeElement.nodeName != 'TEXTAREA' &&
+        !event.altKey && !event.ctrlKey &&
         event.key === this.category.name.substr(0, 1).toLocaleLowerCase()) {
       this.toggle();
     }
