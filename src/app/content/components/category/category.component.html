@@ -52,11 +52,11 @@
       <div [@openClose]="isExpanded" (@openClose.done)="openCloseDone($event)" [@offsetExpand]="isExpanded">
         <div class="category-items">
           <div fxLayout class="items-header" *ngIf="category.items.length">
-            <div fxFlex>Name</div>
-            <div fxFlex>Account</div>
-            <div fxFlex>Username</div>
-            <div fxFlex>Password</div>
-            <div fxFlex>Blob</div>
+            <div class="unselectable" fxFlex>Name</div>
+            <div class="unselectable" fxFlex>Account</div>
+            <div class="unselectable" fxFlex>Username</div>
+            <div class="unselectable" fxFlex>Password</div>
+            <div class="unselectable" fxFlex>Blob</div>
             <div fxFlex="70px"></div>
           </div>
 
