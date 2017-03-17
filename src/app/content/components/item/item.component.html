@@ -1,21 +1,21 @@
 <div fxFlex class="cell">
-  <a *ngIf="item.url" [href]="item.url" target="_blank" mdTooltip="{{item.name}}">{{item.name}}</a>
+  <a *ngIf="item.url" [href]="item.url" target="_blank" [mdTooltip]="item.name">{{item.name}}</a>
   <span *ngIf="!item.url">{{item.name}}</span>
 </div>
 
-<div fxFlex ngxClipboard [cbContent]="item.account" (cbOnSuccess)="copied()" class="cell" mdTooltip="{{item.account}}">
+<div fxFlex ngxClipboard [cbContent]="item.account" (cbOnSuccess)="copied()" class="cell" [mdTooltip]="item.account">
   {{item.account}}
 </div>
 
-<div fxFlex ngxClipboard [cbContent]="item.username" (cbOnSuccess)="copied()" class="cell" mdTooltip="{{item.username}}">
+<div fxFlex ngxClipboard [cbContent]="item.username" (cbOnSuccess)="copied()" class="cell" [mdTooltip]="item.username">
   {{item.username}}
 </div>
 
-<div fxFlex ngxClipboard [cbContent]="item.password" (cbOnSuccess)="copied()" class="cell" mdTooltip="{{item.password}}">
+<div fxFlex ngxClipboard [cbContent]="item.password" (cbOnSuccess)="copied()" class="cell" [mdTooltip]="item.password">
   {{item.password}}
 </div>
 
-<div fxFlex ngxClipboard [cbContent]="item.blob" (cbOnSuccess)="copied()" class="cell" mdTooltip="{{item.blob}}">
+<div fxFlex ngxClipboard [cbContent]="item.blob" (cbOnSuccess)="copied()" class="cell" [mdTooltip]="item.blob">
   {{item.blob}}
 </div>
 
