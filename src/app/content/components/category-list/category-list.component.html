@@ -4,7 +4,7 @@
 </div>
 
 <div>
-  <app-category *ngFor="let c of categories$ | async"
+  <app-category class="unselectable" *ngFor="let c of categories$ | async"
     [category]="c"
     [isExpanded]="(expanded$ | async).indexOf(c.id) > -1"
     (update)="updateCategory($event)"
