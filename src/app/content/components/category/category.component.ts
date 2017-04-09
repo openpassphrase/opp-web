@@ -9,8 +9,8 @@ import {
 } from '../../models';
 import { DOCUMENT } from '@angular/platform-browser';
 
-const speedIn = '300ms ease-in';
-const speedOut = '200ms ease-out';
+const speedIn = '50ms ease-in';
+const speedOut = '40ms ease-out';
 
 @Component({
   selector: 'app-category',
@@ -35,13 +35,13 @@ const speedOut = '200ms ease-out';
     ]),
     trigger('makeHeader', [
       state('false, void', style({ 'font-size': '16px' })),
-      state('true', style({ 'font-size': '30px' })),
-      transition('0 <=> 1', [animate(speedIn, style({ 'font-size': '30px' })), animate(speedOut)])
+      state('true', style({ 'font-size': '24px' })),
+      transition('0 <=> 1', [animate(speedIn, style({ 'font-size': '24px' })), animate(speedOut)])
     ]),
     trigger('opacityIn', [
       state('false, void', style({ opacity: 0, transform: 'scale(0.0)' })),
-      state('true', style({ opacity: 1, transform: 'scale(1.0)' })),
-      transition('0 <=> 1', [animate(speedIn, style({ opacity: 1, transform: 'scale(1.0)' })), animate(speedOut)])
+      state('true', style({ opacity: 1, transform: 'scale(0.8)' })),
+      transition('0 <=> 1', [animate(speedIn, style({ opacity: 1, transform: 'scale(0.8)' })), animate(speedOut)])
     ])
   ]
 })
