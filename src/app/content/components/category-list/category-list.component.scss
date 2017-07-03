@@ -1,0 +1,74 @@
+.categories {
+  margin-bottom: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+// responsive table
+// using mobile first method (IE8,7 requires respond.js polyfill https://github.com/scottjehl/Respond)
+$breakpoint-alpha: 600px;
+
+table.resp-table {
+  th {
+    display: none; // for accessibility, use a visually hidden method here instead!
+  }
+
+  &/deep/td {
+    display: block;
+
+    &:before {
+      content: attr(data-th)" ";
+      font-weight: bold;
+
+      // optional stuff to make it look nicer
+      width: 6.5em; // magic number :( adjust according to your own content
+      display: inline-block;
+      // end options
+      
+      @media (min-width: $breakpoint-alpha) {
+        display: none;
+      }
+    }
+  }
+
+  th, &/deep/td {
+    text-align: left;
+    
+    @media (min-width: $breakpoint-alpha) {
+      display: table-cell;
+      padding: .25em .5em;
+      
+      &:first-child {
+        padding-left: 0;
+      }
+      
+      &:last-child {
+        padding-right: 0;
+      }
+    }
+  }
+
+  @media (max-width: $breakpoint-alpha) {
+    tr/deep/ {
+      display: block;
+      margin-bottom: 20px;
+      border-radius: 2px;
+      box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+
+      td {
+        padding-left: 24px; 
+        padding-right: 24px; 
+
+        &:first-child {
+          padding-top: 24px;
+        }
+        &:last-child {
+          padding-bottom: 24px;
+        }
+      }
+    }
+  }
+}

@@ -1,15 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import 'rxjs/add/operator/withLatestFrom';
+
+import { Component, OnInit, OnDestroy, HostListener, Inject, ViewChildren, QueryList } from '@angular/core';
+import { MdExpansionPanel } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Subject } from 'rxjs/Subject';
 import { Store } from '@ngrx/store';
+import { DOCUMENT } from '@angular/platform-browser';
 
 import * as fromRoot from '../../store/reducers';
 import * as category from '../../store/actions/categories';
 import * as item from '../../store/actions/items';
 
 import {
-  ICategory, IItem, IItemFormResult, ICategoryItems, IUpdateCategoryPayload,
-  IRemoveCategoryPayload, IUpdateItemPayload
+  IItem, IItemFormResult, ICategoryItems, IUpdateCategoryPayload,
+  IRemoveCategoryPayload, IUpdateItemPayload, ICategory
 } from '../../models';
 
 @Component({
@@ -17,58 +21,89 @@ import {
   templateUrl: './category-list.component.html',
   styleUrls: ['./category-list.component.scss']
 })
-export class CategoryListComponent implements OnInit {
+export class CategoryListComponent implements OnInit, OnDestroy {
+  private ngUnsubscribe = new Subject();
   categories$: Observable<ICategoryItems[]>;
+  isCorrectPhrase$: Observable<boolean>;
   itemsWithoutCategory$: Observable<IItem[]>;
-  expanded$ = new BehaviorSubject<number[]>([]);
-  private _expanded: number[] = [];
+  keyPressed$ = new Subject<string>();
+
+  @ViewChildren(MdExpansionPanel)
+  expansionPanels: QueryList<MdExpansionPanel>;
 
   constructor(
     public store: Store<fromRoot.State>,
+    @Inject(DOCUMENT) private document: any
   ) { }
 
   ngOnInit() {
     this.categories$ = this.store.let(fromRoot.getCategoryItems);
+    this.isCorrectPhrase$ = this.store.let(fromRoot.getIsCorrectPhrase);
     this.itemsWithoutCategory$ = this.store.let(fromRoot.getItemsWithoutCategory);
+    this.keyPressed$
+      .takeUntil(this.ngUnsubscribe)
+      .withLatestFrom(this.categories$)
+      .filter((o) => o[1].length > 0 !== undefined)
+      .switchMap(([key, c]) => {
+        const ix = c.findIndex(x => x.name.substr(0, 1).toLocaleLowerCase() === key);
+        return Observable.of(ix)
+      })
+      .filter(ix => ix > -1)
+      .subscribe((ix) => {
+        const panel = this.expansionPanels.find((item, panelIx) => panelIx === ix);
+        if (panel) {
+          panel.expanded = true;
+        }
+      })
   }
 
   addCategory(name: string) {
-    this.store.dispatch(new category.AddCategoryAction(name) as any);
+    this.store.dispatch(new category.AddCategoryAction(name));
   }
 
   removeCategory(info: IRemoveCategoryPayload) {
     if (info.cascade) {
-      this.store.dispatch(new item.RemoveItemsFromCategory(info.category.id) as any);
+      this.store.dispatch(new item.RemoveItemsFromCategory(info.category.id));
     } else {
       this.store.dispatch(new item.SetItemsCategoryByCategoryId({
         fromCategoryId: info.category.id,
         toCategoryId: undefined
-      }) as any);
+      }));
     }
-    this.store.dispatch(new category.RemoveCategoryAction(info) as any);
-    this.toggleCategoryExpanded(info.category.id);
+    this.store.dispatch(new category.RemoveCategoryAction(info));
   }
 
   updateCategory(info: IUpdateCategoryPayload) {
-    this.store.dispatch(new category.EditCategoryAction(info) as any);
+    this.store.dispatch(new category.EditCategoryAction(info));
   }
 
   addItem(info: IItemFormResult) {
-    this.store.dispatch(new item.AddItemAction(info) as any);
+    this.store.dispatch(new item.AddItemAction(info));
   }
 
   updateItem(info: IUpdateItemPayload) {
-    this.store.dispatch(new item.UpdateItemAction(info) as any);
+    this.store.dispatch(new item.UpdateItemAction(info));
   }
 
   removeItem(i: IItem) {
-    this.store.dispatch(new item.RemoveItemAction(i) as any);
+    this.store.dispatch(new item.RemoveItemAction(i));
   }
 
-  toggleCategoryExpanded(id: number) {
-    this._expanded = this._expanded.indexOf(id) > -1
-      ? this._expanded.filter(x => x !== id)
-      : [...this._expanded, id];
-    this.expanded$.next(this._expanded);
+  trackCategoriesBy(index: number, category: ICategory) {
+    return category.id !== undefined ? category.id : index;
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  keyboardInput(event: KeyboardEvent) {
+    if (this.document.activeElement.nodeName !== 'INPUT' &&
+      this.document.activeElement.nodeName !== 'TEXTAREA' &&
+      !event.altKey && !event.ctrlKey) {
+      this.keyPressed$.next(event.key);
+    }
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

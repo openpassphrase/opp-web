@@ -1,0 +1,262 @@
+[33mcommit 0e1da97fbe869be47051d8b0b461d18d9725e11b[m
+Author: DmitryEfimenko <dmitrief@gmail.com>
+Date:   Mon Jul 3 02:52:13 2017 -0700
+
+    upgrade to ng4; fix all bugs
+
+[33mcommit 6ce92c48da1492586d090a8b1fe1b80ca6f08651[m
+Author: Alexander Bashmakov <abashmak@yahoo.com>
+Date:   Sat Apr 8 19:38:25 2017 -0700
+
+    Minor UI improvements. (#40)
+    
+    1. Decreased category expand/collaps animation duration for a more
+    responsive transition feel.
+    2. Lowered category title header font and icon size.
+
+[33mcommit 925d0199f156240d3d041a63791ae5ce8bc8e712[m
+Author: Alexander Bashmakov <abashmak@yahoo.com>
+Date:   Thu Mar 16 22:45:35 2017 -0700
+
+    Enhanced text styling. (#38)
+    
+    * Enhanced text styling.
+    
+    1. Added tooltips for item text that may be ellipsized.
+    2. Made item and category label text not selectable.
+    
+    * Updated tooltip binding.
+
+[33mcommit 6fe03f148c6a9d06212dedf31d7ecb73437386de[m
+Author: Alexander Bashmakov <abashmak@yahoo.com>
+Date:   Tue Mar 14 10:13:51 2017 -0700
+
+    Keyboard shortcuts changes. (#34)
+    
+    Added 'ctrl-alt-o' keyboard shortcut for signing out action.
+    Added 'ctrl-alt-n' keyboard shortcut to activate new group input.
+    Fixed letter based shortcuts for group expansion to ignore ctrl
+    and alt modifiers.
+
+[33mcommit 712a16bc4d2c3a146db7baa1577eb4cde72e17c5[m
+Author: Alexander Bashmakov <alexander.bashmakov@intel.com>
+Date:   Mon Mar 13 10:32:03 2017 -0700
+
+    Deleted version.json.
+
+[33mcommit 1acfd23096910a4968f209673fe230d6a93e4822[m
+Author: Alexander Bashmakov <alexander.bashmakov@intel.com>
+Date:   Mon Mar 13 10:24:32 2017 -0700
+
+    Added builddemo command to package.json.
+
+[33mcommit 756051e2ce2e9c1eed5974d6e8c3cd23040e9f91[m
+Author: Alexander Bashmakov <alexander.bashmakov@intel.com>
+Date:   Mon Mar 13 10:20:39 2017 -0700
+
+    Added version.json to gitignore.
+
+[33mcommit 6069a52e9d481b534f14cee7d9e0489a5ce92777[m
+Author: Alexander Bashmakov <abashmak@yahoo.com>
+Date:   Mon Mar 13 07:57:48 2017 -0700
+
+    Fix dialog behavior. (#33)
+    
+    Add/edit item dialogs now show correct title.
+    Also, now able to escape out of the dialog.
+    
+    fixes issue #32
+
+[33mcommit 88361b15e2364f0693dbb525a16bff843fc63805[m
+Author: Alexander Bashmakov <abashmak@yahoo.com>
+Date:   Mon Mar 13 07:57:04 2017 -0700
+
+    Feature/enhancements (#31)
+    
+    * Removed baseHref depedency.
+    
+    * Removed dependency on hardcoded 'baseHref' environment variable.
+    * Also added TEXTAREA type to list of ignored elements for keyCode
+    changes.
+    
+    * Added comments, removed debug console.log.
+    
+    * Removed unused environment import.
+    
+    * Re-factored location strategy for http requests.
+
+[33mcommit 9241d8d1957a49f5f9beea9fdda721ed0fb2fdd7[m
+Author: Alexander Bashmakov <abashmak@yahoo.com>
+Date:   Sun Mar 12 18:05:57 2017 -0700
+
+    Added month/day padding in date generation
+
+[33mcommit 47d02713cf0642dd5fed1c9dd5056a7c6c606ceb[m
+Author: Alexander Bashmakov <abashmak@yahoo.com>
+Date:   Sun Mar 12 17:54:37 2017 -0700
+
+    Update application title and version generation.
+    
+    Changed title tag from OppWeb to OpenPassPharse.
+    Added auto-generation and appending of date for the version.
+
+[33mcommit fe6f6a808f972605826e5bd194c53de6d4b202b1[m
+Author: Alexander Bashmakov <abashmak@yahoo.com>
+Date:   Sat Mar 11 01:07:49 2017 -0700
+
+    Made app-header small screen friendly
+
+[33mcommit 9d32d57ce807856ad0b96012cee1f1d55dacef78[m
+Author: Alexander Bashmakov <abashmak@yahoo.com>
+Date:   Fri Mar 10 23:34:00 2017 -0700
+
+    Added version generation and display.
+
+[33mcommit 435890250e78ba19587c11117c470d27cd51d614[m
+Author: Alexander Bashmakov <alexander.bashmakov@intel.com>
+Date:   Fri Mar 10 14:38:40 2017 -0700
+
+    Hide add-group form when no passphrase.
+    
+    If no passphrase or incorrect passphrase is entered, then
+    add-group input box and button are not shown.
+
+[33mcommit ab19208a90ef47aa1669d8f3af8ef61dc59ae4fd[m
+Author: Alexander Bashmakov <alexander.bashmakov@intel.com>
+Date:   Fri Mar 10 10:04:08 2017 -0700
+
+    Removed usage of Document interface.
+    
+    It was used for intelisense during development,
+    but was breaking the production build.
+
+[33mcommit 7e6098bee4d79fccf1bad26f3eeaf83366bb865e[m
+Author: Alexander Bashmakov <abashmak@yahoo.com>
+Date:   Fri Mar 10 01:01:01 2017 -0700
+
+    Added visual cues for loading and failure events.
+
+[33mcommit 60cd391cb9902494dd281fb4ebc35f4862995d13[m
+Author: Alexander Bashmakov <abashmak@yahoo.com>
+Date:   Fri Mar 10 00:23:24 2017 -0700
+
+    Added keyboard shortucts for category expansion.
+    
+    Pressing the first letter of the category now expands the categories
+    that match.
+    Also added removal of focus from category add input upon enter press.
+
+[33mcommit 541f4d91929a16e8e10e28df5ec71c4584035869[m
+Merge: 058dea3 adf35cc
+Author: Dmitry A. Efimenko <dmitrief@gmail.com>
+Date:   Thu Mar 9 12:35:02 2017 -0700
+
+    Merge pull request #26 from openpassphrase/mybugs
+    
+    feature/auto-generate password
+
+[33mcommit adf35ccac7c2cda6e09f41b5505942e2234d8697[m
+Author: DmitryEfimenko <dmitrief@gmail.com>
+Date:   Thu Mar 9 09:49:14 2017 -0700
+
+    also update password on addItem
+
+[33mcommit 058dea353a7d1b6bb43a1befe4d8fc7a57faa827[m
+Author: Alexander Bashmakov <abashmak@yahoo.com>
+Date:   Thu Mar 9 09:33:24 2017 -0700
+
+    Add progress bar while waiting for login. (#27)
+    
+    Display a progress bar while a login reques is in flight.
+
+[33mcommit aa85e33cdf9dc4119ccc6c52480f7cb72ee7b480[m
+Author: DmitryEfimenko <dmitrief@gmail.com>
+Date:   Thu Mar 9 01:00:13 2017 -0700
+
+    fix addItem by adding strong typing to effects
+
+[33mcommit 91557efd83995111477f807a8a8834fee975a905[m
+Author: DmitryEfimenko <dmitrief@gmail.com>
+Date:   Wed Mar 8 20:30:15 2017 -0700
+
+    vired up response from update method
+
+[33mcommit 35b065d79c11ff771782b153094f4ca7a1fdfeb8[m
+Author: DmitryEfimenko <dmitrief@gmail.com>
+Date:   Wed Mar 8 18:52:37 2017 -0700
+
+    added genopts support
+
+[33mcommit ef10cfc031535230f068010870a13167d1929426[m
+Author: Alexander Bashmakov <abashmak@yahoo.com>
+Date:   Wed Mar 8 09:41:46 2017 -0700
+
+    Added autofocusing of username on logout. (#24)
+    
+    * Added autofocusing of username on logout.
+    
+    * Removed isLggedIn observable from autofocus logic
+
+[33mcommit f2301bd0813eaaafdd0aaf5e547f27d707488131[m
+Author: Dmitry A. Efimenko <dmitrief@gmail.com>
+Date:   Mon Mar 6 23:16:07 2017 -0700
+
+    Feature/refactor shared modules (#23)
+    
+    * WIP: initial shared module.
+    
+    * WIP: Made Auth module lazy-loadable
+    
+    * content module now lazy loaded
+    
+    * watch loggedIn status to redirect to home page
+    
+    * fix login card positioning
+
+[33mcommit 8025321406311f875425fc18f068b8c4d0201b67[m
+Author: Alexander Bashmakov <abashmak@yahoo.com>
+Date:   Sat Mar 4 23:50:02 2017 -0700
+
+    Change styling for URL links in item component. (#19)
+    
+    * Change styling for URL links in item component.
+    
+    * Added sass-lint dependency and fixed lint errors.
+
+[33mcommit 8f9d7c19607483ce957cb16d690db6ee8134c31f[m
+Merge: 9652632 d2248eb
+Author: Alexander Bashmakov <abashmak@yahoo.com>
+Date:   Tue Feb 28 11:10:25 2017 -0700
+
+    Merge pull request #18 from openpassphrase/mybugs
+    
+    Fixes ability to edit item after it's created
+
+[33mcommit d2248ebe3a7969383d23712a473aeb5df95e2389[m
+Author: DmitryEfimenko <dmitrief@gmail.com>
+Date:   Tue Feb 28 01:40:34 2017 -0700
+
+    remove debugging
+
+[33mcommit 7deebfabd293b76bd1b93e96aaa9cd180d424e42[m
+Author: DmitryEfimenko <dmitrief@gmail.com>
+Date:   Tue Feb 28 01:38:14 2017 -0700
+
+    fixes #17
+
+[33mcommit 96526321970a8a8f837f3b7b3d96e9c218cd70bd[m
+Merge: dc2c2c7 c98178a
+Author: Dmitry A. Efimenko <dmitrief@gmail.com>
+Date:   Tue Feb 28 00:38:22 2017 -0700
+
+    Merge pull request #16 from openpassphrase/mybugs
+    
+    improve item styling; url opens new browser tab
+
+[33mcommit c98178a4e98c907e1560c9ac850fac8c8654bdf0[m
+Author: Alexander Bashmakov <abashmak@yahoo.com>
+Date:   Tue Feb 28 00:01:20 2017 -0700
+
+    Removed URL title from item table
+
+[33mcommit e2aac94c19b4f697ca1b2a55652166da4384ccb5[m

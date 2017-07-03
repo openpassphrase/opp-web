@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, Renderer } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { MdSnackBar } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -10,7 +10,7 @@ import { environment } from '../../../environments/environment';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit, AfterViewInit {
+export class LoginComponent implements OnInit {
 
   @ViewChild('username') username: ElementRef;
 
@@ -18,13 +18,12 @@ export class LoginComponent implements OnInit, AfterViewInit {
   userNameAutocompleteState = 'off';
   showTokenExp = false;
   loading = false;
-  
+
   constructor(
     private auth: Auth,
     private router: Router,
     private _fb: FormBuilder,
     private snackBar: MdSnackBar,
-    private renderer: Renderer
   ) { }
 
   ngOnInit() {
@@ -52,12 +51,6 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
     this.userNameAutocompleteState = environment.isUserNameAutocompleteEnabled ? 'on' : 'off';
     this.showTokenExp = environment.showTokenExpirationCustomization;
-  }
-
-  ngAfterViewInit() {
-    if (this.username) {
-      this.renderer.invokeElementMethod(this.username.nativeElement, 'focus');
-    }
   }
 
   login() {

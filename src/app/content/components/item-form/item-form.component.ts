@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, HostListener } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { MdDialogRef } from '@angular/material';
-import { Observable } from 'rxjs/Observable';
 import { CustomValidators } from 'ng2-validation';
 import { IItem, IItemFormResult } from '../../models';
 

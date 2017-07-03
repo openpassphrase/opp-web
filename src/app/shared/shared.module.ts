@@ -2,33 +2,40 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MaterialModule } from '@angular/material';
 
-import { AuthModule } from '../auth/auth.module';
+import {
+  MdInputModule, MdToolbarModule, MdSnackBarModule, MdButtonModule,
+  MdTooltipModule, MdSelectModule, MdProgressBarModule, MdDialogModule,
+  MdIconModule, MdCheckboxModule, MdExpansionModule
+} from '@angular/material';
+
 import { AppHeaderComponent } from './app-header/app.header.component';
-import { Auth, AuthGuard, UnAuthGuard } from './auth-services'
+import { AutofocusDirective } from 'app/shared/directives/autofocus';
+
+export const ANGULAR_MATERIAL_MODULES = [
+  MdInputModule, MdToolbarModule, MdSnackBarModule, MdButtonModule,
+  MdTooltipModule, MdSelectModule, MdProgressBarModule, MdDialogModule,
+  MdIconModule, MdCheckboxModule, MdExpansionModule
+];
 
 @NgModule({
   imports: [
     CommonModule,
     FlexLayoutModule,
+    ...ANGULAR_MATERIAL_MODULES,
     ReactiveFormsModule,
-    MaterialModule,
   ],
   exports: [
     CommonModule,
     FlexLayoutModule,
+    ...ANGULAR_MATERIAL_MODULES,
     ReactiveFormsModule,
-    MaterialModule,
     AppHeaderComponent,
+    AutofocusDirective
   ],
   declarations: [
     AppHeaderComponent,
-  ],
-  providers: [
-    Auth,
-    AuthGuard,
-    UnAuthGuard,
+    AutofocusDirective
   ],
 })
 export class SharedModule { }

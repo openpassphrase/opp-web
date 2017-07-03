@@ -8,7 +8,15 @@
     </span>
 
     <md-input-container *ngIf="loggedIn | async" dividerColor="accent" fxFlex="265px" fxFlex.xs>
-      <input mdInput [formControl]="secretPhrase" autocomplete="off" type="password" placeholder="secret phrase to decrypt data" #secretInput>
+      <input
+        mdInput
+        [formControl]="secretPhrase"
+        autocomplete="off"
+        type="password"
+        placeholder="secret phrase to decrypt data"
+        autofocus
+      />
+      
       <md-hint *ngIf="secretPhrase.dirty && !secretPhrase.valid">Must be at least 6 chars</md-hint>
     </md-input-container>
 

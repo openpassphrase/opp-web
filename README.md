@@ -1,31 +1,52 @@
-# OppWeb
+# Opp
 
-This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.26.
+## Install locally
 
-## Development server
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+### Prerequisites:
+* [NodeJs > 6.10.2](https://nodejs.org/en/download/)
+* [Yarn](https://yarnpkg.com/) installed globally by running command: `npm i -g yarn`
 
-## Code scaffolding
+*Notice! This project uses [Yarn](https://yarnpkg.com/en/) for dependency management - not `npm`.*
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive/pipe/service/class/module`.
+### Install deps:
+* Run `yarn`
 
-## Build
+## Development
+### IDE
+* **[!Important]** Use [Visual Studio Code](https://code.visualstudio.com/) for development
+  Not only it provides better intellisense and type checking, it has a few default linting rules that apply automatically as you code.
+* Install `Angular Language Service` VSC extension to get even better intellisense.
+* Install `TSLint` VSC extension for real time linting error information.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+### Run locally
+If you just got latest, make sure you have all dependencies installed:
+* Run `yarn`
 
-## Running unit tests
+Start the server on port 5000. You can do it via running docker commands from the `opp` directory:
+```
+docker build -t opp .
+docker run -p 5000:5000 -it opp
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Then run one of the following commands, which will start local dev server, but point any /api requests to the running instance of Opp server
+* `yarn start`.
 
-## Running end-to-end tests
+### Build
+Project is compiled into *dist* folder.
+* `yarn build`.
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-Before running the tests make sure you are serving the app via `ng serve`.
+### Running unit tests
+* `yarn test`
 
-## Deploying to GitHub Pages
+### Running lint
+* `yarn run lint`
 
-Run `ng github-pages:deploy` to deploy to GitHub Pages.
+## Technology to learn:
 
-## Further help
+### Core concepts
+* [Angular](https://angular.io/docs/ts/latest/guide/learning-angular.html)
+* [RxJs](https://github.com/Reactive-Extensions/RxJS) - See tutorials under [Resource](https://github.com/Reactive-Extensions/RxJS#resources)
+* [ngrx/store](https://github.com/ngrx/store) - See tutorials under [Introduction](https://github.com/ngrx/store#introduction)
 
-To get more help on the `angular-cli` use `ng help` or go check out the [Angular-CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+### UI Frameworks used:
+* [Angular Material](https://github.com/angular/material2)

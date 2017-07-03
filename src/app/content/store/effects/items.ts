@@ -7,11 +7,9 @@ import { Injectable } from '@angular/core';
 import { Effect, Actions } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
-import { combineLatest } from 'rxjs/observable/combineLatest';
 
 import { BackendService } from '../../services/backend.service';
 import * as item from '../actions/items';
-import { ICategory } from '../../models';
 
 @Injectable()
 export class ItemEffects {

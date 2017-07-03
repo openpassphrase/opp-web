@@ -4,7 +4,8 @@ import { ItemFormComponent } from '../item-form/item-form.component';
 import { IItem, IItemFormResult, IUpdateItemPayload } from '../../models';
 
 @Component({
-  selector: 'app-item',
+  // tslint:disable-next-line:component-selector
+  selector: '[app-item]',
   templateUrl: './item.component.html',
   styleUrls: ['./item.component.scss']
 })
@@ -50,13 +51,13 @@ export class ItemComponent implements OnInit {
   selector: 'app-delete-item-dialog',
   template: `
   <h1 md-dialig-title>Delete item</h1>
-  <div md-dialog-content>Are you sure?</div>
-  <div md-dialog-actions>
+  <md-dialog-content>Are you sure?</md-dialog-content>
+  <md-dialog-actions>
     <button md-raised-button (click)="dialogRef.close('delete')" color="warn">
       Yes, delete
     </button>
     <button md-button (click)="dialogRef.close()">Cancel</button>
-  </div>
+  </md-dialog-actions>
   `,
 })
 export class DeleteItemDialogComponent {

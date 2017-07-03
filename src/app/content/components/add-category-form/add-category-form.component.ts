@@ -1,5 +1,5 @@
-import { Component, OnInit, Output, EventEmitter, ViewChild, ElementRef, Renderer, HostListener } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, Output, EventEmitter, ViewChild, ElementRef, Renderer } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-add-category-form',
@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class AddCategoryFormComponent implements OnInit {
   addCategoryForm: FormGroup;
+  categoryControl = new FormControl('', Validators.required);
   @Output() add = new EventEmitter<string>(false);
   @ViewChild('category') categoryInput: ElementRef;
 
@@ -15,7 +16,7 @@ export class AddCategoryFormComponent implements OnInit {
 
   ngOnInit() {
     this.addCategoryForm = this._fb.group({
-      category: ['', Validators.required]
+      category: this.categoryControl
     });
   }
 
@@ -24,20 +25,11 @@ export class AddCategoryFormComponent implements OnInit {
       this.renderer.invokeElementMethod(this.categoryInput.nativeElement, 'blur');
       const name = this.addCategoryForm.value.category.trim();
       this.add.emit(name);
-      this.addCategoryForm.controls['category'].setValue('');
+      this.clear();
     }
   }
 
   clear() {
-    this.addCategoryForm.get('category').setValue('');
-  }
-
-  @HostListener('document:keydown', ['$event'])
-  keyboardInput(event: KeyboardEvent) {
-    if (event.key === 'n' &&
-      event.altKey &&
-      event.ctrlKey) {
-      this.renderer.invokeElementMethod(this.categoryInput.nativeElement, 'focus');
-    }
+    this.categoryControl.setValue('');
   }
 }

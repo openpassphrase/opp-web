@@ -1,9 +1,8 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Location } from '@angular/common';
 import { tokenNotExpired } from 'angular2-jwt';
 import { Observable } from 'rxjs/Observable';
-import { Subscriber } from 'rxjs/Subscriber';
 
 import 'rxjs/add/observable/timer';
 
@@ -13,10 +12,10 @@ export class Auth {
 
   constructor(private http: Http, private location: Location) {
     this.isLoggedIn = new Observable<boolean>(s => {
-      let prevState = undefined;
-      Observable.timer(0, 1000).subscribe(x => {
+      let prevState: boolean;
+      Observable.timer(0, 1000).subscribe(() => {
         const token = sessionStorage.getItem('id_token');
-        const isNotExpired = tokenNotExpired('id_token', token);
+        const isNotExpired = tokenNotExpired('id_token', token || '');
         if (isNotExpired !== prevState) {
           prevState = isNotExpired;
           s.next(isNotExpired);
