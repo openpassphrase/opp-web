@@ -35,7 +35,7 @@ export class ContentComponent implements OnInit {
     this.store.dispatch(new category.SecretPhraseChangeAction(secret));
   }
 
-  private logout() {
+  logout() {
     this.store.dispatch(new category.SecretPhraseChangeAction(undefined));
     this.store.dispatch({ type: 'USER_LOGOUT' });
     this.router.navigate(['/']);
