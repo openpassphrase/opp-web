@@ -5,6 +5,13 @@
 table {
   width: 100%;
   border-collapse: collapse;
+  table-layout: fixed;
+}
+
+table.resp-table {
+  tr th:last-child {
+    width: 72px;
+  }
 }
 
 // responsive table

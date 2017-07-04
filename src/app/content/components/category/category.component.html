@@ -1,14 +1,10 @@
-<div 
-  fxLayout
-  fxLayoutAlign="start center"
-  fxLayoutGap="10px"
->
-  <div *ngIf="!isInEditMode" >
-    <span  class="category-name">
+<div fxLayout fxLayoutAlign="start center">
+  <div *ngIf="!isInEditMode" fxLayout>
+    <span class="category-name">
       {{category.name}}
     </span>
 
-    <span *ngIf="isExpanded">
+    <div *ngIf="isExpanded" fxLayout fxLayoutAlign="start center" fxLayoutGap="10px">
       <button md-mini-fab md-tooltip="Edit category name"
         (click)="toggleEditCategory($event)"
         type="button">
@@ -21,14 +17,12 @@
         <md-icon>delete</md-icon>
       </button>
 
-      <span mdTooltip="Add new item" #addItemTooltip>
-        <button md-mini-fab
-          (click)="promptAddItem($event)"
-          type="button">
-          <md-icon>add</md-icon>
-        </button>
-      </span>
-    </span>
+      <button md-mini-fab mdTooltip="Add new item" #addItemTooltip
+        (click)="promptAddItem($event)"
+        type="button">
+        <md-icon>add</md-icon>
+      </button>
+    </div>
   </div>
 
   <div *ngIf="isInEditMode && isExpanded">

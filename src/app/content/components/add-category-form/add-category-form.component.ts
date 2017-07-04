@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, ViewChild, ElementRef, Renderer } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-add-category-form',
@@ -8,7 +8,7 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 })
 export class AddCategoryFormComponent implements OnInit {
   addCategoryForm: FormGroup;
-  categoryControl = new FormControl('', Validators.required);
+  categoryControl = new FormControl('');
   @Output() add = new EventEmitter<string>(false);
   @ViewChild('category') categoryInput: ElementRef;
 
@@ -21,7 +21,7 @@ export class AddCategoryFormComponent implements OnInit {
   }
 
   addCategory() {
-    if (this.addCategoryForm.valid) {
+    if (this.categoryControl.value.length) {
       this.renderer.invokeElementMethod(this.categoryInput.nativeElement, 'blur');
       const name = this.addCategoryForm.value.category.trim();
       this.add.emit(name);

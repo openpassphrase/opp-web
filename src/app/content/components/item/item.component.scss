@@ -32,6 +32,7 @@ button[md-mini-fab] {
 .cell {
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 
   a {
     white-space: nowrap;

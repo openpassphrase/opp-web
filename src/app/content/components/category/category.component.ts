@@ -40,8 +40,17 @@ export class CategoryComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(c: SimpleChanges) {
-    if (c.isExpanded && !c.isExpanded.currentValue) {
-      this.isInEditMode = false;
+    if (c.isExpanded) {
+      if (!c.isExpanded.currentValue) {
+        this.isInEditMode = false;
+      } else if (this.category.items.length === 0) {
+        setTimeout(() => {
+          this.addItemTooltip.show();
+          setTimeout(() => {
+            this.addItemTooltip.hide();
+          }, 2000);
+        }, 225);
+      }
     }
   }
 
@@ -84,15 +93,6 @@ export class CategoryComponent implements OnInit, OnChanges {
         this.addItem.emit(newItem);
       }
     });
-  }
-
-  openCloseDone(ev: AnimationTransitionEvent) {
-    if (ev.toState && this.category.items.length === 0) {
-      this.addItemTooltip.show();
-      setTimeout(() => {
-        this.addItemTooltip.hide();
-      }, 2000);
-    }
   }
 }
 
