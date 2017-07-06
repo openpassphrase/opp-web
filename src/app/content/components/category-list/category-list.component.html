@@ -1,3 +1,9 @@
+<md-card *ngIf="searchFor$ | async as searchFor" class="search-for">
+  <md-card-content>
+    Search for: <span class="highlighted">{{searchFor}}</span>
+  </md-card-content>
+</md-card>
+
 <div fxLayout>
   <span fxFlex></span>
   <app-add-category-form *ngIf="isCorrectPhrase$ | async" (add)="addCategory($event)"></app-add-category-form>
@@ -10,6 +16,7 @@
         <app-category
           [category]="c"
           [isExpanded]="panel.expanded"
+          [searchFor]="searchFor$ | async"
           (update)="updateCategory($event)"
           (remove)="removeCategory($event)"
           (addItem)="addItem($event)"
@@ -50,11 +57,4 @@
     >
     </tr>
   </table>
-  <!--
-  <app-item fxLayout fxLayoutAlign="start center"
-    *ngFor="let item of itemsWithoutCategory$ | async"
-    [item]="item"
-    (updateItem)="updateItem($event)"
-    (removeItem)="removeItem($event)">
-  </app-item>-->
 </div>

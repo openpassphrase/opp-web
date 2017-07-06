@@ -1,8 +1,6 @@
 <div fxLayout fxLayoutAlign="start center">
   <div *ngIf="!isInEditMode" fxLayout>
-    <span class="category-name">
-      {{category.name}}
-    </span>
+    <span class="category-name" [innerHTML]="category.name | capitalize | highlight: searchFor"></span>
 
     <div *ngIf="isExpanded" fxLayout fxLayoutAlign="start center" fxLayoutGap="10px">
       <button md-mini-fab md-tooltip="Edit category name"

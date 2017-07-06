@@ -1,4 +1,5 @@
 import 'rxjs/add/operator/withLatestFrom';
+import 'rxjs/add/operator/scan';
 
 import { Component, OnInit, OnDestroy, HostListener, Inject, ViewChildren, QueryList } from '@angular/core';
 import { MdExpansionPanel } from '@angular/material';
@@ -27,6 +28,7 @@ export class CategoryListComponent implements OnInit, OnDestroy {
   isCorrectPhrase$: Observable<boolean>;
   itemsWithoutCategory$: Observable<IItem[]>;
   keyPressed$ = new Subject<string>();
+  searchFor$: Observable<string>;
 
   @ViewChildren(MdExpansionPanel)
   expansionPanels: QueryList<MdExpansionPanel>;
@@ -40,21 +42,33 @@ export class CategoryListComponent implements OnInit, OnDestroy {
     this.categories$ = this.store.let(fromRoot.getCategoryItems);
     this.isCorrectPhrase$ = this.store.let(fromRoot.getIsCorrectPhrase);
     this.itemsWithoutCategory$ = this.store.let(fromRoot.getItemsWithoutCategory);
-    this.keyPressed$
+
+    this.searchFor$ = this.keyPressed$
+      .scan((acc, curr) => {
+        if (curr === 'Escape') { return ''; }
+        if (curr === 'Backspace') { return acc.slice(0, acc.length - 1); }
+        return curr.length > 1 ? acc : acc + curr;
+      }, '');
+
+    this.searchFor$
       .takeUntil(this.ngUnsubscribe)
       .withLatestFrom(this.categories$)
-      .filter((o) => o[1].length > 0 !== undefined)
-      .switchMap(([key, c]) => {
-        const ix = c.findIndex(x => x.name.substr(0, 1).toLocaleLowerCase() === key);
-        return Observable.of(ix)
+      .filter(x => x[1].length > 0 !== undefined)
+      .switchMap(([s, c]) => {
+        const ixs = c.reduce<number[]>((a, b, bIx) => {
+          return b.name.indexOf(s) === 0
+            ? [...a, bIx] : a
+        }, [])
+        return Observable.of(ixs);
       })
-      .filter(ix => ix > -1)
+      .filter(ixs => ixs.length === 1)
+      .map(ixs => ixs[0])
       .subscribe((ix) => {
         const panel = this.expansionPanels.find((item, panelIx) => panelIx === ix);
         if (panel) {
-          panel.expanded = true;
+          panel.open();
         }
-      })
+      });
   }
 
   addCategory(name: string) {
@@ -98,6 +112,9 @@ export class CategoryListComponent implements OnInit, OnDestroy {
     if (this.document.activeElement.nodeName !== 'INPUT' &&
       this.document.activeElement.nodeName !== 'TEXTAREA' &&
       !event.altKey && !event.ctrlKey) {
+      if (event.key === 'Backspace') {
+        event.preventDefault();
+      }
       this.keyPressed$.next(event.key);
     }
   }

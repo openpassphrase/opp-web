@@ -1,6 +1,6 @@
 import {
   Component, OnInit, OnChanges, Input, Output, EventEmitter, ViewChild,
-  ChangeDetectionStrategy, AnimationTransitionEvent, SimpleChanges
+  ChangeDetectionStrategy, SimpleChanges
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MdDialog, MdDialogRef, MdTooltip } from '@angular/material';
@@ -24,6 +24,7 @@ export class CategoryComponent implements OnInit, OnChanges {
 
   @Input() category: ICategoryItems;
   @Input() readonly isExpanded = false;
+  @Input() readonly searchFor: string;
   @Output() update = new EventEmitter<IUpdateCategoryPayload>(false);
   @Output() remove = new EventEmitter<IRemoveCategoryPayload>(false);
   @Output() addItem = new EventEmitter<IItemFormResult>(false);
@@ -40,17 +41,8 @@ export class CategoryComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(c: SimpleChanges) {
-    if (c.isExpanded) {
-      if (!c.isExpanded.currentValue) {
-        this.isInEditMode = false;
-      } else if (this.category.items.length === 0) {
-        setTimeout(() => {
-          this.addItemTooltip.show();
-          setTimeout(() => {
-            this.addItemTooltip.hide();
-          }, 2000);
-        }, 225);
-      }
+    if (c.isExpanded && !c.isExpanded.currentValue) {
+      this.isInEditMode = false;
     }
   }
 
