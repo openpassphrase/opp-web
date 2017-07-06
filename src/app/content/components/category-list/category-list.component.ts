@@ -1,8 +1,12 @@
 import 'rxjs/add/operator/withLatestFrom';
 import 'rxjs/add/operator/scan';
+import 'rxjs/add/operator/distinctUntilChanged';
 
-import { Component, OnInit, OnDestroy, HostListener, Inject, ViewChildren, QueryList } from '@angular/core';
-import { MdExpansionPanel } from '@angular/material';
+import {
+  Component, OnInit, OnDestroy, HostListener, Inject, ViewChildren,
+  QueryList, ElementRef, Renderer, AfterViewInit
+} from '@angular/core';
+import { MdExpansionPanel, MdExpansionPanelHeader } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { Store } from '@ngrx/store';
@@ -22,7 +26,7 @@ import {
   templateUrl: './category-list.component.html',
   styleUrls: ['./category-list.component.scss']
 })
-export class CategoryListComponent implements OnInit, OnDestroy {
+export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {
   private ngUnsubscribe = new Subject();
   categories$: Observable<ICategoryItems[]>;
   isCorrectPhrase$: Observable<boolean>;
@@ -30,12 +34,13 @@ export class CategoryListComponent implements OnInit, OnDestroy {
   keyPressed$ = new Subject<string>();
   searchFor$: Observable<string>;
 
-  @ViewChildren(MdExpansionPanel)
-  expansionPanels: QueryList<MdExpansionPanel>;
+  @ViewChildren(MdExpansionPanel) expansionPanels: QueryList<MdExpansionPanel>;
+  @ViewChildren(MdExpansionPanelHeader, { read: ElementRef }) expansionPanelsHtml: QueryList<ElementRef>;
 
   constructor(
     public store: Store<fromRoot.State>,
-    @Inject(DOCUMENT) private document: any
+    @Inject(DOCUMENT) private document: any,
+    private renderer: Renderer
   ) { }
 
   ngOnInit() {
@@ -45,29 +50,47 @@ export class CategoryListComponent implements OnInit, OnDestroy {
 
     this.searchFor$ = this.keyPressed$
       .scan((acc, curr) => {
-        if (curr === 'Escape') { return ''; }
+        if (curr === 'Escape') {
+          if (acc === '') {
+            const panel = this.expansionPanels.find(x => x.expanded);
+            if (panel) { panel.close(); }
+          }
+          return '';
+        }
         if (curr === 'Backspace') { return acc.slice(0, acc.length - 1); }
         return curr.length > 1 ? acc : acc + curr;
-      }, '');
+      }, '')
+      .distinctUntilChanged();
 
     this.searchFor$
       .takeUntil(this.ngUnsubscribe)
       .withLatestFrom(this.categories$)
-      .filter(x => x[1].length > 0 !== undefined)
+      .filter(([s, c]) => s !== '' && c.length > 0 !== undefined)
       .switchMap(([s, c]) => {
         const ixs = c.reduce<number[]>((a, b, bIx) => {
-          return b.name.indexOf(s) === 0
+          return b.name.toLocaleLowerCase().indexOf(s.toLocaleLowerCase()) === 0
             ? [...a, bIx] : a
         }, [])
         return Observable.of(ixs);
       })
-      .filter(ixs => ixs.length === 1)
-      .map(ixs => ixs[0])
-      .subscribe((ix) => {
-        const panel = this.expansionPanels.find((item, panelIx) => panelIx === ix);
-        if (panel) {
-          panel.open();
-        }
+      .filter(ixs => ixs.length > 0)
+      .subscribe((ixs) => {
+        const panel = this.expansionPanels.find((item, panelIx) => panelIx === ixs[0]);
+        const panelHtml = this.expansionPanelsHtml.find((item, panelIx) => panelIx === ixs[0]);
+        if (panelHtml) { this.focusElRef(panelHtml); }
+        if (panel && ixs.length === 1) { panel.open(); }
+      });
+  }
+
+  ngAfterViewInit() {
+    this.expansionPanelsHtml.changes
+      .takeUntil(this.ngUnsubscribe)
+      .filter(c => c.length > 0)
+      .take(1)
+      .subscribe(() => {
+        setTimeout(() => {
+          this.focusElRef(this.expansionPanelsHtml.first);
+        });
       });
   }
 
@@ -122,5 +145,9 @@ export class CategoryListComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+  }
+
+  private focusElRef(el: ElementRef) {
+    this.renderer.invokeElementMethod(el.nativeElement, 'focus');
   }
 }
