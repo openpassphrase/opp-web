@@ -20,6 +20,7 @@ import {
   IItem, IItemFormResult, ICategoryItems, IUpdateCategoryPayload,
   IRemoveCategoryPayload, IUpdateItemPayload, ICategory
 } from '../../models';
+import { ScrollToService } from '../../services/scrollTo';
 
 @Component({
   selector: 'app-category-list',
@@ -40,7 +41,8 @@ export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     public store: Store<fromRoot.State>,
     @Inject(DOCUMENT) private document: any,
-    private renderer: Renderer
+    private renderer: Renderer,
+    private scroll: ScrollToService
   ) { }
 
   ngOnInit() {
@@ -77,7 +79,12 @@ export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((ixs) => {
         const panel = this.expansionPanels.find((item, panelIx) => panelIx === ixs[0]);
         const panelHtml = this.expansionPanelsHtml.find((item, panelIx) => panelIx === ixs[0]);
-        if (panelHtml) { this.focusElRef(panelHtml); }
+        if (panelHtml) {
+          this.focusElRef(panelHtml);
+          const el: HTMLElement = panelHtml.nativeElement;
+          console.log(el.offsetTop);
+          this.scroll.scrollTo(el.offsetTop, 400);
+        }
         if (panel && ixs.length === 1) { panel.open(); }
       });
   }
