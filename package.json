@@ -28,18 +28,18 @@
     "@angular/platform-browser-dynamic": "4.2.5",
     "@angular/router": "4.2.5",
     "@ngrx/core": "^1.2.0",
-    "@ngrx/effects": "^2.0.3",
-    "@ngrx/store": "^2.2.2",
+    "@ngrx/effects": "^2.0.4",
+    "@ngrx/store": "^2.2.3",
     "angular2-jwt": "^0.1.28",
     "core-js": "^2.4.1",
     "ng2-validation": "^3.8.0",
     "ngx-clipboard": "^3.0.5",
     "ngx-messages": "^0.1.1",
-    "rxjs": "^5.4.1",
+    "rxjs": "^5.4.2",
     "zone.js": "^0.8.12"
   },
   "devDependencies": {
-    "@angular/cli": "^1.2.0",
+    "@angular/cli": "^1.2.1",
     "@angular/compiler-cli": "4.2.5",
     "@angular/language-service": "4.2.5",
     "@types/jasmine": "2.5.45",
@@ -56,6 +56,6 @@
     "protractor": "~5.1.2",
     "ts-node": "~3.0.4",
     "tslint": "~5.3.2",
-    "typescript": "~2.3.4"
+    "typescript": "^2.4.1"
   }
 }

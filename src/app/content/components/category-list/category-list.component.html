@@ -5,7 +5,14 @@
 </md-card>
 
 <div fxLayout>
+  <button md-mini-fab md-tooltip="Toggle all categories" *ngIf="(categories$ | async).length"
+    (click)="toggleAll()"
+    type="button">
+    <md-icon>{{areAllClosed() ? 'border_outer' : 'border_horizontal'}}</md-icon>
+  </button>
+
   <span fxFlex></span>
+
   <app-add-category-form *ngIf="isCorrectPhrase$ | async" (add)="addCategory($event)"></app-add-category-form>
 </div>
 

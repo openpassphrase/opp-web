@@ -28,7 +28,7 @@ import { ScrollToService } from '../../services/scrollTo';
   styleUrls: ['./category-list.component.scss']
 })
 export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {
-  private ngUnsubscribe = new Subject();
+  private ngUnsubscribe = new Subject<any>();
   categories$: Observable<ICategoryItems[]>;
   isCorrectPhrase$: Observable<boolean>;
   itemsWithoutCategory$: Observable<IItem[]>;
@@ -51,7 +51,7 @@ export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {
     this.itemsWithoutCategory$ = this.store.let(fromRoot.getItemsWithoutCategory);
 
     this.searchFor$ = this.keyPressed$
-      .scan((acc, curr) => {
+      .scan((acc: string, curr: string) => {
         if (curr === 'Escape') {
           if (acc === '') {
             const panel = this.expansionPanels.find(x => x.expanded);
@@ -82,7 +82,6 @@ export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {
         if (panelHtml) {
           this.focusElRef(panelHtml);
           const el: HTMLElement = panelHtml.nativeElement;
-          console.log(el.offsetTop);
           this.scroll.scrollTo(el.offsetTop, 400);
         }
         if (panel && ixs.length === 1) { panel.open(); }
@@ -90,6 +89,7 @@ export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
+    // once category panels are displayed, focus on the first
     this.expansionPanelsHtml.changes
       .takeUntil(this.ngUnsubscribe)
       .filter(c => c.length > 0)
@@ -135,6 +135,20 @@ export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   trackCategoriesBy(index: number, category: ICategory) {
     return category.id !== undefined ? category.id : index;
+  }
+
+  toggleAll() {
+    if (this.areAllClosed()) {
+      this.expansionPanels.first.accordion.multi = true;
+      this.expansionPanels.forEach(x => x.open());
+    } else {
+      this.expansionPanels.forEach(x => x.close());
+      this.expansionPanels.first.accordion.multi = false;
+    }
+  }
+
+  areAllClosed() {
+    return !this.expansionPanels.map(x => x.expanded).some(x => x);
   }
 
   @HostListener('document:keydown', ['$event'])
