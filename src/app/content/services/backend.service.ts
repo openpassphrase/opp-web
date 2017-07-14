@@ -26,11 +26,11 @@ export class BackendService implements IBackendService {
     this.itemsEndpoint = this.location.prepareExternalUrl('api/v1/items')
   }
 
-  secretPassphraseChange(secret: string) {
+  secretPassphraseChange(secret: string | undefined) {
     if (!this.headers) {
       this.headers = new Headers();
     }
-    this.headers.set('x-opp-phrase', secret);
+    this.headers.set('x-opp-phrase', secret || '');
   }
 
   fetchAll(): Observable<{ categories: ICategory[], items: IItem[] }> {

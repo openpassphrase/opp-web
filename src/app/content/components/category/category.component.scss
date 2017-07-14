@@ -1,4 +1,4 @@
-@import '~@angular/material/card/card';
+@import '~@angular/material/_theming';
 
 .category {
   //margin: 10px 0;
@@ -9,7 +9,7 @@
 }
 
 .shadow {
-  border-radius: $mat-card-border-radius;
+  border-radius: 4px;
   @include mat-elevation(2);
   @include mat-elevation-transition;
 }
@@ -17,7 +17,6 @@
 .category-name {
   padding: 0 10px;
   cursor: pointer;
-  text-transform: capitalize;
 }
 
 .category-items {

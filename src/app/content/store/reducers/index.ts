@@ -3,7 +3,7 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/let';
 import { Observable } from 'rxjs/Observable';
 import { combineLatest } from 'rxjs/observable/combineLatest';
-import { ActionReducer, combineReducers } from '@ngrx/store';
+import { combineReducers } from '@ngrx/store';
 import { compose } from '@ngrx/core/compose';
 
 import * as fromCategories from './categories';
@@ -60,6 +60,10 @@ export const getItemsWithoutCategory = function (state$: Observable<State>) {
 
 export const getCategoriesLoading = compose(
   fromCategories.getLoading, getCategoriesState
+);
+
+export const getIsCorrectPhrase = compose(
+  fromCategories.getIsCorrectPhrase, getCategoriesState
 );
 
 export const getItemsLoading = compose(

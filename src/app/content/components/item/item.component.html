@@ -1,25 +1,25 @@
-<div fxFlex class="cell">
+<td data-th="Name:" class="cell">
   <a *ngIf="item.url" [href]="item.url" target="_blank" [mdTooltip]="item.name">{{item.name}}</a>
   <span *ngIf="!item.url">{{item.name}}</span>
-</div>
+</td>
 
-<div fxFlex ngxClipboard [cbContent]="item.account" (cbOnSuccess)="copied()" class="cell" [mdTooltip]="item.account">
+<td data-th="Account:" ngxClipboard [cbContent]="item.account" (cbOnSuccess)="copied()" class="cell" [mdTooltip]="item.account">
   {{item.account}}
-</div>
+</td>
 
-<div fxFlex ngxClipboard [cbContent]="item.username" (cbOnSuccess)="copied()" class="cell" [mdTooltip]="item.username">
+<td data-th="Username:" ngxClipboard [cbContent]="item.username" (cbOnSuccess)="copied()" class="cell" [mdTooltip]="item.username">
   {{item.username}}
-</div>
+</td>
 
-<div fxFlex ngxClipboard [cbContent]="item.password" (cbOnSuccess)="copied()" class="cell" [mdTooltip]="item.password">
+<td data-th="Password:" ngxClipboard [cbContent]="item.password" (cbOnSuccess)="copied()" class="cell" [mdTooltip]="item.password">
   {{item.password}}
-</div>
+</td>
 
-<div fxFlex ngxClipboard [cbContent]="item.blob" (cbOnSuccess)="copied()" class="cell" [mdTooltip]="item.blob">
+<td data-th="Blob:" ngxClipboard [cbContent]="item.blob" (cbOnSuccess)="copied()" class="cell" [mdTooltip]="item.blob">
   {{item.blob}}
-</div>
+</td>
 
-<div fxFlex="70px" fxLayout fxLayoutGap="10px">
+<td fxLayout fxLayoutGap="10px">
   <button md-mini-fab md-tooltip="Edit item"
     (click)="promptEdit()"
     type="button">
@@ -31,4 +31,4 @@
     type="button">
     <md-icon>delete</md-icon>
   </button>
-</div>
+</td>

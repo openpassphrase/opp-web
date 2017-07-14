@@ -15,7 +15,7 @@ import * as category from './store/actions/categories';
 })
 export class ContentComponent implements OnInit {
   loading$: Observable<boolean>;
-  
+
   constructor(
     public store: Store<fromRoot.State>,
     public auth: Auth,
@@ -30,13 +30,13 @@ export class ContentComponent implements OnInit {
       }
     });
   }
-  
+
   secretPhraseChange(secret: string) {
-    this.store.dispatch(new category.SecretPhraseChangeAction(secret) as any);
+    this.store.dispatch(new category.SecretPhraseChangeAction(secret));
   }
 
-  private logout() {
-    this.store.dispatch(new category.SecretPhraseChangeAction(undefined) as any);
+  logout() {
+    this.store.dispatch(new category.SecretPhraseChangeAction(undefined));
     this.store.dispatch({ type: 'USER_LOGOUT' });
     this.router.navigate(['/']);
     this.auth.logout();

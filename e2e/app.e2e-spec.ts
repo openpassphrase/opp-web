@@ -1,14 +1,14 @@
-import { OppWebPage } from './app.po';
+import { OppPage } from './app.po';
 
-describe('opp-web App', function() {
-  let page: OppWebPage;
+describe('opp App', () => {
+  let page: OppPage;
 
   beforeEach(() => {
-    page = new OppWebPage();
+    page = new OppPage();
   });
 
-  it('should display message saying app works', () => {
+  it('should display welcome message', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('app works!');
+    expect(page.getParagraphText()).toEqual('Welcome to app!!');
   });
 });

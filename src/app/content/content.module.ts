@@ -16,6 +16,7 @@ import { ItemComponent, DeleteItemDialogComponent } from './components/item/item
 import { ItemFormComponent } from './components/item-form/item-form.component';
 
 import { BackendService } from './services/backend.service';
+import { ScrollToService } from './services/scrollTo';
 
 import { reducer } from './store/reducers';
 import { CategoryEffects } from './store/effects/categories';
@@ -54,6 +55,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   ],
   providers: [
     BackendService,
+    ScrollToService,
     {
       provide: AuthHttp,
       useFactory: authHttpServiceFactory,

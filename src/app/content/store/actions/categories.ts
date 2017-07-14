@@ -1,53 +1,56 @@
+import { BaseAction } from './_baseAction';
 import { ICategory, IUpdateCategoryPayload, IRemoveCategoryPayload } from '../../models';
 
-export class SecretPhraseChangeAction {
-  constructor(public payload: string) { }
+export class SecretPhraseChangeAction extends BaseAction {
+  constructor(public payload: string | undefined) { super('SecretPhraseChangeAction') }
 }
 
-export class LoadCategoriesAction {
-  constructor() { }
+export class LoadCategoriesAction extends BaseAction {
+  constructor() { super('LoadCategoriesAction') }
 }
 
-export class LoadCategoriesSuccessAction {
-  constructor(public payload: ICategory[]) { }
+export class LoadCategoriesSuccessAction extends BaseAction {
+  constructor(public payload: ICategory[]) { super('LoadCategoriesSuccessAction') }
 }
 
-export class LoadCategoriesFailAction { }
-
-export class AddCategoryAction {
-  constructor(public payload: string) { }
+export class LoadCategoriesFailAction extends BaseAction {
+  constructor() { super('LoadCategoriesFailAction') }
 }
 
-export class AddCategorySuccessAction {
-  constructor(public payload: ICategory) { }
+export class AddCategoryAction extends BaseAction {
+  constructor(public payload: string) { super('AddCategoryAction') }
 }
 
-export class AddCategoryFailAction {
-  constructor(public payload: string) { }
+export class AddCategorySuccessAction extends BaseAction {
+  constructor(public payload: ICategory) { super('AddCategorySuccessAction') }
 }
 
-export class EditCategoryAction {
-  constructor(public payload: IUpdateCategoryPayload) { }
+export class AddCategoryFailAction extends BaseAction {
+  constructor(public payload: string) { super('AddCategoryFailAction') }
 }
 
-export class EditCategorySuccessAction {
-  constructor() { }
+export class EditCategoryAction extends BaseAction {
+  constructor(public payload: IUpdateCategoryPayload) { super('EditCategoryAction') }
 }
 
-export class EditCategoryFailAction {
-  constructor(public payload: IUpdateCategoryPayload) { }
+export class EditCategorySuccessAction extends BaseAction {
+  constructor() { super('EditCategorySuccessAction') }
 }
 
-export class RemoveCategoryAction {
-  constructor(public payload: IRemoveCategoryPayload) { }
+export class EditCategoryFailAction extends BaseAction {
+  constructor(public payload: IUpdateCategoryPayload) { super('EditCategoryFailAction') }
 }
 
-export class RemoveCategorySuccessAction {
-  constructor() { }
+export class RemoveCategoryAction extends BaseAction {
+  constructor(public payload: IRemoveCategoryPayload) { super('RemoveCategoryAction') }
 }
 
-export class RemoveCategoryFailAction {
-  constructor(public payload: IRemoveCategoryPayload) { }
+export class RemoveCategorySuccessAction extends BaseAction {
+  constructor() { super('RemoveCategorySuccessAction') }
+}
+
+export class RemoveCategoryFailAction extends BaseAction {
+  constructor(public payload: IRemoveCategoryPayload) { super('RemoveCategoryFailAction') }
 }
 
 export type Actions

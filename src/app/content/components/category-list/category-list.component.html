@@ -1,26 +1,67 @@
+<md-card *ngIf="searchFor$ | async as searchFor" class="search-for">
+  <md-card-content>
+    Search for: <span class="highlighted">{{searchFor}}</span>
+  </md-card-content>
+</md-card>
+
 <div fxLayout>
+  <button md-mini-fab md-tooltip="Toggle all categories" *ngIf="(categories$ | async).length"
+    (click)="toggleAll()"
+    type="button">
+    <md-icon>{{areAllClosed() ? 'border_outer' : 'border_horizontal'}}</md-icon>
+  </button>
+
   <span fxFlex></span>
-  <app-add-category-form *ngIf="(categories$ | async)?.length" (add)="addCategory($event)"></app-add-category-form>
+
+  <app-add-category-form *ngIf="isCorrectPhrase$ | async" (add)="addCategory($event)"></app-add-category-form>
+</div>
+
+<div class="categories">
+  <md-accordion>
+    <md-expansion-panel *ngFor="let c of categories$ | async; trackBy: trackCategoriesBy" #panel>
+      <md-expansion-panel-header>
+        <app-category
+          [category]="c"
+          [isExpanded]="panel.expanded"
+          [searchFor]="searchFor$ | async"
+          (update)="updateCategory($event)"
+          (remove)="removeCategory($event)"
+          (addItem)="addItem($event)"
+        >
+        </app-category>
+      </md-expansion-panel-header>
+
+      <div class="category-items">
+        <table class="resp-table">
+          <tr>
+            <th>Name</th>
+            <th>Account</th>
+            <th>Username</th>
+            <th>Password</th>
+            <th>Blob</th>
+            <th>&nbsp;</th>
+          </tr>
+          <tr *ngFor="let item of c.items"
+            app-item
+            [item]="item"
+            (updateItem)="updateItem($event)"
+            (removeItem)="removeItem($event)"
+          >
+          </tr>
+        </table>
+      </div>
+    </md-expansion-panel>
+  </md-accordion>
 </div>
 
 <div>
-  <app-category class="unselectable" *ngFor="let c of categories$ | async"
-    [category]="c"
-    [isExpanded]="(expanded$ | async).indexOf(c.id) > -1"
-    (update)="updateCategory($event)"
-    (remove)="removeCategory($event)"
-    (addItem)="addItem($event)"
-    (updateItem)="updateItem($event)"
-    (removeItem)="removeItem($event)"
-    (toggleCategoryExpanded)="toggleCategoryExpanded($event)">
-  </app-category>
-</div>
-
-<div>
-  <app-item fxLayout fxLayoutAlign="start center"
-    *ngFor="let item of itemsWithoutCategory$ | async"
-    [item]="item"
-    (updateItem)="updateItem($event)"
-    (removeItem)="removeItem($event)">
-  </app-item>
+  <table class="resp-table">
+    <tr *ngFor="let item of itemsWithoutCategory$ | async"
+      app-item
+      [item]="item"
+      (updateItem)="updateItem($event)"
+      (removeItem)="removeItem($event)"
+    >
+    </tr>
+  </table>
 </div>
