@@ -1,40 +1,40 @@
 <div fxLayout fxLayoutAlign="start center">
-  <div *ngIf="!isInEditMode" fxLayout>
+  <div *ngIf="!isInEditMode" fxLayout fxLayoutAlign="start center" class="ml-10">
     <span class="category-name" [innerHTML]="category.name | capitalize | highlight: searchFor"></span>
 
     <div *ngIf="isExpanded" fxLayout fxLayoutAlign="start center" fxLayoutGap="10px">
-      <button md-mini-fab md-tooltip="Edit category name"
+      <button mat-mini-fab matTooltip="Edit category name"
         (click)="toggleEditCategory($event)"
         type="button">
-        <md-icon>edit</md-icon>
+        <mat-icon>edit</mat-icon>
       </button>
 
-      <button md-mini-fab md-tooltip="Delete category"
+      <button mat-mini-fab matTooltip="Delete category"
         (click)="promptDelete($event)"
         type="button">
-        <md-icon>delete</md-icon>
+        <mat-icon>delete</mat-icon>
       </button>
 
-      <button md-mini-fab mdTooltip="Add new item" #addItemTooltip
+      <button mat-mini-fab matTooltip="Add new item" #addItemTooltip
         (click)="promptAddItem($event)"
         type="button">
-        <md-icon>add</md-icon>
+        <mat-icon>add</mat-icon>
       </button>
     </div>
   </div>
 
   <div *ngIf="isInEditMode && isExpanded">
-    <form novalidate [formGroup]="changeCategoryForm" (ngSubmit)="saveCategoryName()">
-      <md-input-container>
-        <input mdInput formControlName="newName" type="text" (click)="$event.stopPropagation()" placeholder="">
-      </md-input-container>
+    <form novalidate [formGroup]="changeCategoryForm" (ngSubmit)="saveCategoryName()" fxLayoutGap="10px">
+      <mat-form-field>
+        <input matInput formControlName="newName" type="text" (click)="$event.stopPropagation()" placeholder="">
+      </mat-form-field>
 
-      <button md-mini-fab type="submit" (click)="$event.stopPropagation()">
-        <md-icon>check</md-icon>
+      <button mat-mini-fab type="submit" (click)="$event.stopPropagation()">
+        <mat-icon>check</mat-icon>
       </button>
 
-      <button md-mini-fab (click)="toggleEditCategory($event)" type="button">
-        <md-icon>clear</md-icon>
+      <button mat-mini-fab (click)="toggleEditCategory($event)" type="button">
+        <mat-icon>clear</mat-icon>
       </button>
     </form>
   </div>

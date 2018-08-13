@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Headers } from '@angular/http';
 import { Location } from '@angular/common';
-import { Observable } from 'rxjs/Observable';
-import { AuthHttp } from 'angular2-jwt';
-import { ICategory, IItem, IItemFormResult } from '../models';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { map, share } from 'rxjs/operators';
+import { ICategory, IItem, IItemFormResult } from '@app/content/models';
 
 export interface IBackendService {
   fetchAll(): Observable<{ categories: ICategory[], items: IItem[] }>;
@@ -15,90 +15,93 @@ export interface IBackendService {
   removeItem(id: number): Observable<any>;
 }
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class BackendService implements IBackendService {
-  private headers: Headers;
   private categoriesEndpoint: string;
-  private itemsEndpoint: string
+  private itemsEndpoint: string;
+  secret: string | undefined;
 
-  constructor(private http: AuthHttp, private location: Location) {
+  constructor(private http: HttpClient, private location: Location) {
     this.categoriesEndpoint = this.location.prepareExternalUrl('api/v1/categories');
-    this.itemsEndpoint = this.location.prepareExternalUrl('api/v1/items')
+    this.itemsEndpoint = this.location.prepareExternalUrl('api/v1/items');
   }
 
-  secretPassphraseChange(secret: string | undefined) {
-    if (!this.headers) {
-      this.headers = new Headers();
-    }
-    this.headers.set('x-opp-phrase', secret || '');
+  fetchAll() {
+    const url = this.location.prepareExternalUrl('api/v1/fetchall');
+
+    return this.http
+      .get<{ categories: ICategory[], items: IItem[] }>(url)
+      .pipe(share());
   }
 
-  fetchAll(): Observable<{ categories: ICategory[], items: IItem[] }> {
-    return this.http.get(this.location.prepareExternalUrl('api/v1/fetchall'), { headers: this.headers })
-      .map(res => res.json());
-  }
-
-  getCategories(): Observable<ICategory[]> {
-    return this.http.get(this.categoriesEndpoint, { headers: this.headers })
-      .map(res => res.json())
-      .map(x => x.categories);
+  getCategories() {
+    return this.http
+      .get<{ categories: ICategory[] }>(this.categoriesEndpoint)
+      .pipe(
+        map(x => x.categories),
+        share()
+      );
   }
 
   addCategory(name: string): Observable<ICategory> {
-    return this.http.put(this.categoriesEndpoint,
-      { category_names: [name] },
-      { headers: this.headers }
-    ).map(res => res.json())
-      .map(x => x.categories[0]);
+    return this.http.put<{ categories: ICategory[] }>(
+      this.categoriesEndpoint,
+      { category_names: [name] }
+    ).pipe(
+      map(x => x.categories[0])
+    );
   }
 
-  updateCategory(category: ICategory): Observable<void> {
-    return this.http.post(this.categoriesEndpoint,
-      { categories: [category] },
-      { headers: this.headers }
-    ).map(res => res.json());
+  updateCategory(category: ICategory) {
+    return this.http.post(
+      this.categoriesEndpoint,
+      { categories: [category] }
+    );
   }
 
-  removeCategory(opts: { id: number, cascade: boolean }): Observable<void> {
-    return this.http.delete(this.categoriesEndpoint, {
+  removeCategory(opts: { id: number, cascade: boolean }) {
+    return this.http.request('delete', this.categoriesEndpoint, {
       body: {
         cascade: opts.cascade,
         ids: [opts.id]
-      },
-      headers: this.headers
-    }).map(res => res.json());
+      }
+    });
   }
 
-  getItems(): Observable<IItem[]> {
-    return this.http.get(this.itemsEndpoint, { headers: this.headers })
-      .map(res => res.json())
-      .map(x => x.items);
+  getItems() {
+    return this.http.get<{ items: IItem[] }>(this.itemsEndpoint).pipe(
+      map(x => x.items),
+      share()
+    );
   }
 
-  addItem(info: IItemFormResult): Observable<IItem> {
-    return this.http.put(this.itemsEndpoint, {
+  addItem(info: IItemFormResult) {
+    return this.http.put<{ items: IItem[] }>(this.itemsEndpoint, {
       items: [info.item],
       auto_pass: info.auto_pass,
       genopts: info.genopts
-    }, { headers: this.headers })
-      .map(res => res.json())
-      .map(x => x.items[0]);
+    }).pipe(
+      map(x => x.items[0])
+    );
   }
 
-  updateItem(info: IItemFormResult): Observable<IItem> {
-    return this.http.post(this.itemsEndpoint, {
+  updateItem(info: IItemFormResult) {
+    return this.http.post<{ items: IItem[] }>(this.itemsEndpoint, {
       items: [info.item],
       auto_pass: info.auto_pass,
       genopts: info.genopts
-    }, { headers: this.headers })
-      .map(res => res.json())
-      .map(x => x.items[0]);
+    }).pipe(
+      map(x => x.items[0])
+    );
   }
 
-  removeItem(id: number): Observable<void> {
-    return this.http.delete(this.itemsEndpoint, {
-      body: { ids: [id] },
-      headers: this.headers
-    }).map(res => res.json());
+  removeItem(id: number) {
+    return this.http.request('delete', this.itemsEndpoint, {
+      body: { ids: [id] }
+    });
+  }
+
+  secretPassphraseChange(secret: string | undefined) {
+    this.secret = secret;
   }
 }

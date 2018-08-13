@@ -1,9 +1,7 @@
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
 
-import { AddCategoryFormComponent } from './add-category-form.component';
+import { AddCategoryFormComponent } from '@app/content/components/add-category-form/add-category-form.component';
 
 describe('AddCategoryFormComponent', () => {
   let component: AddCategoryFormComponent;

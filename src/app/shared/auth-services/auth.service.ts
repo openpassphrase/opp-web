@@ -1,21 +1,23 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { Location } from '@angular/common';
-import { tokenNotExpired } from 'angular2-jwt';
-import { Observable } from 'rxjs/Observable';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { Observable, timer, of } from 'rxjs';
 
-import 'rxjs/add/observable/timer';
 
 @Injectable()
 export class Auth {
-  public isLoggedIn: Observable<boolean>;
+  public isLoggedIn: Observable<boolean> = of(true);
 
-  constructor(private http: Http, private location: Location) {
+  constructor(
+    private http: HttpClient,
+    private location: Location,
+    jwtHelper: JwtHelperService
+  ) {
     this.isLoggedIn = new Observable<boolean>(s => {
       let prevState: boolean;
-      Observable.timer(0, 1000).subscribe(() => {
-        const token = sessionStorage.getItem('id_token');
-        const isNotExpired = tokenNotExpired('id_token', token || '');
+      timer(0, 1000).subscribe(() => {
+        const isNotExpired = !(jwtHelper.isTokenExpired());
         if (isNotExpired !== prevState) {
           prevState = isNotExpired;
           s.next(isNotExpired);
@@ -25,8 +27,7 @@ export class Auth {
   }
 
   login(data: { username: string, password: string }) {
-    return this.http.post(this.location.prepareExternalUrl('api/v1/auth'), data)
-      .map(res => res.json());
+    return this.http.post<{ access_token: string }>(this.location.prepareExternalUrl('api/v1/auth'), data);
   }
 
   logout() {

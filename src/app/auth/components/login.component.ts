@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
-import { MdSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Auth } from '../../shared/auth-services';
+import { Auth } from '@app/shared/auth-services';
 import { environment } from '../../../environments/environment';
 
 @Component({
@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
     private auth: Auth,
     private router: Router,
     private _fb: FormBuilder,
-    private snackBar: MdSnackBar,
+    private snackBar: MatSnackBar,
   ) { }
 
   ngOnInit() {

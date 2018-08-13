@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { MdSnackBar, MdDialog, MdDialogRef } from '@angular/material';
-import { ItemFormComponent } from '../item-form/item-form.component';
-import { IItem, IItemFormResult, IUpdateItemPayload } from '../../models';
+import { MatSnackBar, MatDialog, MatDialogRef } from '@angular/material';
+import { ItemFormComponent } from '@app/content/components/item-form/item-form.component';
+import { IItem, IItemFormResult, IUpdateItemPayload } from '@app/content/models';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -14,7 +14,7 @@ export class ItemComponent implements OnInit {
   @Output() updateItem = new EventEmitter<IUpdateItemPayload>(false);
   @Output() removeItem = new EventEmitter<IItem>(false);
 
-  constructor(private dialog: MdDialog, private snackbar: MdSnackBar) { }
+  constructor(private dialog: MatDialog, private snackbar: MatSnackBar) { }
 
   ngOnInit() {
   }
@@ -50,16 +50,16 @@ export class ItemComponent implements OnInit {
 @Component({
   selector: 'app-delete-item-dialog',
   template: `
-  <h1 md-dialig-title>Delete item</h1>
-  <md-dialog-content>Are you sure?</md-dialog-content>
-  <md-dialog-actions>
-    <button md-raised-button (click)="dialogRef.close('delete')" color="warn">
+  <h1 mat-dialig-title>Delete item</h1>
+  <mat-dialog-content>Are you sure?</mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-raised-button (click)="dialogRef.close('delete')" color="warn">
       Yes, delete
     </button>
-    <button md-button (click)="dialogRef.close()">Cancel</button>
-  </md-dialog-actions>
+    <button mat-button (click)="dialogRef.close()">Cancel</button>
+  </mat-dialog-actions>
   `,
 })
 export class DeleteItemDialogComponent {
-  constructor(public dialogRef: MdDialogRef<DeleteItemDialogComponent>) { }
+  constructor(public dialogRef: MatDialogRef<DeleteItemDialogComponent>) { }
 }

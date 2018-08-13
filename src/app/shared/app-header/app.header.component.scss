@@ -1,15 +1,15 @@
-:host /deep/ md-toolbar-row {
+:host /deep/ mat-toolbar-row {
   height: 80px;
 }
 
-md-input-container /deep/ {
+mat-form-field /deep/ {
   label {
     color: #ffd740;
   }
-  .md-input-underline {
+  .mat-input-underline {
     border-color: #ffd740 !important;
   }
-  md-hint {
+  mat-hint {
     color: #f44336;
   }
 }

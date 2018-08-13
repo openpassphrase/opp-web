@@ -12,10 +12,10 @@ export class ScrollToService {
     this.requestAnimFrame = requestAnimationFrame ||
     webkitRequestAnimationFrame ||
     mozRequestAnimationFrame ||
-    function (callback) { setTimeout(callback, 1000 / 60); };
+    function (callback: Function) { setTimeout(callback, 1000 / 60); };
   }
 
-  scrollTo(to: number, duration: number, callback?) {
+  scrollTo(to: number, duration: number, callback?: Function) {
     const self = this;
     // because it's so fucking difficult to detect the scrolling element, just move them all
     function move(amount: number) {
@@ -23,7 +23,7 @@ export class ScrollToService {
       (<any>document.body.parentNode).scrollTop = amount;
       document.body.scrollTop = amount;
     }
-    function position() {
+    function position(): number {
       return document.documentElement.scrollTop || (<any>document.body.parentNode).scrollTop || document.body.scrollTop;
     }
     const start = position(),
@@ -56,22 +56,22 @@ export class ScrollToService {
   }
 }
 
-function easeInOutQuad(t, b, c, d) {
+function easeInOutQuad(t: number, b: number, c: number, d: number) {
   t /= d / 2;
   if (t < 1) {
     return c / 2 * t * t + b;
   }
   t--;
   return -c / 2 * (t * (t - 2) - 1) + b;
-};
-
-function easeInCubic(t, b, c, d) {
+}
+/*
+function easeInCubic(t: number, b: number, c: number, d: number) {
   const tc = (t /= d) * t * t;
   return b + c * (tc);
-};
+}
 
-function inOutQuintic(t, b, c, d) {
+function inOutQuintic(t: number, b: number, c: number, d: number) {
   const ts = (t /= d) * t,
     tc = ts * t;
   return b + c * (6 * tc * ts + -15 * ts * ts + 10 * tc);
-};
+}*/

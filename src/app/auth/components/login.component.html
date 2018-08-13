@@ -1,51 +1,52 @@
 <div class="loading-overlay" *ngIf="loading">
-    <md-progress-bar mode="indeterminate"></md-progress-bar>
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 </div>
 <div fxLayout fxLayoutAlign="center start">
-  <md-card fxFlex="500px" fxFlex.xs="100">
-    <md-card-title>
+  <mat-card fxFlex="500px" fxFlex.xs="100">
+    <mat-card-title>
       Login
-    </md-card-title>
+    </mat-card-title>
 
-    <md-card-subtitle>
+    <mat-card-subtitle>
       Don't forget to sign out when done!
-    </md-card-subtitle>
+    </mat-card-subtitle>
 
-    <md-card-content fxLayout="column" fxLayout.gt-xs="row" fxLayoutGap="10px">
+    <mat-card-content>
       <form novalidate [formGroup]="authForm" (ngSubmit)="login()">
-        <div>
-          <md-input-container>
-            <input mdInput formControlName="username" placeholder="User name" required type="text" [autocomplete]="userNameAutocompleteState" autofocus>
-          </md-input-container>
+        <div fxLayout="column" fxLayout.gt-xs="row" fxLayoutGap.gt-xs="5px">
+          <mat-form-field>
+            <input matInput formControlName="username" placeholder="User name" required type="text" [autocomplete]="userNameAutocompleteState" autofocus>
+          </mat-form-field>
 
-          <md-input-container>
-            <input mdInput formControlName="password" placeholder="Password" required type="password" autocomplete="off">
-          </md-input-container>
+          <mat-form-field>
+            <input matInput formControlName="password" placeholder="Password" required type="password" autocomplete="off">
+          </mat-form-field>
         </div>
 
         <br />
 
         <div *ngIf="showTokenExp">
-          <md-card-subtitle>How soon should your session expire?</md-card-subtitle>
+          <mat-card-subtitle>How soon should your session expire?</mat-card-subtitle>
 
-          <div fxLayout fxLayoutAlign="start center" fxLayoutGap="5px">
-            <md-input-container>
-              <input mdInput formControlName="exp_delta_amount" placeholder="Type in amount" type="number">
-            </md-input-container>
+          <div fxLayout="column" fxLayout.gt-xs="row" fxLayoutGap.gt-xs="5px">
+            <mat-form-field>
+              <input matInput formControlName="exp_delta_amount" placeholder="Type in amount" type="number">
+            </mat-form-field>
 
-            <md-select name="items" formControlName="exp_delta_multiplier" placeholder="Select interval">
-              <md-option value=""></md-option>
-              <md-option value="60">minute(s)</md-option>
-              <md-option value="3600">hour(s)</md-option>
-              <md-option value="86400">day(s)</md-option>
-            </md-select>
+            <mat-form-field>
+              <mat-select name="items" formControlName="exp_delta_multiplier" placeholder="Select interval">
+                <mat-option value="60">minute(s)</mat-option>
+                <mat-option value="3600">hour(s)</mat-option>
+                <mat-option value="86400">day(s)</mat-option>
+              </mat-select>
+            </mat-form-field>
           </div>
         </div>
 
         <div>
-          <button md-raised-button type="submit" color="primary" [disabled]="authForm.invalid">Submit</button>
+          <button mat-raised-button type="submit" color="primary" [disabled]="authForm.invalid">Submit</button>
         </div>
       </form>
-    </md-card-content>
-  </md-card>
+    </mat-card-content>
+  </mat-card>
 </div>

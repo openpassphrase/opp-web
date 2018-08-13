@@ -1,6 +1,7 @@
 export interface ICategory {
   id: number;
   name: string;
+  dirty?: string;
 }
 
 export interface IItem {
@@ -23,7 +24,7 @@ export interface IGenopts {
 }
 
 export interface IItemFormResult {
-  item: IItem,
+  item: IItem;
   auto_pass: boolean;
   genopts: IGenopts;
 }

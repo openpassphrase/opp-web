@@ -1,9 +1,7 @@
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
 
-import { ItemFormComponent } from './item-form.component';
+import { ItemFormComponent } from '@app/content/components/item-form/item-form.component';
 
 describe('ItemFormComponent', () => {
   let component: ItemFormComponent;
