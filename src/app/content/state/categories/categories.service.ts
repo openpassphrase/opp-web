@@ -35,13 +35,13 @@ export class CategoriesService {
   }
 
   addCategory(name: string) {
-    const dirty = this.categoriesStore.optimisticAdd(name);
+    const categoryId = this.categoriesStore.optimisticAdd(name);
 
     this.api.addCategory(name).subscribe(
-      res => this.categoriesStore.updateOptimistic(dirty, res.id),
+      res => this.categoriesStore.update(categoryId, { id: res.id }),
       err => {
         console.error(err);
-        this.categoriesStore.deleteOptimistic(dirty);
+        this.categoriesStore.remove(categoryId);
       }
     );
   }
@@ -76,15 +76,15 @@ export class CategoriesService {
   }
 
   addItem(info: IItemFormResult) {
-    this.itemsStore.add(info.item);
+    const itemId = this.itemsStore.optimisticAdd(info.item);
 
     this.api.addItem(info).subscribe(
       res => {
-        this.itemsStore.update(info.item.id, { password: res.password });
+        this.itemsStore.update(itemId, res);
       },
       err => {
         console.error(err);
-        this.itemsStore.remove(info.item.id);
+        this.itemsStore.remove(itemId);
       }
     );
   }

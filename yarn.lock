@@ -197,9 +197,9 @@
   dependencies:
     url "^0.11.0"
 
-"@datorama/akita@^1.4.0":
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/@datorama/akita/-/akita-1.4.0.tgz#0fe91363dcca6bc0bf4174d133b8ab8c8e559ad9"
+"@datorama/akita@^1.6.2":
+  version "1.6.2"
+  resolved "https://registry.yarnpkg.com/@datorama/akita/-/akita-1.6.2.tgz#7ef318eff210d47812ae6c3b7b25fd1361c7e782"
   dependencies:
     tslib "^1.9.0"
 
@@ -6181,7 +6181,7 @@ utils-merge@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
 
-uuid@^3.0.0, uuid@^3.0.1, uuid@^3.1.0, uuid@^3.3.2:
+uuid@^3.0.0, uuid@^3.0.1, uuid@^3.1.0:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.2.tgz#1b4af4955eb3077c501c23872fc6513811587131"
 

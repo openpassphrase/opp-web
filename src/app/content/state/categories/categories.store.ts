@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { EntityState, EntityStore, StoreConfig } from '@datorama/akita';
+import { EntityState, EntityStore, StoreConfig, guid } from '@datorama/akita';
 import { ICategory } from '@app/content/models';
-import * as uuid from 'uuid/v4';
 
 export interface CategoriesState extends EntityState<ICategory> {
   ui: {
@@ -25,21 +24,12 @@ export class CategoriesStore extends EntityStore<CategoriesState, ICategory> {
   }
 
   optimisticAdd(name: string) {
-    const category = { id: -1, name, dirty: uuid() };
+    const category = { id: guid(), name };
     this.add(category);
-    return category.dirty;
-  }
-
-  updateOptimistic(dirty: string, categoryId: number) {
-    this.update(e => e.dirty === dirty, { id: categoryId });
-  }
-
-  deleteOptimistic(dirty: string) {
-    this.remove(e => e.dirty === dirty);
+    return category.id;
   }
 
   setIsPathPhraseCorrect(isCorrect: boolean) {
     this.updateRoot({ ui: { isPathPhraseCorrect: isCorrect } });
   }
 }
-

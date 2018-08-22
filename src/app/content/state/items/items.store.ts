@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { EntityState, EntityStore, StoreConfig } from '@datorama/akita';
+import { EntityState, EntityStore, StoreConfig, ID, guid } from '@datorama/akita';
 import { IItem } from '@app/content/models';
 
 export interface ItemsState extends EntityState<IItem> {}
@@ -12,11 +12,17 @@ export class ItemsStore extends EntityStore<ItemsState, IItem> {
     super();
   }
 
-  removeForCategory(id: number) {
+  optimisticAdd(item: IItem) {
+    item.id = guid();
+    this.add(item);
+    return item.id;
+  }
+
+  removeForCategory(id: ID) {
     this.remove(x => x.category_id === id);
   }
 
-  setCategoryUndefined(categoryId: number) {
+  setCategoryUndefined(categoryId: ID) {
     this.update(
       x => x.category_id === categoryId,
       { category_id: undefined }

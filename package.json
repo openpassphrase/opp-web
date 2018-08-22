@@ -29,14 +29,13 @@
     "@angular/platform-browser-dynamic": "^6.1.0",
     "@angular/router": "^6.1.0",
     "@auth0/angular-jwt": "^2.0.0",
-    "@datorama/akita": "^1.4.0",
+    "@datorama/akita": "^1.6.2",
     "core-js": "^2.5.4",
     "immer": "^1.5.0",
     "ng2-validation": "^4.2.0",
     "ngx-clipboard": "^11.1.1",
     "ngx-messages": "^0.3.0",
     "rxjs": "^6.0.0",
-    "uuid": "^3.3.2",
     "zone.js": "~0.8.26"
   },
   "devDependencies": {
@@ -47,7 +46,6 @@
     "@types/jasmine": "~2.8.6",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "~8.9.4",
-    "@types/uuid": "^3.4.3",
     "codelyzer": "~4.2.1",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",

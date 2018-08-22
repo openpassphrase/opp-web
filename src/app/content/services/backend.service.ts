@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map, share } from 'rxjs/operators';
 import { ICategory, IItem, IItemFormResult } from '@app/content/models';
+import { ID } from '@datorama/akita';
 
 export interface IBackendService {
   fetchAll(): Observable<{ categories: ICategory[], items: IItem[] }>;
@@ -59,7 +60,7 @@ export class BackendService implements IBackendService {
     );
   }
 
-  removeCategory(opts: { id: number, cascade: boolean }) {
+  removeCategory(opts: { id: ID, cascade: boolean }) {
     return this.http.request('delete', this.categoriesEndpoint, {
       body: {
         cascade: opts.cascade,
@@ -95,7 +96,7 @@ export class BackendService implements IBackendService {
     );
   }
 
-  removeItem(id: number) {
+  removeItem(id: ID) {
     return this.http.request('delete', this.itemsEndpoint, {
       body: { ids: [id] }
     });
