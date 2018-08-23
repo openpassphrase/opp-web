@@ -19,7 +19,7 @@ export class SecretPhraseInputComponent implements OnInit {
 
   ngOnInit() {
     this.categoriesQuery.selectIsPathPhraseCorrect().pipe(
-      filter(isCorrect => isCorrect),
+      filter(isCorrect => !!isCorrect),
       tap(() => {
         this.secretPhrase.setValue('');
       }),

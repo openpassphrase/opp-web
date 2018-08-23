@@ -7,7 +7,6 @@ import {
 } from '@angular/common/http';
 import { tap, catchError } from 'rxjs/operators';
 import { CategoriesService } from '@app/content/state/categories';
-import { of } from 'rxjs';
 
 @Injectable()
 export class LoadingInterceptor implements HttpInterceptor {
@@ -26,7 +25,7 @@ export class LoadingInterceptor implements HttpInterceptor {
       }),
       catchError(err => {
         this.decreaseRequests();
-        return of(err);
+        throw err;
       })
     );
   }

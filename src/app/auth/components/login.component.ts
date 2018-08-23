@@ -74,7 +74,7 @@ export class LoginComponent implements OnInit {
           if (error.status === 401) {
             this.snackBar.open('invalid user name or password.', undefined, { duration: 6000 });
           } else {
-            console.log(error);
+            console.error(error);
           }
         });
     }
