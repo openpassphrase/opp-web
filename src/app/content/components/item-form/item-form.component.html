@@ -1,6 +1,7 @@
 <h1 mat-dialog-title>{{action}}</h1>
 
 <mat-dialog-content>
+  <div fxFlex="100" fxFlex.gt-xs="420px">
   <form novalidate [formGroup]="saveItemForm" (ngSubmit)="saveItem()" fxFlexFill>
     <div fxLayout="column" fxLayout.xs="row" fxLayout.gt-sm="row" fxLayoutGap="10px">
       <div fxFlex>
@@ -26,6 +27,7 @@
               placeholder="URL"
               autocomplete="off"
               type="url">
+
             <mat-hint [val-messages]="saveItemForm.get('url')">
               <span val-message="url">Not a valid URL</span>
             </mat-hint>
@@ -74,15 +76,18 @@
           </div>
 
           <div>
-            <mat-select placeholder="Number of words to generate" formControlName="numwords">
-              <mat-option *ngFor="let num of [1,2,3,4,5,6]" [value]="num">
-                {{num}}
-              </mat-option>
-            </mat-select>
+            <mat-form-field>
+              <mat-select placeholder="Number of words to generate" formControlName="numwords">
+                <mat-option *ngFor="let num of [1,2,3,4,5,6]" [value]="num">
+                  {{num}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
           </div>
         </mat-card>
       </div>
     </div>
+    
     
     <div fxLayout>
       <mat-form-field fxFlex>
@@ -107,4 +112,5 @@
       </button>
     </div>
   </form>
+  </div>
 </mat-dialog-content>

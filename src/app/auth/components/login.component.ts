@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -12,12 +12,16 @@ import { environment } from '../../../environments/environment';
 })
 export class LoginComponent implements OnInit {
 
-  @ViewChild('username') username: ElementRef;
-
   authForm: FormGroup;
   userNameAutocompleteState = 'off';
   showTokenExp = false;
   loading = false;
+
+  deltaMultiplierOpts = [
+    { val: '60', text: 'minutes' },
+    { val: '3600', text: 'hours' },
+    { val: '86400', text: 'days' },
+  ];
 
   constructor(
     private auth: Auth,
@@ -30,8 +34,8 @@ export class LoginComponent implements OnInit {
     this.authForm = this._fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required],
-      exp_delta_amount: [''],
-      exp_delta_multiplier: ['']
+      exp_delta_amount: [5],
+      exp_delta_multiplier: ['60']
     });
 
     const exp_delta_amountCtrl = this.authForm.controls['exp_delta_amount'];
@@ -41,6 +45,13 @@ export class LoginComponent implements OnInit {
       const notEmpty = newVal !== undefined && newVal !== null && newVal !== '';
       exp_delta_multiplierCtrl.setValidators(notEmpty ? Validators.required : null);
       exp_delta_multiplierCtrl.updateValueAndValidity({ emitEvent: false });
+
+      if (notEmpty) {
+        const intVal = parseInt(newVal);
+        this.deltaMultiplierOpts = this.deltaMultiplierOpts.map(opt => ({
+          ...opt, text: pluralizeTime(intVal, opt.val)
+        }));
+      }
     });
 
     exp_delta_multiplierCtrl.valueChanges.subscribe(newVal => {
@@ -79,4 +90,21 @@ export class LoginComponent implements OnInit {
         });
     }
   }
+}
+
+export function pluralizeTime(num: number, multiplier: string) {
+  let m = 'minute';
+  let h = 'hour';
+  let d = 'day';
+
+  if (num > 1) {
+    m = m + 's';
+    h = h + 's';
+    d = d + 's';
+  }
+
+  if (multiplier === '60') { return m; }
+  if (multiplier === '3600') { return h; }
+  if (multiplier === '86400') { return d; }
+  throw new Error(`Unexpected value for multiplier: ${multiplier}`);
 }
