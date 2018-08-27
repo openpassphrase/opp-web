@@ -1,34 +1,34 @@
 <td data-th="Name:" class="cell">
-  <a *ngIf="item.url" [href]="item.url" target="_blank" [mdTooltip]="item.name">{{item.name}}</a>
+  <a *ngIf="item.url" [href]="item.url" target="_blank" [matTooltip]="item.name">{{item.name}}</a>
   <span *ngIf="!item.url">{{item.name}}</span>
 </td>
 
-<td data-th="Account:" ngxClipboard [cbContent]="item.account" (cbOnSuccess)="copied()" class="cell" [mdTooltip]="item.account">
+<td data-th="Account:" ngxClipboard [cbContent]="item.account" (cbOnSuccess)="copied()" class="cell" [matTooltip]="item.account">
   {{item.account}}
 </td>
 
-<td data-th="Username:" ngxClipboard [cbContent]="item.username" (cbOnSuccess)="copied()" class="cell" [mdTooltip]="item.username">
+<td data-th="Username:" ngxClipboard [cbContent]="item.username" (cbOnSuccess)="copied()" class="cell" [matTooltip]="item.username">
   {{item.username}}
 </td>
 
-<td data-th="Password:" ngxClipboard [cbContent]="item.password" (cbOnSuccess)="copied()" class="cell" [mdTooltip]="item.password">
+<td data-th="Password:" ngxClipboard [cbContent]="item.password" (cbOnSuccess)="copied()" class="cell" [matTooltip]="item.password">
   {{item.password}}
 </td>
 
-<td data-th="Blob:" ngxClipboard [cbContent]="item.blob" (cbOnSuccess)="copied()" class="cell" [mdTooltip]="item.blob">
+<td data-th="Blob:" ngxClipboard [cbContent]="item.blob" (cbOnSuccess)="copied()" class="cell" [matTooltip]="item.blob">
   {{item.blob}}
 </td>
 
 <td fxLayout fxLayoutGap="10px">
-  <button md-mini-fab md-tooltip="Edit item"
+  <button mat-mini-fab matTooltip="Edit item"
     (click)="promptEdit()"
     type="button">
-    <md-icon>edit</md-icon>
+    <mat-icon>edit</mat-icon>
   </button>
 
-  <button md-mini-fab md-tooltip="Delete item"
+  <button mat-mini-fab matTooltip="Delete item"
     (click)="promptDelete()"
     type="button">
-    <md-icon>delete</md-icon>
+    <mat-icon>delete</mat-icon>
   </button>
 </td>

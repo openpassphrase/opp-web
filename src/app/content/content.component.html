@@ -1,17 +1,26 @@
 <app-header
   [loggedIn]="auth.isLoggedIn"
   (logout)="logout()"
-  (secretPhraseChange)="secretPhraseChange($event)"
-  ></app-header>
+></app-header>
 
 <div fxLayout fxLayoutAlign="center start">
-  <div fxFlex="100" fxFlex.gt-xs="95" fxFlex.gt-sm="800px" >
+  <div fxFlex="100" fxFlex.gt-xs="95" fxFlex.gt-sm="800px">
 
-    <md-progress-bar 
-      *ngIf="loading$ | async"
-      color="accent"
-      mode="indeterminate">
-    </md-progress-bar>
+    <div class="progress-bar-wrapper">
+      <mat-progress-bar
+        *ngIf="loading$ | async"
+        color="accent"
+        mode="indeterminate">
+      </mat-progress-bar>
+    </div>
+
+    <div fxLayout fxLayoutAlign="center center" *ngIf="isPathPhraseIncorrect$ | async">
+      <mat-card fxFlex="95" fxFlex.gt-xs="300px">
+        <mat-card-content>
+          <app-secret-phrase-input></app-secret-phrase-input>
+        </mat-card-content>
+      </mat-card>
+    </div>
 
     <app-category-list></app-category-list>
   </div>

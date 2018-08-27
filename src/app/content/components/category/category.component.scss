@@ -1,7 +1,11 @@
 @import '~@angular/material/_theming';
 
-.category {
-  //margin: 10px 0;
+:host {
+  padding: 10px 0;
+}
+
+.ml-10 {
+  margin-left: -10px;
 }
 
 .shadow-wrapper {

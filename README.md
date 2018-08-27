@@ -31,6 +31,11 @@ docker run -p 5000:5000 -it opp
 Then run one of the following commands, which will start local dev server, but point any /api requests to the running instance of Opp server
 * `yarn start`.
 
+### Test user credentials:
+* username: demo
+* password: demo
+* passphrase: phrase
+
 ### Build
 Project is compiled into *dist* folder.
 * `yarn build`.

@@ -1,31 +1,25 @@
-import 'rxjs/add/operator/withLatestFrom';
-import 'rxjs/add/operator/scan';
-import 'rxjs/add/operator/distinctUntilChanged';
-
 import {
   Component, OnInit, OnDestroy, HostListener, Inject, ViewChildren,
-  QueryList, ElementRef, Renderer, AfterViewInit
+  QueryList, ElementRef, Renderer, AfterViewInit, ChangeDetectionStrategy
 } from '@angular/core';
-import { MdExpansionPanel, MdExpansionPanelHeader } from '@angular/material';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
-import { Store } from '@ngrx/store';
+import { MatExpansionPanel, MatExpansionPanelHeader } from '@angular/material';
+import { Observable, Subject, of } from 'rxjs';
+import { scan, distinctUntilChanged, takeUntil, withLatestFrom, filter, switchMap, take } from 'rxjs/operators';
 import { DOCUMENT } from '@angular/platform-browser';
-
-import * as fromRoot from '../../store/reducers';
-import * as category from '../../store/actions/categories';
-import * as item from '../../store/actions/items';
 
 import {
   IItem, IItemFormResult, ICategoryItems, IUpdateCategoryPayload,
   IRemoveCategoryPayload, IUpdateItemPayload, ICategory
-} from '../../models';
-import { ScrollToService } from '../../services/scrollTo';
+} from '@app/content/models';
+import { ScrollToService } from '@app/content/services/scrollTo';
+import { CategoriesService, CategoriesQuery } from '../../state/categories';
+import { ItemsQuery } from '../../state/items';
 
 @Component({
   selector: 'app-category-list',
   templateUrl: './category-list.component.html',
-  styleUrls: ['./category-list.component.scss']
+  styleUrls: ['./category-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {
   private ngUnsubscribe = new Subject<any>();
@@ -35,23 +29,25 @@ export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {
   keyPressed$ = new Subject<string>();
   searchFor$: Observable<string>;
 
-  @ViewChildren(MdExpansionPanel) expansionPanels: QueryList<MdExpansionPanel>;
-  @ViewChildren(MdExpansionPanelHeader, { read: ElementRef }) expansionPanelsHtml: QueryList<ElementRef>;
+  @ViewChildren(MatExpansionPanel) expansionPanels: QueryList<MatExpansionPanel>;
+  @ViewChildren(MatExpansionPanelHeader, { read: ElementRef }) expansionPanelsHtml: QueryList<ElementRef>;
 
   constructor(
-    public store: Store<fromRoot.State>,
+    private categoriesService: CategoriesService,
+    private categoriesQuery: CategoriesQuery,
+    private itemsQuery: ItemsQuery,
     @Inject(DOCUMENT) private document: any,
     private renderer: Renderer,
     private scroll: ScrollToService
   ) { }
 
   ngOnInit() {
-    this.categories$ = this.store.let(fromRoot.getCategoryItems);
-    this.isCorrectPhrase$ = this.store.let(fromRoot.getIsCorrectPhrase);
-    this.itemsWithoutCategory$ = this.store.let(fromRoot.getItemsWithoutCategory);
+    this.categories$ = this.categoriesQuery.selectCategoryItems();
+    this.isCorrectPhrase$ = this.categoriesQuery.selectIsPathPhraseCorrect();
+    this.itemsWithoutCategory$ = this.itemsQuery.selectItemsWithoutCategory();
 
-    this.searchFor$ = this.keyPressed$
-      .scan((acc: string, curr: string) => {
+    this.searchFor$ = this.keyPressed$.pipe(
+      scan((acc: string, curr: string) => {
         if (curr === 'Escape') {
           if (acc === '') {
             const panel = this.expansionPanels.find(x => x.expanded);
@@ -61,39 +57,43 @@ export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {
         }
         if (curr === 'Backspace') { return acc.slice(0, acc.length - 1); }
         return curr.length > 1 ? acc : acc + curr;
-      }, '')
-      .distinctUntilChanged();
+      }, ''),
+      distinctUntilChanged()
+    );
 
-    this.searchFor$
-      .takeUntil(this.ngUnsubscribe)
-      .withLatestFrom(this.categories$)
-      .filter(([s, c]) => s !== '' && c.length > 0 !== undefined)
-      .switchMap(([s, c]) => {
+    this.searchFor$.pipe(
+      takeUntil(this.ngUnsubscribe),
+      withLatestFrom(this.categories$),
+      filter(([s, c]) => s !== '' && c.length > 0 !== undefined),
+      switchMap(([s, c]) => {
         const ixs = c.reduce<number[]>((a, b, bIx) => {
           return b.name.toLocaleLowerCase().indexOf(s.toLocaleLowerCase()) === 0
-            ? [...a, bIx] : a
-        }, [])
-        return Observable.of(ixs);
-      })
-      .filter(ixs => ixs.length > 0)
-      .subscribe((ixs) => {
-        const panel = this.expansionPanels.find((item, panelIx) => panelIx === ixs[0]);
-        const panelHtml = this.expansionPanelsHtml.find((item, panelIx) => panelIx === ixs[0]);
-        if (panelHtml) {
-          this.focusElRef(panelHtml);
-          const el: HTMLElement = panelHtml.nativeElement;
-          this.scroll.scrollTo(el.offsetTop, 400);
-        }
-        if (panel && ixs.length === 1) { panel.open(); }
-      });
+            ? [...a, bIx] : a;
+        }, []);
+        return of(ixs);
+      }),
+      filter(ixs => ixs.length > 0)
+    ).subscribe((ixs) => {
+      const panel = this.expansionPanels.find((_item, panelIx) => panelIx === ixs[0]);
+      const panelHtml = this.expansionPanelsHtml.find((_item, panelIx) => panelIx === ixs[0]);
+      if (panelHtml) {
+        this.focusElRef(panelHtml);
+        const el: HTMLElement = panelHtml.nativeElement;
+        this.scroll.scrollTo(el.offsetTop, 400);
+      }
+      if (panel && ixs.length === 1) {
+        panel.open();
+      }
+    });
   }
 
   ngAfterViewInit() {
     // once category panels are displayed, focus on the first
-    this.expansionPanelsHtml.changes
-      .takeUntil(this.ngUnsubscribe)
-      .filter(c => c.length > 0)
-      .take(1)
+    this.expansionPanelsHtml.changes.pipe(
+      takeUntil(this.ngUnsubscribe),
+      filter(c => c.length > 0),
+      take(1)
+    )
       .subscribe(() => {
         setTimeout(() => {
           this.focusElRef(this.expansionPanelsHtml.first);
@@ -102,39 +102,31 @@ export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   addCategory(name: string) {
-    this.store.dispatch(new category.AddCategoryAction(name));
+    this.categoriesService.addCategory(name);
   }
 
   removeCategory(info: IRemoveCategoryPayload) {
-    if (info.cascade) {
-      this.store.dispatch(new item.RemoveItemsFromCategory(info.category.id));
-    } else {
-      this.store.dispatch(new item.SetItemsCategoryByCategoryId({
-        fromCategoryId: info.category.id,
-        toCategoryId: undefined
-      }));
-    }
-    this.store.dispatch(new category.RemoveCategoryAction(info));
+    this.categoriesService.removeCategory(info);
   }
 
   updateCategory(info: IUpdateCategoryPayload) {
-    this.store.dispatch(new category.EditCategoryAction(info));
+    this.categoriesService.updateCategory(info);
   }
 
   addItem(info: IItemFormResult) {
-    this.store.dispatch(new item.AddItemAction(info));
+    this.categoriesService.addItem(info);
   }
 
   updateItem(info: IUpdateItemPayload) {
-    this.store.dispatch(new item.UpdateItemAction(info));
+    this.categoriesService.updateItem(info);
   }
 
   removeItem(i: IItem) {
-    this.store.dispatch(new item.RemoveItemAction(i));
+    this.categoriesService.removeItem(i);
   }
 
-  trackCategoriesBy(index: number, category: ICategory) {
-    return category.id !== undefined ? category.id : index;
+  trackCategoriesBy(index: number, cat: ICategory) {
+    return cat.id !== undefined ? cat.id : index;
   }
 
   toggleAll() {

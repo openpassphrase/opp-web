@@ -1,5 +1,7 @@
 @import '~@angular/material/_theming';
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+$config: mat-typography-config();
+$mat-font-family: mat-font-family($config);
 
 html {
   height: 100%;
@@ -48,6 +50,20 @@ body {
   font-feature-settings: 'liga';
 }
 
+// sass-lint:disable force-attribute-nesting
+button.mat-mini-fab {
+  height: 30px;
+  width: 30px;
+
+  .mat-button-wrapper {
+    padding: 0;
+  }
+
+  mat-icon {
+    font-size: 18px;
+  }
+}
+
 [val-message] {
   color: red;
 }
@@ -66,4 +82,12 @@ body {
   background-color: #ffd740;
   padding: 1px 2px;
   border-radius: 4px;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.mt-1 {
+  margin-top: 0.5rem;
 }

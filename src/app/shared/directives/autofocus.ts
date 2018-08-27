@@ -14,7 +14,7 @@ export class AutofocusDirective implements AfterViewInit {
     this._autofocus = condition !== false;
   }
 
-  @Input() focusOnKey: string;
+  @Input() focusOnKey: string | undefined;
 
   constructor(
     private el: ElementRef,

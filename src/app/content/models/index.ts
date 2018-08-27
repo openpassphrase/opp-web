@@ -1,10 +1,13 @@
+import { ID } from '@datorama/akita';
+
 export interface ICategory {
-  id: number;
+  id: ID;
   name: string;
+  dirty?: string;
 }
 
 export interface IItem {
-  id: number;
+  id: ID;
   name?: string;
   url?: string;
   account?: string;
@@ -23,7 +26,7 @@ export interface IGenopts {
 }
 
 export interface IItemFormResult {
-  item: IItem,
+  item: IItem;
   auto_pass: boolean;
   genopts: IGenopts;
 }

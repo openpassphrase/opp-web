@@ -17,18 +17,6 @@ $highlight-color: #fff6d0;
   }
 }
 
-// sass-lint:disable force-attribute-nesting
-button[md-mini-fab] {
-  height: 30px;
-  width: 30px;
-
-  md-icon {
-    font-size: 18px;
-    line-height: 24px;
-    padding: 4px 0;
-  }
-}
-
 .cell {
   overflow: hidden;
   text-overflow: ellipsis;

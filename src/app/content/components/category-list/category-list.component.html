@@ -1,14 +1,14 @@
-<md-card *ngIf="searchFor$ | async as searchFor" class="search-for">
-  <md-card-content>
+<mat-card *ngIf="searchFor$ | async as searchFor" class="search-for">
+  <mat-card-content>
     Search for: <span class="highlighted">{{searchFor}}</span>
-  </md-card-content>
-</md-card>
+  </mat-card-content>
+</mat-card>
 
-<div fxLayout>
-  <button md-mini-fab md-tooltip="Toggle all categories" *ngIf="(categories$ | async).length"
+<div fxLayout fxLayoutAlign="start center">
+  <button mat-mini-fab matTooltip="Toggle all categories" *ngIf="(categories$ | async)!.length"
     (click)="toggleAll()"
     type="button">
-    <md-icon>{{areAllClosed() ? 'border_outer' : 'border_horizontal'}}</md-icon>
+    <mat-icon>{{areAllClosed() ? 'border_outer' : 'border_horizontal'}}</mat-icon>
   </button>
 
   <span fxFlex></span>
@@ -17,9 +17,9 @@
 </div>
 
 <div class="categories">
-  <md-accordion>
-    <md-expansion-panel *ngFor="let c of categories$ | async; trackBy: trackCategoriesBy" #panel>
-      <md-expansion-panel-header>
+  <mat-accordion>
+    <mat-expansion-panel *ngFor="let c of categories$ | async; trackBy: trackCategoriesBy" #panel>
+      <mat-expansion-panel-header>
         <app-category
           [category]="c"
           [isExpanded]="panel.expanded"
@@ -29,7 +29,7 @@
           (addItem)="addItem($event)"
         >
         </app-category>
-      </md-expansion-panel-header>
+      </mat-expansion-panel-header>
 
       <div class="category-items">
         <table class="resp-table">
@@ -50,8 +50,8 @@
           </tr>
         </table>
       </div>
-    </md-expansion-panel>
-  </md-accordion>
+    </mat-expansion-panel>
+  </mat-accordion>
 </div>
 
 <div>

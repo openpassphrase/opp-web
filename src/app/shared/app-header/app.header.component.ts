@@ -1,10 +1,8 @@
 import {
-  ChangeDetectionStrategy, Component, EventEmitter, Input, Output, OnInit,
+  ChangeDetectionStrategy, Component, EventEmitter, Input, Output,
   AfterViewInit, HostListener
 } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/debounceTime';
+import { Observable, of } from 'rxjs';
 
 import * as versionFile from '../../../assets/version.json';
 
@@ -14,37 +12,16 @@ import * as versionFile from '../../../assets/version.json';
   templateUrl: './app.header.component.html',
   styleUrls: ['./app.header.component.scss']
 })
-export class AppHeaderComponent implements OnInit, AfterViewInit {
-  @Input() loggedIn: Observable<boolean>;
+export class AppHeaderComponent implements AfterViewInit {
+  @Input() loggedIn: Observable<boolean> | undefined;
   @Output() logout = new EventEmitter(false);
-  @Output() secretPhraseChange = new EventEmitter(false);
 
-
-  secretPhrase: FormControl;
-  version: String;
-
-  constructor() { }
-
-  ngOnInit() {
-    this.version = 'Version: ' + (versionFile as any).version;
-    this.secretPhrase = new FormControl('', [Validators.required, Validators.minLength(6)]);
-    this.secretPhrase.valueChanges
-      .debounceTime(500)
-      .subscribe((newValue) => {
-        this.secretPhraseChange.emit(this.secretPhrase.valid ? newValue : undefined);
-      });
-  }
+  version = 'Version: ' + (versionFile as any).version;
 
   ngAfterViewInit() {
     if (!this.loggedIn) {
-      this.loggedIn = Observable.of(false);
+      this.loggedIn = of(false);
     }
-    this.loggedIn.subscribe((isLoggedIn) => {
-      if (!isLoggedIn) {
-        this.secretPhrase.setValue('');
-        this.secretPhrase.markAsPristine();
-      }
-    });
   }
 
   signOut() {

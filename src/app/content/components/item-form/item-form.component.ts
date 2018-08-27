@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, HostListener } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { MdDialogRef } from '@angular/material';
+import { MatDialogRef } from '@angular/material';
 import { CustomValidators } from 'ng2-validation';
-import { IItem, IItemFormResult } from '../../models';
+import { IItem, IItemFormResult } from '@app/content/models';
 
 
 @Component({
@@ -18,7 +18,7 @@ export class ItemFormComponent implements OnInit {
   public action: String;
 
   constructor(
-    public dialogRef: MdDialogRef<ItemFormComponent>,
+    public dialogRef: MatDialogRef<ItemFormComponent>,
     private _fb: FormBuilder
   ) { }
 
@@ -47,13 +47,13 @@ export class ItemFormComponent implements OnInit {
         item: this.saveItemForm.value,
         auto_pass: this.autoGenPassword.value,
         genopts: this.genopts.value
-      }
+      };
       this.dialogRef.close(result);
     }
   }
 
   @HostListener('document:keydown', ['$event'])
-  keyboardInput(event: KeyboardEvent) {
+  closeOnEsc(event: KeyboardEvent) {
     if (event.keyCode === 27) {
       this.dialogRef.close(null);
     }

@@ -1,13 +1,19 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { JwtModule } from '@auth0/angular-jwt';
 
-import { AppRoutingModule } from './app-routing.module';
-import { SharedModule } from './shared/shared.module';
+import { AppRoutingModule } from '@app/app-routing.module';
+import { SharedModule } from '@app/shared/shared.module';
 
-import { Auth, AuthGuard, UnAuthGuard } from './shared/auth-services'
-import { AppComponent } from './app.component';
+import { Auth, AuthGuard, UnAuthGuard } from '@app/shared/auth-services';
+import { AppComponent } from '@app/app.component';
+import { PhraseInterceptor, LoadingInterceptor } from '@app/content/services';
+
+export function tokenGetter() {
+  return sessionStorage.getItem('id_token');
+}
 
 @NgModule({
   declarations: [
@@ -17,13 +23,26 @@ import { AppComponent } from './app.component';
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    HttpModule,
+    HttpClientModule,
+    JwtModule.forRoot({
+      config: { tokenGetter, headerName: 'x-opp-jwt', authScheme: '' }
+    }),
     SharedModule,
   ],
   providers: [
     Auth,
     AuthGuard,
     UnAuthGuard,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: PhraseInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoadingInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

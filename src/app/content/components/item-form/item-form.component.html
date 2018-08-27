@@ -1,111 +1,116 @@
-<h1 md-dialog-title>{{action}}</h1>
+<h1 mat-dialog-title>{{action}}</h1>
 
-<md-dialog-content>
+<mat-dialog-content>
+  <div fxFlex="100" fxFlex.gt-xs="420px">
   <form novalidate [formGroup]="saveItemForm" (ngSubmit)="saveItem()" fxFlexFill>
-    <div fxLayout="column" fxLayout.gt-xs fxLayoutGap="10px">
+    <div fxLayout="column" fxLayout.xs="row" fxLayout.gt-sm="row" fxLayoutGap="10px">
       <div fxFlex>
         <div>
-          <md-input-container>
-            <input mdInput 
+          <mat-form-field>
+            <input matInput 
               formControlName="name"
               placeholder="Name"
               required
               autocomplete="off"
               type="text"
               focused>
-            <md-hint [val-messages]="saveItemForm.get('name')">
+            <mat-hint [val-messages]="saveItemForm.get('name')">
               <span val-message="required">Required</span>
-            </md-hint>
-          </md-input-container>
+            </mat-hint>
+          </mat-form-field>
         </div>
 
         <div>
-          <md-input-container>
-            <input mdInput 
+          <mat-form-field>
+            <input matInput 
               formControlName="url"
               placeholder="URL"
               autocomplete="off"
               type="url">
-            <md-hint [val-messages]="saveItemForm.get('url')">
+
+            <mat-hint [val-messages]="saveItemForm.get('url')">
               <span val-message="url">Not a valid URL</span>
-            </md-hint>
-          </md-input-container>
+            </mat-hint>
+          </mat-form-field>
         </div>
 
         <div>
-          <md-input-container>
-            <input mdInput 
+          <mat-form-field>
+            <input matInput 
               formControlName="account"
               placeholder="Account"
               autocomplete="off"
               type="text">
-          </md-input-container>
+          </mat-form-field>
         </div>
       </div>
 
       <div fxFlex>
         <div>
-          <md-input-container>
-            <input mdInput 
+          <mat-form-field>
+            <input matInput 
               formControlName="username"
               placeholder="Username"
               autocomplete="off"
               type="text">
-          </md-input-container>
+          </mat-form-field>
         </div>
 
         <div>
-          <md-checkbox [formControl]="autoGenPassword" class="input-height">Auto-generate password</md-checkbox>
+          <mat-checkbox [formControl]="autoGenPassword" class="input-height">Auto-generate password</mat-checkbox>
         </div>
 
         <div *ngIf="!autoGenPassword.value">
-          <md-input-container>
-            <input mdInput 
+          <mat-form-field>
+            <input matInput 
               formControlName="password"
               placeholder="Password"
               autocomplete="off"
               type="text">
-          </md-input-container>
+          </mat-form-field>
         </div>
 
-        <md-card *ngIf="autoGenPassword.value" [formGroup]="genopts">
+        <mat-card *ngIf="autoGenPassword.value" [formGroup]="genopts">
           <div>
             <h5>Password generation options:</h5>
           </div>
 
           <div>
-            <md-select placeholder="Number of words to generate" formControlName="numwords">
-              <md-option *ngFor="let num of [1,2,3,4,5,6]" [value]="num">
-                {{num}}
-              </md-option>
-            </md-select>
+            <mat-form-field>
+              <mat-select placeholder="Number of words to generate" formControlName="numwords">
+                <mat-option *ngFor="let num of [1,2,3,4,5,6]" [value]="num">
+                  {{num}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
           </div>
-        </md-card>
+        </mat-card>
       </div>
     </div>
     
+    
     <div fxLayout>
-      <md-input-container fxFlex>
-        <textarea mdInput 
+      <mat-form-field fxFlex>
+        <textarea matInput
           formControlName="blob"
           placeholder="Blob"
           autocomplete="off"
           type="text">
         </textarea>
-      </md-input-container>
+      </mat-form-field>
     </div>
 
     <div fxLayout fxLayoutGap="10px">
       <span fxFlex [fxHide.xs]="true"></span>
 
-      <button md-raised-button type="submit" [disabled]="!saveItemForm.valid" color="accent">
+      <button mat-raised-button type="submit" [disabled]="!saveItemForm.valid" color="accent">
         Save
       </button>
 
-      <button md-button type="button" (click)="dialogRef.close()">
+      <button mat-button type="button" (click)="dialogRef.close()">
         Cancel
       </button>
     </div>
-
   </form>
-</md-dialog-content>
+  </div>
+</mat-dialog-content>
