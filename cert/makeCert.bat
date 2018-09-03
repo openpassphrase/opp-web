@@ -38,7 +38,7 @@ echo subjectAltName = @alt_names
 echo:
 echo [alt_names]
 echo DNS.1 = localhost
-echo DNS.2 = 72.222.198.221
+echo DNS.2 = myweb.com
 )>%HOSTNAME%.cnf
 
 openssl.exe req -new -x509 -newkey rsa:2048 -sha256 -nodes -keyout %HOSTNAME%.key -days 3560 -out %HOSTNAME%.crt -config %HOSTNAME%.cnf
