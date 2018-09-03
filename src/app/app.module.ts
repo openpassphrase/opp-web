@@ -1,6 +1,4 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtModule } from '@auth0/angular-jwt';
 
@@ -10,6 +8,10 @@ import { SharedModule } from '@app/shared/shared.module';
 import { Auth, AuthGuard, UnAuthGuard } from '@app/shared/auth-services';
 import { AppComponent } from '@app/app.component';
 import { PhraseInterceptor, LoadingInterceptor } from '@app/content/services';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
+import { CoreModule } from '@app/core/core.module';
+import { PwaService } from '@app/core/pwa.service';
 
 export function tokenGetter() {
   return sessionStorage.getItem('id_token');
@@ -17,17 +19,17 @@ export function tokenGetter() {
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
+    CoreModule,
     AppRoutingModule,
     HttpClientModule,
     JwtModule.forRoot({
       config: { tokenGetter, headerName: 'x-opp-jwt', authScheme: '' }
     }),
     SharedModule,
+    ServiceWorkerModule.register('./ngsw-worker.js', { enabled: environment.production }),
   ],
   providers: [
     Auth,
@@ -46,4 +48,4 @@ export function tokenGetter() {
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

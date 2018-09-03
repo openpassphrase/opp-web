@@ -13,6 +13,8 @@ import { AppHeaderComponent } from '@app/shared/app-header/app.header.component'
 import { AutofocusDirective } from '@app/shared/directives/autofocus';
 import { HighlightPipe } from '@app/shared/directives/highlightPipe';
 import { CapitalizePipe } from '@app/shared/directives/capitalizePipe';
+import { InstallPwaComponent } from '@app/shared/install-pwa/install-pwa.component';
+import { UpdateAvailableComponent } from '@app/shared/update-available/update-available.component';
 
 
 export const ANGULAR_MATERIAL_MODULES = [
@@ -34,15 +36,22 @@ export const ANGULAR_MATERIAL_MODULES = [
     ...ANGULAR_MATERIAL_MODULES,
     ReactiveFormsModule,
     AppHeaderComponent,
+    InstallPwaComponent,
+    UpdateAvailableComponent,
     AutofocusDirective,
     HighlightPipe,
     CapitalizePipe
   ],
   declarations: [
     AppHeaderComponent,
+    InstallPwaComponent,
+    UpdateAvailableComponent,
     AutofocusDirective,
     HighlightPipe,
     CapitalizePipe
   ],
+  entryComponents: [
+    UpdateAvailableComponent
+  ]
 })
 export class SharedModule { }

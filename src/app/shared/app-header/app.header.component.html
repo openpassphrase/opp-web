@@ -4,8 +4,10 @@
     fxLayoutAlign="space-between center">
     <span fxHide.xs>
       Open Pass Phrase<br>
-      <font size="-1">{{version}}</font>
+      <span class="font-sm">{{version}}</span>
     </span>
+
+    <app-install-pwa></app-install-pwa>
 
     <button mat-button color="accent" *ngIf="loggedIn | async" (click)="signOut()">Sign out</button>
   </div>
