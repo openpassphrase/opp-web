@@ -7,14 +7,14 @@
     "start": "ng serve --proxy-config proxy.conf.json",
     "start:prod": "ng serve --proxy-config proxy.conf.json --prod",
     "build": "ng build",
-    "build:prod": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "buildprod": "node make_version.js && ng build --prod --base-href /opp --deploy-url opp/ --aot",
-    "builddemo": "node make_version.js && ng build --prod --base-href /demo --deploy-url demo/ --aot",
-    "buildtest": "node make_version.js && ng build --aot",
-    "server:dist": "http-server ./dist/web/ -S -C cert/localhost.crt -K cert/localhost.key -P http://localhost:5000"
+    "build:prod": "node make_version.js && ng build --prod --base-href /opp --deploy-url opp/ --aot",
+    "build:demo": "node make_version.js && ng build --prod --base-href /demo --deploy-url demo/ --aot",
+    "build:test": "node make_version.js && ng build --aot",
+    "server:dist": "http-server ./dist/web/ -S -C cert/localhost.crt -K cert/localhost.key -P http://localhost:5000",
+    "precommit": "yarn lint && yarn build:prod"
   },
   "private": true,
   "dependencies": {
@@ -57,6 +57,7 @@
     "karma-coverage-istanbul-reporter": "~2.0.0",
     "karma-jasmine": "~1.1.1",
     "karma-jasmine-html-reporter": "^0.2.2",
+    "pre-commit": "^1.2.2",
     "protractor": "~5.3.0",
     "ts-node": "~5.0.1",
     "tslint": "~5.9.1",
@@ -65,5 +66,9 @@
   "akitaCli": {
     "customFolderName": "true",
     "basePath": "./src/app/"
-  }
+  },
+  "pre-commit": [
+    "lint",
+    "build:test"
+  ]
 }

@@ -1,5 +1,5 @@
-import { Component, OnInit, Output, EventEmitter, ViewChild, ElementRef, Renderer } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-add-category-form',
@@ -12,7 +12,7 @@ export class AddCategoryFormComponent implements OnInit {
   @Output() add = new EventEmitter<string>(false);
   @ViewChild('category') categoryInput: ElementRef;
 
-  constructor(private _fb: FormBuilder, private renderer: Renderer) { }
+  constructor(private _fb: FormBuilder) { }
 
   ngOnInit() {
     this.addCategoryForm = this._fb.group({
@@ -22,7 +22,7 @@ export class AddCategoryFormComponent implements OnInit {
 
   addCategory() {
     if (this.categoryControl.value.length) {
-      this.renderer.invokeElementMethod(this.categoryInput.nativeElement, 'blur');
+      this.categoryInput.nativeElement.blur();
       const name = this.addCategoryForm.value.category.trim();
       this.add.emit(name);
       this.clear();

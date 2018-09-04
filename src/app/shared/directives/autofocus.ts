@@ -1,7 +1,4 @@
-import {
-  Directive, ElementRef, Renderer, Input, AfterViewInit,
-  ChangeDetectorRef, HostListener
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Directive, ElementRef, HostListener, Input } from '@angular/core';
 
 @Directive({
   // tslint:disable-next-line:directive-selector
@@ -18,7 +15,6 @@ export class AutofocusDirective implements AfterViewInit {
 
   constructor(
     private el: ElementRef,
-    private renderer: Renderer,
     private _cd: ChangeDetectorRef
   ) { }
 
@@ -39,7 +35,7 @@ export class AutofocusDirective implements AfterViewInit {
   }
 
   private focus() {
-    this.renderer.invokeElementMethod(this.el.nativeElement, 'focus');
+    this.el.nativeElement.focus();
     this._cd.detectChanges();
   }
 }
