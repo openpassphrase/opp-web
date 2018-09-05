@@ -11,7 +11,7 @@ export interface IEnv {
 
 export const environment: IEnv = {
   name: 'dev',
-  baseHref: '/',
+  baseHref: '',
   isUserNameAutocompleteEnabled: true,
   showTokenExpirationCustomization: true
 };

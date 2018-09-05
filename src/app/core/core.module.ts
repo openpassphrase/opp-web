@@ -16,6 +16,8 @@ import { PwaService } from '@app/core/pwa.service';
 })
 export class CoreModule {
   constructor(pwa: PwaService) {
+    pwa.addManifestLink();
+
     // in some cases ServiceWorkerModule.register does not register service worker.
     // https://github.com/angular/angular/issues/20970
     // register it manually:

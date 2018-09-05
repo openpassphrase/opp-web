@@ -1,6 +1,6 @@
 export const environment = {
   name: 'prod',
-  baseHref: '/',
+  baseHref: '',
   isUserNameAutocompleteEnabled: false,
   showTokenExpirationCustomization: false
 };
