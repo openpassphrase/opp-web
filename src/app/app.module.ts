@@ -1,4 +1,4 @@
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { AppRoutingModule } from '@app/app-routing.module';
@@ -8,17 +8,17 @@ import { CoreModule } from '@app/core/core.module';
 import { Auth, AuthGuard, UnAuthGuard } from '@app/shared/auth-services';
 import { SharedModule } from '@app/shared/shared.module';
 import { JwtModule } from '@auth0/angular-jwt';
-
 import { environment } from '../environments/environment';
-
 
 export function tokenGetter() {
   return sessionStorage.getItem('id_token');
 }
 
+const swJs = `${environment.baseHref}/ngsw-worker.js`;
+
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     CoreModule,
@@ -28,7 +28,7 @@ export function tokenGetter() {
       config: { tokenGetter, headerName: 'x-opp-jwt', authScheme: '' }
     }),
     SharedModule,
-    ServiceWorkerModule.register('./ngsw-worker.js', { enabled: environment.production }),
+    ServiceWorkerModule.register(swJs, { enabled: environment.name !== 'dev' })
   ],
   providers: [
     Auth,

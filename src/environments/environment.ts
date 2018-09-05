@@ -2,8 +2,16 @@
 // `ng build ---prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-export const environment = {
-  production: false,
+export interface IEnv {
+  name: 'dev' | 'demo' | 'prod';
+  baseHref: string;
+  isUserNameAutocompleteEnabled: boolean;
+  showTokenExpirationCustomization: boolean;
+}
+
+export const environment: IEnv = {
+  name: 'dev',
+  baseHref: '/',
   isUserNameAutocompleteEnabled: true,
   showTokenExpirationCustomization: true
 };

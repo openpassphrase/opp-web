@@ -10,9 +10,9 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build:prod": "node make_version.js && ng build --prod --base-href /opp --deploy-url opp/ --aot",
-    "build:demo": "node make_version.js && ng build --prod --base-href /demo --deploy-url demo/ --aot",
-    "build:test": "node make_version.js && ng build --aot",
+    "build:prod": "node make_version.js && ng build --prod --base-href /opp --deploy-url opp/",
+    "build:demo": "node make_version.js && ng build --configuration demo --base-href /demo --deploy-url demo/",
+    "build:test": "node make_version.js && ng build --prod",
     "server:dist": "http-server ./dist/web/ -S -C cert/localhost.crt -K cert/localhost.key -P http://localhost:5000",
     "precommit": "yarn lint && yarn build:prod"
   },

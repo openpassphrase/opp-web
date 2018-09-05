@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { SwUpdate } from '@angular/service-worker';
 import { MatSnackBar } from '@angular/material';
+import { SwUpdate } from '@angular/service-worker';
 import { UpdateAvailableComponent } from '@app/shared/update-available/update-available.component';
 import { environment } from '../../environments/environment';
 
@@ -32,11 +32,12 @@ export class PwaService {
   }
 
   register() {
-    if (environment.production && 'serviceWorker' in navigator) {
+    if (environment.name !== 'dev' && 'serviceWorker' in navigator) {
       navigator.serviceWorker.getRegistration()
         .then(sw => {
           if (!sw) {
-            navigator.serviceWorker.register('./ngsw-worker.js');
+            const swJs = `${environment.baseHref}/ngsw-worker.js`;
+            navigator.serviceWorker.register(swJs);
           }
         })
         .catch(console.error);
