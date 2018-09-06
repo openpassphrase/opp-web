@@ -1,6 +1,8 @@
 <button 
-  *ngIf="pwa.promptEvent" 
-  (click)="pwa.promptInstallPwa()" 
+  *ngIf="pwa.promptEvent$ | async"
+  (click)="pwa.promptInstallPwa()"
+  mat-raised-button
+  color="accent"
   type="button"
 >
   Install App

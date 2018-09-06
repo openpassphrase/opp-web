@@ -3,12 +3,14 @@ import { Inject, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
 import { SwUpdate } from '@angular/service-worker';
 import { UpdateAvailableComponent } from '@app/shared/update-available/update-available.component';
+import { BehaviorSubject } from 'rxjs';
 
 import { environment } from '../../environments/environment';
 
 @Injectable()
 export class PwaService {
-  promptEvent: any;
+  private promptEventSubj$ = new BehaviorSubject<any>(undefined);
+  promptEvent$ = this.promptEventSubj$.asObservable();
 
   constructor(
     private swUpdate: SwUpdate,
@@ -16,11 +18,7 @@ export class PwaService {
     @Inject(DOCUMENT) private doc: Document
   ) {
     window.addEventListener('beforeinstallprompt', event => {
-      console.log('beforeinstallprompt', event);
-      // TODO: I want to make sure this event is triggered on https
-      // delete this alert when make sure of that
-      alert('beforeinstallprompt');
-      this.promptEvent = event;
+      this.promptEventSubj$.next(event);
     });
   }
 
@@ -31,7 +29,7 @@ export class PwaService {
   }
 
   promptInstallPwa() {
-    this.promptEvent.prompt();
+    this.promptEventSubj$.getValue().prompt();
   }
 
   register() {
