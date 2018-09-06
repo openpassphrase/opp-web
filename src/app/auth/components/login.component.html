@@ -15,11 +15,26 @@
       <form novalidate [formGroup]="authForm" (ngSubmit)="login()">
         <div fxLayout="column" fxLayout.gt-xs="row" fxLayoutGap.gt-xs="5px">
           <mat-form-field>
-            <input matInput formControlName="username" placeholder="User name" required type="text" [autocomplete]="userNameAutocompleteState" autofocus>
+            <input
+              matInput
+              formControlName="username"
+              placeholder="User name"
+              required
+              type="text"
+              [autocomplete]="userNameAutocompleteState"
+              autofocus
+              autocapitalize="none">
           </mat-form-field>
 
           <mat-form-field>
-            <input matInput formControlName="password" placeholder="Password" required type="password" autocomplete="off">
+            <input
+              matInput
+              formControlName="password"
+              placeholder="Password"
+              required
+              type="password"
+              autocomplete="off"
+              autocapitalize="none">
           </mat-form-field>
         </div>
 
