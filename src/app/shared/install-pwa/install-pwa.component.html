@@ -1,5 +1,5 @@
 <button 
-  *ngIf="pwa.promptEvent$ | async"
+  *ngIf="pwa.showCustomButton$ | async"
   (click)="pwa.promptInstallPwa()"
   mat-raised-button
   color="accent"

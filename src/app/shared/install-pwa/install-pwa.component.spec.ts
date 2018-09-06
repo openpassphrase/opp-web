@@ -10,6 +10,16 @@ describe('InstallPwaComponent', () => {
   let fixture: ComponentFixture<InstallPwaComponent>;
   let button: () => HTMLElement;
 
+  function expectButtonToBeShown() {
+    const btn = button();
+    expect(btn).not.toBeNull();
+    expect(btn.tagName).toBe('BUTTON');
+  }
+
+  function expectButtonToBeHidden() {
+    expect(button()).toBeNull();
+  }
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [InstallPwaComponent],
@@ -30,15 +40,27 @@ describe('InstallPwaComponent', () => {
 
   it('should initially not show button', () => {
     fixture.detectChanges();
-    expect(button()).toBeNull();
+    expectButtonToBeHidden();
+  });
+
+  it('should not show button if app is installed', () => {
+    triggerDocEvent('appinstalled');
+    fixture.detectChanges();
+    expectButtonToBeHidden();
   });
 
   it('should show button after beforeinstallprompt event', () => {
     triggerDocEvent('beforeinstallprompt');
     fixture.detectChanges();
-    const btn = button();
-    expect(btn).not.toBeNull();
-    expect(btn.tagName).toBe('BUTTON');
+    expectButtonToBeShown();
+  });
+
+  it('should hide button after app installation', () => {
+    triggerDocEvent('beforeinstallprompt');
+    fixture.detectChanges();
+    triggerDocEvent('appinstalled');
+    fixture.detectChanges();
+    expectButtonToBeHidden();
   });
 });
 
