@@ -3,6 +3,10 @@
 $config: mat-typography-config();
 $mat-font-family: mat-font-family($config);
 
+html, body {
+  overscroll-behavior-y: contain; /* disable pull to refresh, keeps glow effects */
+}
+
 html {
   height: 100%;
 }

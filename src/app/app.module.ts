@@ -1,33 +1,34 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { JwtModule } from '@auth0/angular-jwt';
-
+import { NgModule } from '@angular/core';
+import { ServiceWorkerModule } from '@angular/service-worker';
 import { AppRoutingModule } from '@app/app-routing.module';
-import { SharedModule } from '@app/shared/shared.module';
-
-import { Auth, AuthGuard, UnAuthGuard } from '@app/shared/auth-services';
 import { AppComponent } from '@app/app.component';
-import { PhraseInterceptor, LoadingInterceptor } from '@app/content/services';
+import { LoadingInterceptor, PhraseInterceptor } from '@app/content/services';
+import { CoreModule } from '@app/core/core.module';
+import { Auth, AuthGuard, UnAuthGuard } from '@app/shared/auth-services';
+import { SharedModule } from '@app/shared/shared.module';
+import { JwtModule } from '@auth0/angular-jwt';
+import { environment } from '../environments/environment';
 
 export function tokenGetter() {
   return sessionStorage.getItem('id_token');
 }
+
+const swJs = `${environment.baseHref}/ngsw-worker.js`;
 
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
+    CoreModule,
     AppRoutingModule,
     HttpClientModule,
     JwtModule.forRoot({
       config: { tokenGetter, headerName: 'x-opp-jwt', authScheme: '' }
     }),
     SharedModule,
+    ServiceWorkerModule.register(swJs, { enabled: environment.name !== 'dev' })
   ],
   providers: [
     Auth,

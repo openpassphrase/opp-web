@@ -31,6 +31,14 @@ docker run -p 5000:5000 -it opp
 Then run one of the following commands, which will start local dev server, but point any /api requests to the running instance of Opp server
 * `yarn start`.
 
+#### Testing PWA
+* generate cert files - run `./cert/makeCert.bat`
+* register the generated certificate in your OS
+* `npm i -g http-server` - only once
+* `npm run build:prod` - this creates production build in ./dist folder
+* `npm run server:dist` - serves files from ./dist
+* open `https://localhost:8080/`
+
 ### Test user credentials:
 * username: demo
 * password: demo

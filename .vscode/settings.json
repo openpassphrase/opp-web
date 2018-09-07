@@ -1,15 +1,27 @@
 // Place your settings in this file to overwrite default and user settings.
 {
-  "editor.tabSize": 2,
-  "editor.formatOnType": true,
   "editor.detectIndentation": false,
-  "editor.wordBasedSuggestions": false,
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+  "editor.tabSize": 2,
   "editor.tabCompletion": true,
+  "editor.wordBasedSuggestions": false,
+  "files.exclude": {
+    "node_modules/": true
+  },
+  "files.insertFinalNewline": true,
+  "html.format.enable": false,
+  "html.format.wrapLineLength": 50,
+  "html.format.wrapAttributes": "auto",
+  "javascript.format.insertSpaceAfterFunctionKeywordForAnonymousFunctions": false,
   "search.exclude": {
     "**/node_modules": true,
     "**/manual_types": true
   },
-  "files.exclude": {
-    "node_modules/": true
+  "tslint.autoFixOnSave": true,
+  "[typescript]": {
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true
+    }
   }
 }

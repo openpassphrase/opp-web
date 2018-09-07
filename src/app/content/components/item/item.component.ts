@@ -1,7 +1,24 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { MatSnackBar, MatDialog, MatDialogRef } from '@angular/material';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MatDialog, MatDialogRef, MatSnackBar } from '@angular/material';
 import { ItemFormComponent } from '@app/content/components/item-form/item-form.component';
 import { IItem, IItemFormResult, IUpdateItemPayload } from '@app/content/models';
+
+@Component({
+  selector: 'app-delete-item-dialog',
+  template: `
+  <h1 mat-dialig-title>Delete item</h1>
+  <mat-dialog-content>Are you sure?</mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-raised-button (click)="dialogRef.close('delete')" color="warn">
+      Yes, delete
+    </button>
+    <button mat-button (click)="dialogRef.close()">Cancel</button>
+  </mat-dialog-actions>
+  `,
+})
+export class DeleteItemDialogComponent {
+  constructor(public dialogRef: MatDialogRef<DeleteItemDialogComponent>) { }
+}
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -45,21 +62,4 @@ export class ItemComponent implements OnInit {
   copied() {
     this.snackbar.open('copied', undefined, { duration: 2000 });
   }
-}
-
-@Component({
-  selector: 'app-delete-item-dialog',
-  template: `
-  <h1 mat-dialig-title>Delete item</h1>
-  <mat-dialog-content>Are you sure?</mat-dialog-content>
-  <mat-dialog-actions>
-    <button mat-raised-button (click)="dialogRef.close('delete')" color="warn">
-      Yes, delete
-    </button>
-    <button mat-button (click)="dialogRef.close()">Cancel</button>
-  </mat-dialog-actions>
-  `,
-})
-export class DeleteItemDialogComponent {
-  constructor(public dialogRef: MatDialogRef<DeleteItemDialogComponent>) { }
 }

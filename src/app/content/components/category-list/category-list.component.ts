@@ -1,19 +1,33 @@
+import { DOCUMENT } from '@angular/common';
 import {
-  Component, OnInit, OnDestroy, HostListener, Inject, ViewChildren,
-  QueryList, ElementRef, Renderer, AfterViewInit, ChangeDetectionStrategy
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  HostListener,
+  Inject,
+  OnDestroy,
+  OnInit,
+  QueryList,
+  ViewChildren,
 } from '@angular/core';
 import { MatExpansionPanel, MatExpansionPanelHeader } from '@angular/material';
-import { Observable, Subject, of } from 'rxjs';
-import { scan, distinctUntilChanged, takeUntil, withLatestFrom, filter, switchMap, take } from 'rxjs/operators';
-import { DOCUMENT } from '@angular/platform-browser';
-
 import {
-  IItem, IItemFormResult, ICategoryItems, IUpdateCategoryPayload,
-  IRemoveCategoryPayload, IUpdateItemPayload, ICategory
+  ICategory,
+  ICategoryItems,
+  IItem,
+  IItemFormResult,
+  IRemoveCategoryPayload,
+  IUpdateCategoryPayload,
+  IUpdateItemPayload,
 } from '@app/content/models';
 import { ScrollToService } from '@app/content/services/scrollTo';
-import { CategoriesService, CategoriesQuery } from '../../state/categories';
+import { Observable, of, Subject } from 'rxjs';
+import { distinctUntilChanged, filter, scan, switchMap, take, takeUntil, withLatestFrom } from 'rxjs/operators';
+
+import { CategoriesQuery, CategoriesService } from '../../state/categories';
 import { ItemsQuery } from '../../state/items';
+
 
 @Component({
   selector: 'app-category-list',
@@ -37,7 +51,6 @@ export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {
     private categoriesQuery: CategoriesQuery,
     private itemsQuery: ItemsQuery,
     @Inject(DOCUMENT) private document: any,
-    private renderer: Renderer,
     private scroll: ScrollToService
   ) { }
 
@@ -161,6 +174,6 @@ export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private focusElRef(el: ElementRef) {
-    this.renderer.invokeElementMethod(el.nativeElement, 'focus');
+    el.nativeElement.focus();
   }
 }

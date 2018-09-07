@@ -1,0 +1,9 @@
+<button 
+  *ngIf="pwa.showCustomButton$ | async"
+  (click)="pwa.promptInstallPwa()"
+  mat-raised-button
+  color="accent"
+  type="button"
+>
+  Install App
+</button>

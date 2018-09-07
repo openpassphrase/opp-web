@@ -1,14 +1,39 @@
 import {
-  Component, OnInit, OnChanges, Input, Output, EventEmitter, ViewChild,
-  ChangeDetectionStrategy, SimpleChanges
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MatTooltip } from '@angular/material';
 import { ItemFormComponent } from '@app/content/components/item-form/item-form.component';
-import {
-  IItemFormResult, ICategoryItems, IUpdateCategoryPayload,
-  IRemoveCategoryPayload
-} from '@app/content/models';
+import { ICategoryItems, IItemFormResult, IRemoveCategoryPayload, IUpdateCategoryPayload } from '@app/content/models';
+
+@Component({
+  selector: 'app-delete-category-dialog',
+  template: `
+  <h1 mat-dialig-title>Delete category</h1>
+  <mat-dialog-content>Are you sure?</mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-raised-button (click)="dialogRef.close('deleteAll')" *ngIf="hasItems" color="warn">
+      Delete category and all its belongings
+    </button>
+    <button mat-raised-button (click)="dialogRef.close('deleteJustCategory')" color="accent">
+      {{hasItems ? 'Delete category, but save all its belongings' : 'Yes, delete'}}
+    </button>
+    <button mat-button (click)="dialogRef.close()">Cancel</button>
+  </mat-dialog-actions>
+  `,
+})
+export class DeleteCategoryDialogComponent {
+  hasItems: boolean;
+  constructor(public dialogRef: MatDialogRef<DeleteCategoryDialogComponent>) { }
+}
 
 @Component({
   selector: 'app-category',
@@ -86,25 +111,4 @@ export class CategoryComponent implements OnInit, OnChanges {
       }
     });
   }
-}
-
-@Component({
-  selector: 'app-delete-category-dialog',
-  template: `
-  <h1 mat-dialig-title>Delete category</h1>
-  <mat-dialog-content>Are you sure?</mat-dialog-content>
-  <mat-dialog-actions>
-    <button mat-raised-button (click)="dialogRef.close('deleteAll')" *ngIf="hasItems" color="warn">
-      Delete category and all its belongings
-    </button>
-    <button mat-raised-button (click)="dialogRef.close('deleteJustCategory')" color="accent">
-      {{hasItems ? 'Delete category, but save all its belongings' : 'Yes, delete'}}
-    </button>
-    <button mat-button (click)="dialogRef.close()">Cancel</button>
-  </mat-dialog-actions>
-  `,
-})
-export class DeleteCategoryDialogComponent {
-  hasItems: boolean;
-  constructor(public dialogRef: MatDialogRef<DeleteCategoryDialogComponent>) { }
 }
