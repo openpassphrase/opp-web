@@ -7,13 +7,15 @@ export interface IEnv {
   baseHref: string;
   isUserNameAutocompleteEnabled: boolean;
   showTokenExpirationCustomization: boolean;
+  mockApi: boolean;
 }
 
 export const environment: IEnv = {
   name: 'dev',
   baseHref: '',
   isUserNameAutocompleteEnabled: true,
-  showTokenExpirationCustomization: true
+  showTokenExpirationCustomization: true,
+  mockApi: true
 };
 
 /*

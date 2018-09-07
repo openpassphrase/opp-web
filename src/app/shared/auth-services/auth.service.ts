@@ -1,8 +1,11 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Location } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { Observable, timer, of } from 'rxjs';
+import { Observable, of, timer } from 'rxjs';
+import { tap } from 'rxjs/operators';
+
+import { AuthStorage } from './auth-token-storage';
 
 
 @Injectable()
@@ -27,10 +30,12 @@ export class Auth {
   }
 
   login(data: { username: string, password: string }) {
-    return this.http.post<{ access_token: string }>(this.location.prepareExternalUrl('api/v1/auth'), data);
+    return this.http.post<{ access_token: string }>(this.location.prepareExternalUrl('api/v1/auth'), data).pipe(
+      tap(res => AuthStorage.setToken(res.access_token))
+    );
   }
 
   logout() {
-    sessionStorage.removeItem('id_token');
+    AuthStorage.removeToken();
   }
 }
