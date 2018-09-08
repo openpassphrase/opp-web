@@ -2,5 +2,6 @@ export const environment = {
   name: 'prod',
   baseHref: '/opp',
   isUserNameAutocompleteEnabled: false,
-  showTokenExpirationCustomization: true
+  showTokenExpirationCustomization: true,
+  mockApi: false
 };

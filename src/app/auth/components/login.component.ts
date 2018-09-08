@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material';
+import { Router } from '@angular/router';
 import { Auth } from '@app/shared/auth-services';
+
 import { environment } from '../../../environments/environment';
 
 @Component({
@@ -75,9 +76,8 @@ export class LoginComponent implements OnInit {
       this.auth.login(toSubmit).subscribe(
         // We're assuming the response will be an object
         // with the JWT on an id_token key
-        data => {
+        () => {
           this.loading = false;
-          sessionStorage.setItem('id_token', data.access_token);
           this.router.navigate(['content']);
         },
         error => {
