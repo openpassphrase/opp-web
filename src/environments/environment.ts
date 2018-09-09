@@ -3,7 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export interface IEnv {
-  name: 'dev' | 'demo' | 'prod';
+  name: 'dev' | 'demo' | 'prod' | 'local-prod';
   baseHref: string;
   isUserNameAutocompleteEnabled: boolean;
   showTokenExpirationCustomization: boolean;
