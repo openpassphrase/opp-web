@@ -12,7 +12,7 @@
     "e2e": "ng e2e",
     "build:prod": "node make_version.js && ng build --prod --base-href /opp --deploy-url opp/",
     "build:demo": "node make_version.js && ng build --configuration demo --base-href /demo --deploy-url demo/",
-    "build:test": "node make_version.js && ng build --prod",
+    "build:test": "node make_version.js && ng build --configuration local-prod",
     "server:dist": "http-server ./dist/web/ -S -C cert/localhost.crt -K cert/localhost.key -P http://localhost:5000",
     "precommit": "yarn lint && yarn build:prod"
   },
