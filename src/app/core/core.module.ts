@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CspService } from '@app/core/csp.service';
 import { PwaService } from '@app/core/pwa.service';
 
 @NgModule({
@@ -11,11 +12,12 @@ import { PwaService } from '@app/core/pwa.service';
   declarations: [
   ],
   providers: [
-    PwaService
+    PwaService,
+    CspService
   ]
 })
 export class CoreModule {
-  constructor(pwa: PwaService) {
+  constructor(pwa: PwaService, csp: CspService) {
     pwa.addManifestLink();
 
     // in some cases ServiceWorkerModule.register does not register service worker.
@@ -24,6 +26,8 @@ export class CoreModule {
     pwa.register();
 
     pwa.listenForUpdate();
+
+    csp.register();
   }
 
   static forRoot() {
