@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { CategoriesStore } from './categories.store';
+import { MatSnackBar } from '@angular/material';
+import { IItem, IItemFormResult, IRemoveCategoryPayload, IUpdateCategoryPayload, IUpdateItemPayload } from '@app/content/models';
 import { BackendService } from '@app/content/services/backend.service';
 import { ItemsStore } from '../items';
-import { MatSnackBar } from '@angular/material';
-import { IRemoveCategoryPayload, IUpdateCategoryPayload, IItemFormResult, IUpdateItemPayload, IItem } from '@app/content/models';
+import { CategoriesStore } from './categories.store';
 
 @Injectable({
   providedIn: 'root'
@@ -133,5 +133,23 @@ export class CategoriesService {
 
   setLoading(isLoading: boolean) {
     this.categoriesStore.setLoading(isLoading);
+  }
+
+  keyPressed(key: string) {
+    if (key === 'Escape') {
+      this.categoriesStore.updateRoot({ searchFor: '' });
+    } else if (key === 'Backspace') {
+      this.categoriesStore.updateRoot(s => {
+        if (s.searchFor) {
+          const searchFor = s.searchFor.slice(0, s.searchFor.length - 1);
+          return { searchFor };
+        }
+      });
+    } else {
+      this.categoriesStore.updateRoot(s => {
+        const searchFor = (s.searchFor || '') + key;
+        return { searchFor };
+      });
+    }
   }
 }

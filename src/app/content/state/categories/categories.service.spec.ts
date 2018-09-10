@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
+import { MatSnackBar } from '@angular/material';
+import { BackendMockService, BackendService } from '@app/content/services';
+import { concatMapTo, first, map, skip, tap } from 'rxjs/operators';
+import { CategoriesQuery } from './categories.query';
 import { CategoriesService } from './categories.service';
 import { CategoriesStore } from './categories.store';
-import { CategoriesQuery } from './categories.query';
-import { BackendService, BackendMockService } from '@app/content/services';
-import { MatSnackBar } from '@angular/material';
-import { skip, tap, first, concatMapTo, map } from 'rxjs/operators';
 
 class MatSnackBarMock { }
 
@@ -88,5 +88,18 @@ describe('Categories Store', () => {
 
     service.addItem({ item: { id: -1, name: 'one', category_id: 7 }, auto_pass: false, genopts: {} });
     service.addItem({ item: { id: -1, name: 'two', category_id: 7 }, auto_pass: false, genopts: {} });
+  });
+
+  it('should set searchFor', () => {
+    let searchFor: string | undefined;
+    query.select(s => s.searchFor).subscribe(s => searchFor = s);
+    service.keyPressed('s');
+    expect(searchFor).toBe('s');
+    service.keyPressed('t');
+    expect(searchFor).toBe('st');
+    service.keyPressed('Backspace');
+    expect(searchFor).toBe('s');
+    service.keyPressed('Escape');
+    expect(searchFor).toBe('');
   });
 });

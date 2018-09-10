@@ -44,6 +44,7 @@
           <tr *ngFor="let item of c.items"
             app-item
             [item]="item"
+            [searchFor]="searchFor$ | async"
             (updateItem)="updateItem($event)"
             (removeItem)="removeItem($event)"
           >

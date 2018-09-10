@@ -1,33 +1,11 @@
 import { DOCUMENT } from '@angular/common';
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  HostListener,
-  Inject,
-  OnDestroy,
-  OnInit,
-  QueryList,
-  ViewChildren,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, HostListener, Inject, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { MatExpansionPanel, MatExpansionPanelHeader } from '@angular/material';
-import {
-  ICategory,
-  ICategoryItems,
-  IItem,
-  IItemFormResult,
-  IRemoveCategoryPayload,
-  IUpdateCategoryPayload,
-  IUpdateItemPayload,
-} from '@app/content/models';
-import { ScrollToService } from '@app/content/services/scrollTo';
-import { Observable, of, Subject } from 'rxjs';
-import { distinctUntilChanged, filter, scan, switchMap, take, takeUntil, withLatestFrom } from 'rxjs/operators';
-
+import { ICategory, ICategoryItems, IItem, IItemFormResult, IRemoveCategoryPayload, IUpdateCategoryPayload, IUpdateItemPayload } from '@app/content/models';
+import { combineLatest, Observable, Subject } from 'rxjs';
+import { filter, first, pairwise, startWith, take, takeUntil, tap } from 'rxjs/operators';
 import { CategoriesQuery, CategoriesService } from '../../state/categories';
 import { ItemsQuery } from '../../state/items';
-
 
 @Component({
   selector: 'app-category-list',
@@ -50,8 +28,7 @@ export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {
     private categoriesService: CategoriesService,
     private categoriesQuery: CategoriesQuery,
     private itemsQuery: ItemsQuery,
-    @Inject(DOCUMENT) private document: any,
-    private scroll: ScrollToService
+    @Inject(DOCUMENT) private document: any
   ) { }
 
   ngOnInit() {
@@ -59,45 +36,29 @@ export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {
     this.isCorrectPhrase$ = this.categoriesQuery.selectIsPathPhraseCorrect();
     this.itemsWithoutCategory$ = this.itemsQuery.selectItemsWithoutCategory();
 
-    this.searchFor$ = this.keyPressed$.pipe(
-      scan((acc: string, curr: string) => {
-        if (curr === 'Escape') {
-          if (acc === '') {
-            const panel = this.expansionPanels.find(x => x.expanded);
-            if (panel) { panel.close(); }
-          }
-          return '';
-        }
-        if (curr === 'Backspace') { return acc.slice(0, acc.length - 1); }
-        return curr.length > 1 ? acc : acc + curr;
-      }, ''),
-      distinctUntilChanged()
+    this.searchFor$ = this.categoriesQuery.select(s => s.searchFor);
+
+    const definedCategories$ = this.categories$.pipe(
+      filter(c => !!c && c.length > 0),
+      first()
     );
 
-    this.searchFor$.pipe(
-      takeUntil(this.ngUnsubscribe),
-      withLatestFrom(this.categories$),
-      filter(([s, c]) => s !== '' && c.length > 0 !== undefined),
-      switchMap(([s, c]) => {
-        const ixs = c.reduce<number[]>((a, b, bIx) => {
-          return b.name.toLocaleLowerCase().indexOf(s.toLocaleLowerCase()) === 0
-            ? [...a, bIx] : a;
-        }, []);
-        return of(ixs);
-      }),
-      filter(ixs => ixs.length > 0)
-    ).subscribe((ixs) => {
-      const panel = this.expansionPanels.find((_item, panelIx) => panelIx === ixs[0]);
-      const panelHtml = this.expansionPanelsHtml.find((_item, panelIx) => panelIx === ixs[0]);
-      if (panelHtml) {
-        this.focusElRef(panelHtml);
-        const el: HTMLElement = panelHtml.nativeElement;
-        this.scroll.scrollTo(el.offsetTop, 400);
-      }
-      if (panel && ixs.length === 1) {
-        panel.open();
+    combineLatest(definedCategories$, this.searchFor$).subscribe(([_c, s]) => {
+      if (!!s) {
+        this.expandAllPanels();
       }
     });
+
+    this.keyPressed$.pipe(
+      takeUntil(this.ngUnsubscribe),
+      startWith(''),
+      pairwise(),
+      tap(([prev, curr]) => {
+        if (curr === 'Escape' && (prev === curr)) {
+          this.collapseAllPanels();
+        }
+      })
+    ).subscribe();
   }
 
   ngAfterViewInit() {
@@ -144,11 +105,9 @@ export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   toggleAll() {
     if (this.areAllClosed()) {
-      this.expansionPanels.first.accordion.multi = true;
-      this.expansionPanels.forEach(x => x.open());
+      this.expandAllPanels();
     } else {
-      this.expansionPanels.forEach(x => x.close());
-      this.expansionPanels.first.accordion.multi = false;
+      this.collapseAllPanels();
     }
   }
 
@@ -159,18 +118,38 @@ export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {
   @HostListener('document:keydown', ['$event'])
   keyboardInput(event: KeyboardEvent) {
     if (this.document.activeElement.nodeName !== 'INPUT' &&
-      this.document.activeElement.nodeName !== 'TEXTAREA' &&
-      !event.altKey && !event.ctrlKey) {
+      this.document.activeElement.nodeName !== 'TEXTAREA') {
       if (event.key === 'Backspace') {
         event.preventDefault();
       }
       this.keyPressed$.next(event.key);
+      if (event.key.length === 1 || event.key === 'Escape' || event.key === 'Backspace') {
+        this.categoriesService.keyPressed(event.key);
+      }
     }
   }
 
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+  }
+
+  private expandAllPanels() {
+    setTimeout(() => {
+      if (this.expansionPanels.length) {
+        this.expansionPanels.first.accordion.multi = true;
+        this.expansionPanels.forEach(x => x.open());
+      }
+    });
+  }
+
+  private collapseAllPanels() {
+    setTimeout(() => {
+      if (this.expansionPanels.length) {
+        this.expansionPanels.forEach(x => x.close());
+        this.expansionPanels.first.accordion.multi = false;
+      }
+    });
   }
 
   private focusElRef(el: ElementRef) {

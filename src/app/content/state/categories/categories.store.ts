@@ -1,24 +1,22 @@
 import { Injectable } from '@angular/core';
-import { EntityState, EntityStore, StoreConfig, guid } from '@datorama/akita';
 import { ICategory } from '@app/content/models';
+import { EntityState, EntityStore, guid, StoreConfig } from '@datorama/akita';
 
 export interface CategoriesState extends EntityState<ICategory> {
   ui: {
     isPathPhraseCorrect: boolean
   };
+  searchFor: string;
 }
 
 @Injectable({ providedIn: 'root' })
 @StoreConfig({ name: 'categories' })
 export class CategoriesStore extends EntityStore<CategoriesState, ICategory> {
-  ui: {
-    isPathPhraseCorrect: true
-  };
-
   constructor() {
-    const initialState = {
+    const initialState: CategoriesState = {
       loading: false,
-      ui: { isPathPhraseCorrect: false }
+      ui: { isPathPhraseCorrect: false },
+      searchFor: ''
     };
     super(initialState);
   }

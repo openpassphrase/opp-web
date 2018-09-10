@@ -28,6 +28,7 @@ export class DeleteItemDialogComponent {
 })
 export class ItemComponent implements OnInit {
   @Input() item: IItem;
+  @Input() searchFor: string;
   @Output() updateItem = new EventEmitter<IUpdateItemPayload>(false);
   @Output() removeItem = new EventEmitter<IItem>(false);
 

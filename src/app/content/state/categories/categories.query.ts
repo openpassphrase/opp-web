@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
+import { ICategory, ICategoryItems, IItem } from '@app/content/models';
 import { QueryEntity } from '@datorama/akita';
-import { CategoriesStore, CategoriesState } from './categories.store';
-import { ItemsQuery } from '../items';
-import { ICategory, ICategoryItems } from '@app/content/models';
 import { combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ItemsQuery } from '../items';
+import { CategoriesState, CategoriesStore } from './categories.store';
 
 @Injectable({
   providedIn: 'root'
@@ -20,16 +20,27 @@ export class CategoriesQuery extends QueryEntity<CategoriesState, ICategory> {
   selectCategoryItems() {
     return combineLatest(
       this.selectAll(),
-      this.itemsQuery.selectAll()
+      this.itemsQuery.selectAll(),
+      this.select(s => s.searchFor)
     ).pipe(
-      map(([categories, items]) => {
-        return categories.map(c => {
-          const toReturm: ICategoryItems = {
-            ...c,
-            items: items.filter(x => x.category_id === c.id)
-          };
-          return toReturm;
-        });
+      map(([categories, items, searchFor]) => {
+        const categoryItems = categories.map(associateItemsWithCategory(items));
+        if (!searchFor) {
+          return categoryItems;
+        }
+
+        return categoryItems
+          .filter(c => {
+            const matchesSearch = matchesSearchWord(searchFor)(c);
+            const hasMatchingItem = c.items.some(matchesSearchWord(searchFor));
+            return hasMatchingItem || matchesSearch;
+          })
+          .map(c => {
+            const matchesSearch = matchesSearchWord(searchFor)(c);
+            if (matchesSearch) { return c; }
+
+            return { ...c, items: c.items.filter(matchesSearchWord(searchFor)) };
+          });
       })
     );
   }
@@ -37,4 +48,22 @@ export class CategoriesQuery extends QueryEntity<CategoriesState, ICategory> {
   selectIsPathPhraseCorrect() {
     return this.select(x => x.ui.isPathPhraseCorrect);
   }
+}
+
+function associateItemsWithCategory(items: IItem[]) {
+  return (category: ICategory) => {
+    const toReturm: ICategoryItems = {
+      ...category,
+      items: items.filter(x => x.category_id === category.id)
+    };
+    return toReturm;
+  };
+}
+
+function matchesSearchWord(searchFor: string | undefined) {
+  return (x: ICategory | IItem) => {
+    const name = (x.name || '');
+    if (!searchFor || !name) { return false; }
+    return name.toLocaleLowerCase().indexOf(searchFor.toLocaleLowerCase()) > -1;
+  };
 }
