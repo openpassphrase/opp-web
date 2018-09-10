@@ -7,3 +7,13 @@
 >
   Install App
 </button>
+
+<button 
+  *ngIf="pwa.showIosCustomButton"
+  (click)="pwa.promptInstallPwaOnIos()"
+  mat-raised-button
+  color="accent"
+  type="button"
+>
+  Install App
+</button>
