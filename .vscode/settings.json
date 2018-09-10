@@ -3,6 +3,9 @@
   "editor.detectIndentation": false,
   "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
+  "editor.rulers": [
+    140
+  ],
   "editor.tabSize": 2,
   "editor.tabCompletion": true,
   "editor.wordBasedSuggestions": false,
@@ -23,5 +26,10 @@
     "editor.codeActionsOnSave": {
       "source.organizeImports": true
     }
+  },
+  "javascript.preferences.quoteStyle": "single",
+  "typescript.preferences.quoteStyle": "single",
+  "workbench.colorCustomizations": {
+    "editorRuler.foreground": "#ff4081"
   }
 }

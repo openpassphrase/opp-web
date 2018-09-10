@@ -1,6 +1,6 @@
 <td data-th="Name:" class="cell">
   <a *ngIf="item.url" [href]="item.url" target="_blank" [matTooltip]="item.name">{{item.name}}</a>
-  <span *ngIf="!item.url">{{item.name}}</span>
+  <span *ngIf="!item.url" [innerHTML]="item.name | highlight: searchFor"></span>
 </td>
 
 <td data-th="Account:" ngxClipboard [cbContent]="item.account" (cbOnSuccess)="copied()" class="cell" [matTooltip]="item.account">
