@@ -2,15 +2,11 @@ import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
 import { SwUpdate } from '@angular/service-worker';
-import {
-  InstallOnIosInstructionsComponent,
-} from '@app/shared/install-on-ios-instructions/install-on-ios-instructions.component';
+import { InstallOnIosInstructionsComponent } from '@app/shared/install-on-ios-instructions/install-on-ios-instructions.component';
 import { UpdateAvailableComponent } from '@app/shared/update-available/update-available.component';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
 import { environment } from '../../environments/environment';
-
 @Injectable()
 export class PwaService {
   private promptEventSubj$ = new BehaviorSubject<any>(undefined);
@@ -75,7 +71,9 @@ export class PwaService {
 
   private isIos() {
     const userAgent = window.navigator.userAgent.toLowerCase();
-    return /iphone|ipad|ipod/.test(userAgent);
+    const match = /iphone|ipad|ipod/.test(userAgent);
+    alert(`match: ${match}; userAgent: ${userAgent}; standalone: ${(window.navigator as any).standalone}`);
+    return match;
   }
 
   private isInStandaloneMode() {
