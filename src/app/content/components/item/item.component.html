@@ -1,5 +1,5 @@
 <td data-th="Name:" class="cell">
-  <a *ngIf="item.url" [href]="item.url" target="_blank" [matTooltip]="item.name">{{item.name}}</a>
+  <a *ngIf="item.url" [href]="item.url" target="_blank" [matTooltip]="item.name" [innerHTML]="item.name | highlight: searchFor"></a>
   <span *ngIf="!item.url" [innerHTML]="item.name | highlight: searchFor"></span>
 </td>
 
