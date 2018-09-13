@@ -13,6 +13,14 @@ table {
   table-layout: fixed;
 }
 
+.btn-expand-all {
+  margin-left: 10px;
+
+  &.m-0 {
+    margin-left: 0;
+  }
+}
+
 table.resp-table {
   tr th:last-child {
     width: 72px;

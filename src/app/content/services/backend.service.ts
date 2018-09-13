@@ -1,10 +1,13 @@
-import { Injectable } from '@angular/core';
 import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map, share } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
 import { ICategory, IItem, IItemFormResult } from '@app/content/models';
 import { ID } from '@datorama/akita';
+import { Observable } from 'rxjs';
+import { map, share } from 'rxjs/operators';
+
+import { environment } from '../../../environments/environment';
+import { BackendMockService } from './backend.mock.service';
 
 export interface IBackendService {
   fetchAll(): Observable<{ categories: ICategory[], items: IItem[] }>;
@@ -16,7 +19,10 @@ export interface IBackendService {
   removeItem(id: number): Observable<any>;
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root',
+  useClass: environment.mockApi ? BackendMockService : BackendService
+})
 export class BackendService implements IBackendService {
   private categoriesEndpoint: string;
   private itemsEndpoint: string;

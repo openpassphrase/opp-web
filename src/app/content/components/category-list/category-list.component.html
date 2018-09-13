@@ -5,7 +5,12 @@
 </mat-card>
 
 <div fxLayout fxLayoutAlign="start center">
-  <button mat-mini-fab matTooltip="Toggle all categories" *ngIf="(categories$ | async)!.length"
+  <button
+    *ngIf="(categories$ | async)!.length"
+    mat-mini-fab
+    matTooltip="Toggle all categories"
+    class="btn-expand-all"
+    ngClass.gt-xs="m-0"
     (click)="toggleAll()"
     type="button">
     <mat-icon>{{areAllClosed() ? 'border_outer' : 'border_horizontal'}}</mat-icon>
