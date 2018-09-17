@@ -1,10 +1,9 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
-
 import { Auth } from '@app/shared/auth-services';
+import { Observable } from 'rxjs';
 import { CategoriesQuery, CategoriesService } from './state/categories';
-import { map } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-content',
@@ -14,7 +13,6 @@ import { map } from 'rxjs/operators';
 })
 export class ContentComponent implements OnInit {
   loading$: Observable<boolean>;
-  isPathPhraseIncorrect$: Observable<boolean>;
 
   constructor(
     private categoriesService: CategoriesService,
@@ -25,9 +23,6 @@ export class ContentComponent implements OnInit {
 
   ngOnInit() {
     this.loading$ = this.categoriesQuery.selectLoading();
-    this.isPathPhraseIncorrect$ = this.categoriesQuery.selectIsPathPhraseCorrect().pipe(
-      map(isCorrect => !isCorrect)
-    );
 
     this.auth.isLoggedIn.subscribe(isLoggedIn => {
       if (!isLoggedIn) {

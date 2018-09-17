@@ -1,0 +1,25 @@
+<cdk-expandable-input
+  [group]="group"
+  [isAbsolute]="isAbsolute"
+  [right]="right"
+  [slideToEdge]="slideToEdge"
+  [actionOffset]="15"
+  (opened)="opened()"
+  (closed)="closed()"
+>
+  <mat-form-field cdkExpInput floatLabel="never" appearance="fill">
+    <ng-content select="[expInput]"></ng-content>
+  </mat-form-field>
+
+  <div cdkExpIconOpen>
+    <ng-content select="[expIconOpen]"></ng-content>
+  </div>
+
+  <button cdkExpIconClose mat-icon-button mat-mini-icon-button type="button">
+    <mat-icon matRipple cdkExpIconClose>close</mat-icon>
+  </button>
+
+  <div cdkExpIconAction>
+    <ng-content select="[expIconAction]"></ng-content>
+  </div>
+</cdk-expandable-input>

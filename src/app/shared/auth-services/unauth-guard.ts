@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { CanActivate } from '@angular/router';
+import { CanActivate, Router } from '@angular/router';
 import { Auth } from '@app/shared/auth-services/auth.service';
-import { take, map, tap } from 'rxjs/operators';
+import { map, take, tap } from 'rxjs/operators';
 
 @Injectable()
 export class UnAuthGuard implements CanActivate {
@@ -15,7 +14,7 @@ export class UnAuthGuard implements CanActivate {
       map(isLoggedIn => !isLoggedIn),
       tap(isNotLoggedIn => {
         if (!isNotLoggedIn) {
-          this.router.navigate(['content']);
+          this.router.navigate(['your', 'phrase']);
         }
       })
     );

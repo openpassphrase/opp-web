@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
 import { Auth } from '@app/shared/auth-services';
-
 import { environment } from '../../../environments/environment';
+
 
 @Component({
   selector: 'app-login',
@@ -78,7 +78,7 @@ export class LoginComponent implements OnInit {
         // with the JWT on an id_token key
         () => {
           this.loading = false;
-          this.router.navigate(['content']);
+          this.router.navigate(['your', 'phrase']);
         },
         error => {
           this.loading = false;

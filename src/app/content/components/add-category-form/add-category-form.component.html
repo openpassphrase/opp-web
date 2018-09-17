@@ -1,6 +1,10 @@
 <form novalidate [formGroup]="addCategoryForm" (ngSubmit)="addCategory()">
-  <mat-form-field>
-    <input matInput 
+  <app-expandable-input
+    group="g1"
+    [isAbsolute]="true"
+  >
+    <input expInput
+      matInput 
       formControlName="category"
       placeholder="New group"
       (keyup.escape)="clear()"
@@ -9,13 +13,21 @@
       [autofocus]="false"
       focusOnKey="n"
       #category>
-  </mat-form-field>
-  
-  <button mat-raised-button
-    matTooltip="Add new category"
-    type="submit"
-    [disabled]="!category.value.length"
-    color="accent">
-    <mat-icon>add</mat-icon>
-  </button>
+
+    <button expIconOpen mat-mini-fab
+      matTooltip="Add new category"
+      type="button"
+      color="accent"
+    >
+      <mat-icon matRipple>add</mat-icon>
+    </button>
+
+    <button expIconAction mat-mini-fab
+      type="submit"
+      [disabled]="!category.value.length"
+      color="accent"
+    >
+      <mat-icon matRipple>add</mat-icon>
+    </button>
+  </app-expandable-input>
 </form>

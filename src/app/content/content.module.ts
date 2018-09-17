@@ -1,22 +1,17 @@
 import { NgModule } from '@angular/core';
+import { AddCategoryFormComponent, CategoryComponent, CategoryListComponent, DeleteCategoryDialogComponent, DeleteItemDialogComponent, ItemComponent, ItemFormComponent, SecretPhraseInputComponent } from '@app/content/components';
+import { ContentRoutingModule } from '@app/content/content-routing.module';
+import { ContentComponent } from '@app/content/content.component';
+import { ScrollToService } from '@app/content/services';
+import { SharedModule } from '@app/shared/shared.module';
+import { ExpandableInputModule } from 'expandable-input';
 import { ClipboardModule } from 'ngx-clipboard';
 import { NgxMessagesModule } from 'ngx-messages';
+import { ExpandableInputComponent } from './components/expandable-input/expandable-input.component';
+import { PhraseComponent } from './route-components/phrase/phrase.component';
+import { SecretsComponent } from './route-components/secrets/secrets.component';
 
-import { ContentRoutingModule } from '@app/content/content-routing.module';
-import { SharedModule } from '@app/shared/shared.module';
 
-import { ContentComponent } from '@app/content/content.component';
-import {
-  AddCategoryFormComponent,
-  CategoryComponent,
-  DeleteCategoryDialogComponent,
-  ItemComponent,
-  ItemFormComponent,
-  DeleteItemDialogComponent,
-  CategoryListComponent,
-  SecretPhraseInputComponent
-} from '@app/content/components';
-import { ScrollToService } from '@app/content/services';
 
 @NgModule({
   imports: [
@@ -24,6 +19,7 @@ import { ScrollToService } from '@app/content/services';
     SharedModule,
     ClipboardModule,
     NgxMessagesModule,
+    ExpandableInputModule
   ],
   declarations: [
     ContentComponent,
@@ -34,7 +30,10 @@ import { ScrollToService } from '@app/content/services';
     ItemFormComponent,
     DeleteItemDialogComponent,
     CategoryListComponent,
-    SecretPhraseInputComponent
+    SecretPhraseInputComponent,
+    PhraseComponent,
+    SecretsComponent,
+    ExpandableInputComponent
   ],
   providers: [
     ScrollToService
@@ -43,6 +42,7 @@ import { ScrollToService } from '@app/content/services';
     DeleteCategoryDialogComponent,
     ItemFormComponent,
     DeleteItemDialogComponent
-  ]
+  ],
+  bootstrap: [ContentComponent]
 })
 export class ContentModule { }

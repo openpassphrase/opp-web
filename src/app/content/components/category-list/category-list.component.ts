@@ -1,5 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, HostListener, Inject, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatExpansionPanel, MatExpansionPanelHeader } from '@angular/material';
 import { ICategory, ICategoryItems, IItem, IItemFormResult, IRemoveCategoryPayload, IUpdateCategoryPayload, IUpdateItemPayload } from '@app/content/models';
 import { combineLatest, Observable, Subject } from 'rxjs';
@@ -16,10 +17,10 @@ import { ItemsQuery } from '../../state/items';
 export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {
   private ngUnsubscribe = new Subject<any>();
   categories$: Observable<ICategoryItems[]>;
-  isCorrectPhrase$: Observable<boolean>;
   itemsWithoutCategory$: Observable<IItem[]>;
   keyPressed$ = new Subject<string>();
   searchFor$: Observable<string>;
+  searchForControl = new FormControl();
 
   @ViewChildren(MatExpansionPanel) expansionPanels: QueryList<MatExpansionPanel>;
   @ViewChildren(MatExpansionPanelHeader, { read: ElementRef }) expansionPanelsHtml: QueryList<ElementRef>;
@@ -33,7 +34,6 @@ export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
     this.categories$ = this.categoriesQuery.selectCategoryItems();
-    this.isCorrectPhrase$ = this.categoriesQuery.selectIsPathPhraseCorrect();
     this.itemsWithoutCategory$ = this.itemsQuery.selectItemsWithoutCategory();
 
     this.searchFor$ = this.categoriesQuery.select(s => s.searchFor);
@@ -59,20 +59,31 @@ export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       })
     ).subscribe();
+
+    this.searchForControl.valueChanges.pipe(
+      takeUntil(this.ngUnsubscribe),
+      tap(searchFor => {
+        this.categoriesService.updateSearchFor(searchFor);
+      })
+    ).subscribe();
   }
 
   ngAfterViewInit() {
     // once category panels are displayed, focus on the first
-    this.expansionPanelsHtml.changes.pipe(
-      takeUntil(this.ngUnsubscribe),
-      filter(c => c.length > 0),
-      take(1)
-    )
-      .subscribe(() => {
-        setTimeout(() => {
-          this.focusElRef(this.expansionPanelsHtml.first);
+    if (this.expansionPanelsHtml.first) {
+      this.focusElRef(this.expansionPanelsHtml.first);
+    } else {
+      this.expansionPanelsHtml.changes.pipe(
+        takeUntil(this.ngUnsubscribe),
+        filter(c => c.length > 0),
+        take(1)
+      )
+        .subscribe(() => {
+          setTimeout(() => {
+            this.focusElRef(this.expansionPanelsHtml.first);
+          });
         });
-      });
+    }
   }
 
   addCategory(name: string) {
@@ -112,13 +123,13 @@ export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   areAllClosed() {
+    if (!this.expansionPanels) { return true; }
     return !this.expansionPanels.map(x => x.expanded).some(x => x);
   }
 
   @HostListener('document:keydown', ['$event'])
   keyboardInput(event: KeyboardEvent) {
-    if (this.document.activeElement.nodeName !== 'INPUT' &&
-      this.document.activeElement.nodeName !== 'TEXTAREA') {
+    if (!this.isInputControlFocused()) {
       if (event.key === 'Backspace') {
         event.preventDefault();
       }
@@ -150,6 +161,11 @@ export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {
         this.expansionPanels.first.accordion.multi = false;
       }
     });
+  }
+
+  private isInputControlFocused() {
+    return this.document.activeElement.nodeName === 'INPUT' ||
+      this.document.activeElement.nodeName === 'TEXTAREA';
   }
 
   private focusElRef(el: ElementRef) {

@@ -1,24 +1,38 @@
-<mat-card *ngIf="searchFor$ | async as searchFor" class="search-for">
-  <mat-card-content>
-    Search for: <span class="highlighted">{{searchFor}}</span>
-  </mat-card-content>
-</mat-card>
+<div class="wrap-search-for-desk">
+  <mat-card *ngIf="searchFor$ | async as searchFor" class="search-for-desk" fxShow="false" fxShow.gt-xs="true">
+    <mat-card-content>
+      Search for: <span class="highlighted">{{searchFor}}</span>
+    </mat-card-content>
+  </mat-card>
+</div>
 
-<div fxLayout fxLayoutAlign="start center">
+<div class="expandables">
   <button
     *ngIf="(categories$ | async)!.length"
-    mat-mini-fab
+    mat-icon-button mat-mini-icon-button
     matTooltip="Toggle all categories"
     class="btn-expand-all"
-    ngClass.gt-xs="m-0"
     (click)="toggleAll()"
     type="button">
     <mat-icon>{{areAllClosed() ? 'border_outer' : 'border_horizontal'}}</mat-icon>
   </button>
 
-  <span fxFlex></span>
+  <app-expandable-input
+    [isAbsolute]="true"
+    [slideToEdge]="true"
+    right="40"
+    group="g1"
+    fxShow="false"
+    fxShow.xs="true"
+  >
+    <input matInput expInput type="text" placeholder="Search" [formControl]="searchForControl">
 
-  <app-add-category-form *ngIf="isCorrectPhrase$ | async" (add)="addCategory($event)"></app-add-category-form>
+    <button expIconOpen mat-icon-button mat-mini-icon-button>
+      <mat-icon matRipple>search</mat-icon>
+    </button>
+  </app-expandable-input>
+
+  <app-add-category-form (add)="addCategory($event)"></app-add-category-form>
 </div>
 
 <div class="categories">

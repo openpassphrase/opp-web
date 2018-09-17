@@ -152,4 +152,8 @@ export class CategoriesService {
       });
     }
   }
+
+  updateSearchFor(searchFor: string) {
+    this.categoriesStore.updateRoot({ searchFor });
+  }
 }
