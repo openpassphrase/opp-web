@@ -5,26 +5,3 @@
     </mat-card-content>
   </mat-card>
 </div>
-
-<br />
-
-<div fxLayout fxLayoutAlign="center center">
-  <mat-card fxFlex="95" fxFlex.gt-xs="300px">
-    <div class="rel">
-      <cdk-expandable-input [isAbsolute]="true" [right]="30" [slideToEdge]="true" style="background: white;">
-        <input type="text" cdkExpInput />
-        <i cdkExpIconOpen>🔍</i>
-        <i cdkExpIconClose>✖️</i>
-      </cdk-expandable-input>
-      
-      <br />
-
-      <cdk-expandable-input [isAbsolute]="true" style="background: white;">
-        <input type="text" cdkExpInput />
-        <i cdkExpIconOpen>➕</i>
-        <i cdkExpIconClose>✖️</i>
-        <i cdkExpIconAction>➕</i>
-      </cdk-expandable-input>
-    </div>
-  </mat-card>
-</div>
