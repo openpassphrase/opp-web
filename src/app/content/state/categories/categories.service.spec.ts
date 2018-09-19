@@ -89,17 +89,4 @@ describe('Categories Store', () => {
     service.addItem({ item: { id: -1, name: 'one', category_id: 7 }, auto_pass: false, genopts: {} });
     service.addItem({ item: { id: -1, name: 'two', category_id: 7 }, auto_pass: false, genopts: {} });
   });
-
-  it('should set searchFor', () => {
-    let searchFor: string | undefined;
-    query.select(s => s.searchFor).subscribe(s => searchFor = s);
-    service.keyPressed('s');
-    expect(searchFor).toBe('s');
-    service.keyPressed('t');
-    expect(searchFor).toBe('st');
-    service.keyPressed('Backspace');
-    expect(searchFor).toBe('s');
-    service.keyPressed('Escape');
-    expect(searchFor).toBe('');
-  });
 });

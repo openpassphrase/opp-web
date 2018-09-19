@@ -1,11 +1,3 @@
-<div class="wrap-search-for-desk">
-  <mat-card *ngIf="searchFor$ | async as searchFor" class="search-for-desk" fxShow="false" fxShow.gt-xs="true">
-    <mat-card-content>
-      Search for: <span class="highlighted">{{searchFor}}</span>
-    </mat-card-content>
-  </mat-card>
-</div>
-
 <div class="expandables">
   <button
     *ngIf="(categories$ | async)!.length"
@@ -18,17 +10,30 @@
   </button>
 
   <app-expandable-input
+    #expandableSearch
     [isAbsolute]="true"
     [slideToEdge]="true"
+    (keydown.escape)="clearSearch()"
+    openOnKey="/"
     right="40"
     group="g1"
-    fxShow="false"
-    fxShow.xs="true"
   >
-    <input matInput expInput type="text" placeholder="Search" [formControl]="searchForControl">
+    <input matInput expInput
+      [formControl]="searchForControl"
+      type="text"
 
-    <button expIconOpen mat-icon-button mat-mini-icon-button>
+      placeholder="Search" />
+
+    <button expIconOpen mat-icon-button>
       <mat-icon matRipple>search</mat-icon>
+    </button>
+
+    <button expIconClose
+      mat-icon-button mat-mini-icon-button
+      type="button"
+      (click)="clearSearch()"
+    >
+      <mat-icon matRipple>close</mat-icon>
     </button>
   </app-expandable-input>
 

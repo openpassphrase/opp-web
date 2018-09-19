@@ -4,6 +4,7 @@
   [right]="right"
   [slideToEdge]="slideToEdge"
   [actionOffset]="15"
+  [openOnKey]="openOnKey"
   (opened)="opened()"
   (closed)="closed()"
 >
@@ -14,12 +15,22 @@
   <div cdkExpIconOpen>
     <ng-content select="[expIconOpen]"></ng-content>
   </div>
-
-  <button cdkExpIconClose mat-icon-button mat-mini-icon-button type="button">
-    <mat-icon matRipple cdkExpIconClose>close</mat-icon>
-  </button>
-
+  
   <div cdkExpIconAction>
     <ng-content select="[expIconAction]"></ng-content>
   </div>
+  
+  <div cdkExpIconClose *ngIf="iconClose; else defaultIconClose">
+    <ng-content select="[expIconClose]"></ng-content>
+  </div>
+
+  <ng-template #defaultIconClose>
+    <button cdkExpIconClose
+      mat-icon-button
+      mat-mini-icon-button
+      type="button"
+    >
+    <mat-icon matRipple cdkExpIconClose>close</mat-icon>
+  </button>
+  </ng-template>
 </cdk-expandable-input>

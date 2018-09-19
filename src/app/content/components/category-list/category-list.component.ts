@@ -1,12 +1,12 @@
-import { DOCUMENT } from '@angular/common';
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, HostListener, Inject, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatExpansionPanel, MatExpansionPanelHeader } from '@angular/material';
 import { ICategory, ICategoryItems, IItem, IItemFormResult, IRemoveCategoryPayload, IUpdateCategoryPayload, IUpdateItemPayload } from '@app/content/models';
 import { combineLatest, Observable, Subject } from 'rxjs';
-import { filter, first, pairwise, startWith, take, takeUntil, tap } from 'rxjs/operators';
+import { debounceTime, filter, first, take, takeUntil, tap } from 'rxjs/operators';
 import { CategoriesQuery, CategoriesService } from '../../state/categories';
 import { ItemsQuery } from '../../state/items';
+import { ExpandableInputComponent } from '../expandable-input/expandable-input.component';
 
 @Component({
   selector: 'app-category-list',
@@ -18,18 +18,18 @@ export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {
   private ngUnsubscribe = new Subject<any>();
   categories$: Observable<ICategoryItems[]>;
   itemsWithoutCategory$: Observable<IItem[]>;
-  keyPressed$ = new Subject<string>();
   searchFor$: Observable<string>;
   searchForControl = new FormControl();
 
   @ViewChildren(MatExpansionPanel) expansionPanels: QueryList<MatExpansionPanel>;
   @ViewChildren(MatExpansionPanelHeader, { read: ElementRef }) expansionPanelsHtml: QueryList<ElementRef>;
 
+  @ViewChild('expandableSearch') expandableSearch: ExpandableInputComponent;
+
   constructor(
     private categoriesService: CategoriesService,
     private categoriesQuery: CategoriesQuery,
     private itemsQuery: ItemsQuery,
-    @Inject(DOCUMENT) private document: any
   ) { }
 
   ngOnInit() {
@@ -46,21 +46,13 @@ export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {
     combineLatest(definedCategories$, this.searchFor$).subscribe(([_c, s]) => {
       if (!!s) {
         this.expandAllPanels();
+      } else {
+        this.collapseAllPanels();
       }
     });
 
-    this.keyPressed$.pipe(
-      takeUntil(this.ngUnsubscribe),
-      startWith(''),
-      pairwise(),
-      tap(([prev, curr]) => {
-        if (curr === 'Escape' && (prev === curr)) {
-          this.collapseAllPanels();
-        }
-      })
-    ).subscribe();
-
     this.searchForControl.valueChanges.pipe(
+      debounceTime(300),
       takeUntil(this.ngUnsubscribe),
       tap(searchFor => {
         this.categoriesService.updateSearchFor(searchFor);
@@ -127,17 +119,10 @@ export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {
     return !this.expansionPanels.map(x => x.expanded).some(x => x);
   }
 
-  @HostListener('document:keydown', ['$event'])
-  keyboardInput(event: KeyboardEvent) {
-    if (!this.isInputControlFocused()) {
-      if (event.key === 'Backspace') {
-        event.preventDefault();
-      }
-      this.keyPressed$.next(event.key);
-      if (event.key.length === 1 || event.key === 'Escape' || event.key === 'Backspace') {
-        this.categoriesService.keyPressed(event.key);
-      }
-    }
+  clearSearch() {
+    this.categoriesService.updateSearchFor('');
+    this.searchForControl.setValue('');
+    this.collapseAllPanels();
   }
 
   ngOnDestroy() {
@@ -161,11 +146,6 @@ export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {
         this.expansionPanels.first.accordion.multi = false;
       }
     });
-  }
-
-  private isInputControlFocused() {
-    return this.document.activeElement.nodeName === 'INPUT' ||
-      this.document.activeElement.nodeName === 'TEXTAREA';
   }
 
   private focusElRef(el: ElementRef) {

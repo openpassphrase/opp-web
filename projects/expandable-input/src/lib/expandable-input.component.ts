@@ -1,5 +1,6 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, ElementRef, EventEmitter, HostBinding, HostListener, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, ElementRef, EventEmitter, HostBinding, HostListener, Inject, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { CdkExpIconActionDirective } from './exp-icon-action.directive';
 import { CdkExpIconCloseDirective } from './exp-icon-close.directive';
 import { CdkExpIconOpenDirective } from './exp-icon-open.directive';
@@ -71,6 +72,8 @@ import { InputsManagerService } from './inputs-manager.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CdkExpandableInputComponent implements OnInit, AfterViewInit, OnDestroy {
+  private inputHtmlEl: HTMLInputElement | undefined | null;
+
   /**
    * If multiple components use the same value for "group" input, only one
    * component with that group value can be expanded at a time
@@ -97,6 +100,16 @@ export class CdkExpandableInputComponent implements OnInit, AfterViewInit, OnDes
    * Sets how far to the left from the open/close elements the action element is.
    */
   @Input() actionOffset = 5;
+
+  /**
+   * When true, input looses focus if Esc is pressed
+   */
+  @Input() blurInputOnEsc = false;
+
+  /**
+   * When set to KeyboardEvent.key, input will expand when that key is pressed
+   */
+  @Input() openOnKey: string | undefined;
 
   @Output() opened = new EventEmitter();
   @Output() closed = new EventEmitter();
@@ -156,10 +169,22 @@ export class CdkExpandableInputComponent implements OnInit, AfterViewInit, OnDes
     this.blurOnInput();
   }
 
+  @HostListener('document:keydown', ['$event'])
+  keydown(ev: KeyboardEvent) {
+    if (this.openOnKey !== undefined &&
+      ev.key === this.openOnKey &&
+      (!this.isOpen || !this.isInputFocused())
+    ) {
+      ev.preventDefault();
+      this.open();
+    }
+  }
+
   constructor(
     private inputsManager: InputsManagerService,
     private hostElRef: ElementRef,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    @Inject(DOCUMENT) private document: any
   ) { }
 
   ngOnInit() {
@@ -171,6 +196,9 @@ export class CdkExpandableInputComponent implements OnInit, AfterViewInit, OnDes
     this.sanityCheck();
     this.checkNoBackground();
     this.setElementsSpacing();
+    if (this.expandableInput) {
+      this.inputHtmlEl = this.expandableInput.querySelector('input');
+    }
   }
 
   ngOnDestroy() {
@@ -194,7 +222,6 @@ export class CdkExpandableInputComponent implements OnInit, AfterViewInit, OnDes
     this.isOpen = false;
     this.closed.emit();
     this.cdr.detectChanges();
-    // this.inputElement.nativeElement.value = '';
   }
 
   private setElementsSpacing() {
@@ -229,7 +256,7 @@ export class CdkExpandableInputComponent implements OnInit, AfterViewInit, OnDes
   private waitForExpandableInputToShow() {
     return new Promise(resolve => {
       const options = {
-        root: document.documentElement
+        root: this.document.documentElement
       };
 
       const observer = new IntersectionObserver((entries) => {
@@ -246,25 +273,28 @@ export class CdkExpandableInputComponent implements OnInit, AfterViewInit, OnDes
   }
 
   private focusOnInput() {
-    if (this.expandableInput) {
-      const input = this.expandableInput.querySelector('input');
-      if (input) {
-        input.focus();
-      }
+    if (this.inputHtmlEl) {
+      this.inputHtmlEl.focus();
     }
   }
 
   private blurOnInput() {
-    if (this.expandableInput) {
-      const input = this.expandableInput.querySelector('input');
-      if (input) {
-        // input might have other keyup.escape handler associated with it
-        // setTimeout to push blur call at the end of the event loop
-        setTimeout(() => {
-          input.blur();
-        });
-      }
+    if (this.blurInputOnEsc) {
+      // input might have other keyup.escape handler associated with it
+      // setTimeout to push blur call at the end of the event loop
+      setTimeout(() => {
+        if (this.inputHtmlEl) {
+          this.inputHtmlEl.blur();
+        }
+      });
     }
+  }
+
+  private isInputFocused() {
+    if (!this.inputHtmlEl || !this.document.activeElement) {
+      return false;
+    }
+    return this.inputHtmlEl === this.document.activeElement;
   }
 
   private sanityCheck() {

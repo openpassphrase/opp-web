@@ -135,24 +135,6 @@ export class CategoriesService {
     this.categoriesStore.setLoading(isLoading);
   }
 
-  keyPressed(key: string) {
-    if (key === 'Escape') {
-      this.categoriesStore.updateRoot({ searchFor: '' });
-    } else if (key === 'Backspace') {
-      this.categoriesStore.updateRoot(s => {
-        if (s.searchFor) {
-          const searchFor = s.searchFor.slice(0, s.searchFor.length - 1);
-          return { searchFor };
-        }
-      });
-    } else {
-      this.categoriesStore.updateRoot(s => {
-        const searchFor = (s.searchFor || '') + key;
-        return { searchFor };
-      });
-    }
-  }
-
   updateSearchFor(searchFor: string) {
     this.categoriesStore.updateRoot({ searchFor });
   }

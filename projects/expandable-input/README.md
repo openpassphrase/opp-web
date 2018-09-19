@@ -64,6 +64,8 @@ Input | Description
 @Input() slideToEdge = false; | Used when `[right]="is greater than 0"`. Animates component to take the whole container's width when extending
 @Input() group: string | If multiple components use the same value for "group" input, only one component with that group value can be expanded at a time
 @Input() actionOffset = 5; | Sets how far to the left from the open/close elements the action element is.
+@Input() blurInputOnEsc = false; | When true, input looses focus if Esc is pressed
+@Input() openOnKey: string | undefined; | When set to KeyboardEvent.key, input will expand when that key is pressed
 
 ### Outputs:
 Output | Description

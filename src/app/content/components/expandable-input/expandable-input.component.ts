@@ -1,5 +1,12 @@
-import { ChangeDetectionStrategy, Component, ContentChild, Input, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ContentChild, Directive, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { MatFormField, MatFormFieldControl } from '@angular/material';
+import { CdkExpandableInputComponent } from 'expandable-input';
+
+@Directive({
+  // tslint:disable-next-line:directive-selector
+  selector: '[expIconClose]'
+})
+export class ExpIconCloseDirective { }
 
 @Component({
   selector: 'app-expandable-input',
@@ -12,11 +19,16 @@ export class ExpandableInputComponent implements OnInit {
   @Input() isAbsolute = false;
   @Input() right = 0;
   @Input() slideToEdge = false;
+  @Input() openOnKey: string | undefined;
 
   isOpen = false;
 
+  @ViewChild(CdkExpandableInputComponent) cdk: CdkExpandableInputComponent;
+
   @ContentChild(MatFormFieldControl) _control: MatFormFieldControl<any>;
   @ViewChild(MatFormField) _matFormField: MatFormField;
+
+  @ContentChild(ExpIconCloseDirective, { read: ElementRef }) iconClose: ElementRef;
 
   ngOnInit() {
     this._matFormField._control = this._control;

@@ -7,7 +7,7 @@ import { SharedModule } from '@app/shared/shared.module';
 import { ExpandableInputModule } from 'expandable-input';
 import { ClipboardModule } from 'ngx-clipboard';
 import { NgxMessagesModule } from 'ngx-messages';
-import { ExpandableInputComponent } from './components/expandable-input/expandable-input.component';
+import { ExpandableInputComponent, ExpIconCloseDirective } from './components/expandable-input/expandable-input.component';
 import { PhraseComponent } from './route-components/phrase/phrase.component';
 import { SecretsComponent } from './route-components/secrets/secrets.component';
 
@@ -33,7 +33,8 @@ import { SecretsComponent } from './route-components/secrets/secrets.component';
     SecretPhraseInputComponent,
     PhraseComponent,
     SecretsComponent,
-    ExpandableInputComponent
+    ExpandableInputComponent,
+    ExpIconCloseDirective
   ],
   providers: [
     ScrollToService
