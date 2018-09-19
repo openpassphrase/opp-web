@@ -13,7 +13,7 @@ export class PwaService {
   private isAppInstalledSubj$ = new BehaviorSubject<boolean>(false);
   promptEvent$ = this.promptEventSubj$.asObservable();
   showCustomButton$: Observable<boolean>;
-  showIosCustomButton = this.isIos() && this.isInStandaloneMode();
+  showIosCustomButton = this.isIos() && !this.isInStandaloneMode();
 
   constructor(
     private swUpdate: SwUpdate,
@@ -72,7 +72,6 @@ export class PwaService {
   private isIos() {
     const userAgent = window.navigator.userAgent.toLowerCase();
     const match = /iphone|ipad|ipod/.test(userAgent);
-    alert(`match: ${match}; userAgent: ${userAgent}; standalone: ${(window.navigator as any).standalone}`);
     return match;
   }
 
