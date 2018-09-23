@@ -42,7 +42,7 @@
 
 <div class="categories">
   <mat-accordion>
-    <mat-expansion-panel *ngFor="let c of categories$ | async; trackBy: trackCategoriesBy" #panel>
+    <mat-expansion-panel *ngFor="let c of categories$ | async; trackBy: trackCategoriesBy" #panel [ngClass]="{ hide: c.isHidden }">
       <mat-expansion-panel-header>
         <app-category
           [category]="c"

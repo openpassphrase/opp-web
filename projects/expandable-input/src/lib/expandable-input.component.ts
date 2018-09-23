@@ -7,6 +7,12 @@ import { CdkExpIconOpenDirective } from './exp-icon-open.directive';
 import { CdkExpInputDirective } from './exp-input.directive';
 import { InputsManagerService } from './inputs-manager.service';
 
+export class ExpInputError extends Error {
+  constructor(message: string) {
+    super(`Error in cdk-expandable-input: ${message}`);
+  }
+}
+
 @Component({
   selector: 'cdk-expandable-input',
   template: `
@@ -319,12 +325,6 @@ export class CdkExpandableInputComponent implements OnInit, AfterViewInit, OnDes
       This might result in other elements showing through when component is expanded.`;
       console.warn(message);
     }
-  }
-}
-
-export class ExpInputError extends Error {
-  constructor(message: string) {
-    super(`Error in cdk-expandable-input: ${message}`);
   }
 }
 

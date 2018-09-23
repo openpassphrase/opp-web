@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ICategory, ICategoryItems, IItem } from '@app/content/models';
 import { QueryEntity } from '@datorama/akita';
 import { combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
 import { ItemsQuery } from '../items';
 import { CategoriesState, CategoriesStore } from './categories.store';
 
@@ -21,7 +21,7 @@ export class CategoriesQuery extends QueryEntity<CategoriesState, ICategory> {
     return combineLatest(
       this.selectAll(),
       this.itemsQuery.selectAll(),
-      this.select(s => s.searchFor)
+      this.select(s => s.ui.searchFor)
     ).pipe(
       map(([categories, items, searchFor]) => {
         const categoryItems = categories.map(associateItemsWithCategory(items));
@@ -30,19 +30,19 @@ export class CategoriesQuery extends QueryEntity<CategoriesState, ICategory> {
         }
 
         return categoryItems
-          .filter(c => {
-            const matchesSearch = matchesSearchWord(searchFor)(c);
-            const hasMatchingItem = c.items.some(matchesSearchWord(searchFor));
-            return hasMatchingItem || matchesSearch;
-          })
           .map(c => {
-            const matchesSearch = matchesSearchWord(searchFor)(c);
-            if (matchesSearch) { return c; }
-
-            return { ...c, items: c.items.filter(matchesSearchWord(searchFor)) };
+            const categoryMatchesSearch = matchesSearchWord(searchFor)(c);
+            if (categoryMatchesSearch) {
+              return c;
+            }
+            const hasMatchingItem = c.items.some(matchesSearchWord(searchFor));
+            if (hasMatchingItem) {
+              return c;
+            }
+            return { ...c, isHidden: true };
           });
       })
-    );
+    ).pipe(shareReplay(1));
   }
 
   selectIsPathPhraseCorrect() {

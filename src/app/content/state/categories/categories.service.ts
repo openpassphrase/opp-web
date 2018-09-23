@@ -136,6 +136,10 @@ export class CategoriesService {
   }
 
   updateSearchFor(searchFor: string) {
-    this.categoriesStore.updateRoot({ searchFor });
+    if (searchFor.length > 2) {
+      this.categoriesStore.updateUi({ searchFor });
+    } else if (this.categoriesStore._value().ui.searchFor.length > 2) {
+      this.categoriesStore.updateUi({ searchFor: '' });
+    }
   }
 }

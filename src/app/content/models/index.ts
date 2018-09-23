@@ -4,6 +4,7 @@ export interface ICategory {
   id: ID;
   name: string;
   dirty?: string;
+  isHidden?: boolean;
 }
 
 export interface IItem {
