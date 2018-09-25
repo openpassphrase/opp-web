@@ -42,7 +42,11 @@
 
 <div class="categories">
   <mat-accordion>
-    <mat-expansion-panel *ngFor="let c of categories$ | async; trackBy: trackCategoriesBy" #panel [ngClass]="{ hide: c.isHidden }">
+    <mat-expansion-panel
+      *ngFor="let c of categories$ | async; trackBy: trackCategoriesBy"
+      #panel
+      [ngClass]="{ hide: c.isHidden }"
+    >
       <mat-expansion-panel-header>
         <app-category
           [category]="c"
@@ -69,6 +73,7 @@
             app-item
             [item]="item"
             [searchFor]="searchFor$ | async"
+            [ngClass]="{ hide: item.isHidden }"
             (updateItem)="updateItem($event)"
             (removeItem)="removeItem($event)"
           >

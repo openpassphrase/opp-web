@@ -21,25 +21,39 @@ export class CategoriesQuery extends QueryEntity<CategoriesState, ICategory> {
     return combineLatest(
       this.selectAll(),
       this.itemsQuery.selectAll(),
+    ).pipe(
+      map(([categories, items]) => categories.map(associateItemsWithCategory(items)))
+    );
+  }
+
+  selectVisibleCategoryItems() {
+    return combineLatest(
+      this.selectCategoryItems(),
       this.select(s => s.ui.searchFor)
     ).pipe(
-      map(([categories, items, searchFor]) => {
-        const categoryItems = categories.map(associateItemsWithCategory(items));
+      map(([categoryItems, searchFor]) => {
         if (!searchFor) {
           return categoryItems;
         }
 
         return categoryItems
-          .map(c => {
-            const categoryMatchesSearch = matchesSearchWord(searchFor)(c);
+          .map(cat => {
+            const categoryMatchesSearch = matchesSearchWord(searchFor)(cat);
             if (categoryMatchesSearch) {
-              return c;
+              return cat;
             }
-            const hasMatchingItem = c.items.some(matchesSearchWord(searchFor));
-            if (hasMatchingItem) {
-              return c;
-            }
-            return { ...c, isHidden: true };
+            const c = { ...cat };
+            let hasMatchingItem = false;
+            c.items = c.items.map(item => {
+              const itemMatchesSearch = matchesSearchWord(searchFor)(item);
+              if (itemMatchesSearch) {
+                hasMatchingItem = true;
+              }
+              return itemMatchesSearch ? item : { ...item, isHidden: true };
+            });
+
+            if (!hasMatchingItem) { c.isHidden = true; }
+            return c;
           });
       })
     ).pipe(shareReplay(1));

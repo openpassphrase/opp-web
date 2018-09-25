@@ -16,6 +16,7 @@ export interface IItem {
   password?: string;
   blob?: string;
   category_id?: number;
+  isHidden?: boolean;
 }
 
 export interface IGenopts {

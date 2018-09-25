@@ -33,7 +33,7 @@ export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.categories$ = this.categoriesQuery.selectCategoryItems();
+    this.categories$ = this.categoriesQuery.selectVisibleCategoryItems();
     this.itemsWithoutCategory$ = this.itemsQuery.selectItemsWithoutCategory();
 
     this.searchFor$ = this.categoriesQuery.select(s => s.ui.searchFor);
