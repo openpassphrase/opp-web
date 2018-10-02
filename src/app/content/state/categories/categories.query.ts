@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ICategory, ICategoryItems, IItem } from '@app/content/models';
 import { QueryEntity } from '@datorama/akita';
 import { combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
 import { ItemsQuery } from '../items';
 import { CategoriesState, CategoriesStore } from './categories.store';
 
@@ -21,28 +21,42 @@ export class CategoriesQuery extends QueryEntity<CategoriesState, ICategory> {
     return combineLatest(
       this.selectAll(),
       this.itemsQuery.selectAll(),
-      this.select(s => s.searchFor)
     ).pipe(
-      map(([categories, items, searchFor]) => {
-        const categoryItems = categories.map(associateItemsWithCategory(items));
+      map(([categories, items]) => categories.map(associateItemsWithCategory(items)))
+    );
+  }
+
+  selectVisibleCategoryItems() {
+    return combineLatest(
+      this.selectCategoryItems(),
+      this.select(s => s.ui.searchFor)
+    ).pipe(
+      map(([categoryItems, searchFor]) => {
         if (!searchFor) {
           return categoryItems;
         }
 
         return categoryItems
-          .filter(c => {
-            const matchesSearch = matchesSearchWord(searchFor)(c);
-            const hasMatchingItem = c.items.some(matchesSearchWord(searchFor));
-            return hasMatchingItem || matchesSearch;
-          })
-          .map(c => {
-            const matchesSearch = matchesSearchWord(searchFor)(c);
-            if (matchesSearch) { return c; }
+          .map(cat => {
+            const categoryMatchesSearch = matchesSearchWord(searchFor)(cat);
+            if (categoryMatchesSearch) {
+              return cat;
+            }
+            const c = { ...cat };
+            let hasMatchingItem = false;
+            c.items = c.items.map(item => {
+              const itemMatchesSearch = matchesSearchWord(searchFor)(item);
+              if (itemMatchesSearch) {
+                hasMatchingItem = true;
+              }
+              return itemMatchesSearch ? item : { ...item, isHidden: true };
+            });
 
-            return { ...c, items: c.items.filter(matchesSearchWord(searchFor)) };
+            if (!hasMatchingItem) { c.isHidden = true; }
+            return c;
           });
       })
-    );
+    ).pipe(shareReplay(1));
   }
 
   selectIsPathPhraseCorrect() {

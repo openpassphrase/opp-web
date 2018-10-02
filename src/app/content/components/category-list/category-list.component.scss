@@ -1,24 +1,36 @@
+:host /deep/ {
+  .hide {
+    display: none !important;
+  }
+}
+
 .categories {
   margin-bottom: 20px;
 }
 
-.search-for {
+.search-for-desk {
   position: absolute;
-  z-index: 1;
+  z-index: 2;
+  top: -58px;
+}
+
+.expandables {
+  position: relative;
+  height: 46px;
+  margin: 0 10px 10px;
+  display: flex;
+  align-items: center;
+}
+
+.btn-expand-all {
+  margin-left: 10px;
+  z-index: 2;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
   table-layout: fixed;
-}
-
-.btn-expand-all {
-  margin-left: 10px;
-
-  &.m-0 {
-    margin-left: 0;
-  }
 }
 
 table.resp-table {

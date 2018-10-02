@@ -68,6 +68,20 @@ button.mat-mini-fab {
   }
 }
 
+button.mat-icon-button[mat-mini-icon-button] {
+  height: 30px;
+  width: 30px;
+  line-height: 30px;
+
+  .mat-button-wrapper {
+    padding: 0;
+  }
+
+  mat-icon {
+    font-size: 18px;
+  }
+}
+
 [val-message] {
   color: red;
 }
@@ -94,4 +108,12 @@ button.mat-mini-fab {
 
 .mt-1 {
   margin-top: 0.5rem;
+}
+
+.abs {
+  position: absolute;
+}
+
+.rel {
+  position: relative;
 }

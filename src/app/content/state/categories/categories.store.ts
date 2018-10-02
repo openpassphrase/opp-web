@@ -2,11 +2,13 @@ import { Injectable } from '@angular/core';
 import { ICategory } from '@app/content/models';
 import { EntityState, EntityStore, guid, StoreConfig } from '@datorama/akita';
 
-export interface CategoriesState extends EntityState<ICategory> {
-  ui: {
-    isPathPhraseCorrect: boolean
-  };
+export interface IUiState {
+  isPathPhraseCorrect: boolean;
   searchFor: string;
+}
+
+export interface CategoriesState extends EntityState<ICategory> {
+  ui: IUiState;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -15,10 +17,16 @@ export class CategoriesStore extends EntityStore<CategoriesState, ICategory> {
   constructor() {
     const initialState: CategoriesState = {
       loading: false,
-      ui: { isPathPhraseCorrect: false },
-      searchFor: ''
+      ui: {
+        isPathPhraseCorrect: false,
+        searchFor: ''
+      },
     };
     super(initialState);
+  }
+
+  updateUi(ui: Partial<IUiState>) {
+    this.updateRoot(state => ({ ui: { ...state.ui, ...ui } }));
   }
 
   optimisticAdd(name: string) {
@@ -28,6 +36,6 @@ export class CategoriesStore extends EntityStore<CategoriesState, ICategory> {
   }
 
   setIsPathPhraseCorrect(isCorrect: boolean) {
-    this.updateRoot({ ui: { isPathPhraseCorrect: isCorrect } });
+    this.updateUi({ isPathPhraseCorrect: isCorrect });
   }
 }

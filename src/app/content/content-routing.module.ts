@@ -1,10 +1,20 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { ContentComponent } from '@app/content/content.component';
+import { PhraseComponent, SecretsComponent } from '@app/content/route-components';
+import { PhraseCorrectGuardService, PhraseIncorrectGuardService } from '@app/content/services';
 import { AuthGuard } from '@app/shared/auth-services';
 
 const routes: Routes = [
-  { path: '', component: ContentComponent, canActivate: [AuthGuard] }
+  {
+    path: '',
+    component: ContentComponent,
+    canActivate: [AuthGuard],
+    children: [
+      { path: 'phrase', component: PhraseComponent, canActivate: [PhraseIncorrectGuardService] },
+      { path: 'secrets', component: SecretsComponent, canActivate: [PhraseCorrectGuardService] }
+    ]
+  }
 ];
 
 @NgModule({

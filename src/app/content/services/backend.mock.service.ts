@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { map, share } from 'rxjs/operators';
 import { ICategory, IItem, IItemFormResult } from '@app/content/models';
 import { IBackendService } from '@app/content/services';
 import { ID } from '@datorama/akita';
+import { Observable, of } from 'rxjs';
+import { map, share } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class BackendMockService implements IBackendService {
@@ -30,8 +30,9 @@ export class BackendMockService implements IBackendService {
   secret: string | undefined;
 
   fetchAll() {
-    return of(this._data)
-      .pipe(share());
+    return of(this._data).pipe(
+      share()
+    );
   }
 
   getCategories() {

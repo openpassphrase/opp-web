@@ -1,29 +1,52 @@
-<mat-card *ngIf="searchFor$ | async as searchFor" class="search-for">
-  <mat-card-content>
-    Search for: <span class="highlighted">{{searchFor}}</span>
-  </mat-card-content>
-</mat-card>
-
-<div fxLayout fxLayoutAlign="start center">
+<div class="expandables">
   <button
     *ngIf="(categories$ | async)!.length"
-    mat-mini-fab
+    mat-icon-button mat-mini-icon-button
     matTooltip="Toggle all categories"
     class="btn-expand-all"
-    ngClass.gt-xs="m-0"
     (click)="toggleAll()"
     type="button">
     <mat-icon>{{areAllClosed() ? 'border_outer' : 'border_horizontal'}}</mat-icon>
   </button>
 
-  <span fxFlex></span>
+  <app-expandable-input
+    #expandableSearch
+    [isAbsolute]="true"
+    [slideToEdge]="true"
+    (keydown.escape)="clearSearch()"
+    openOnKey="/"
+    right="40"
+    group="g1"
+  >
+    <input matInput expInput
+      [formControl]="searchForControl"
+      type="text"
 
-  <app-add-category-form *ngIf="isCorrectPhrase$ | async" (add)="addCategory($event)"></app-add-category-form>
+      placeholder="Search" />
+
+    <button expIconOpen mat-icon-button>
+      <mat-icon matRipple>search</mat-icon>
+    </button>
+
+    <button expIconClose
+      mat-icon-button mat-mini-icon-button
+      type="button"
+      (click)="clearSearch()"
+    >
+      <mat-icon matRipple>close</mat-icon>
+    </button>
+  </app-expandable-input>
+
+  <app-add-category-form (add)="addCategory($event)"></app-add-category-form>
 </div>
 
 <div class="categories">
   <mat-accordion>
-    <mat-expansion-panel *ngFor="let c of categories$ | async; trackBy: trackCategoriesBy" #panel>
+    <mat-expansion-panel
+      *ngFor="let c of categories$ | async; trackBy: trackCategoriesBy"
+      #panel
+      [ngClass]="{ hide: c.isHidden }"
+    >
       <mat-expansion-panel-header>
         <app-category
           [category]="c"
@@ -50,6 +73,7 @@
             app-item
             [item]="item"
             [searchFor]="searchFor$ | async"
+            [ngClass]="{ hide: item.isHidden }"
             (updateItem)="updateItem($event)"
             (removeItem)="removeItem($event)"
           >
