@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, HostListener, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatExpansionPanel, MatExpansionPanelHeader } from '@angular/material';
 import { ICategory, ICategoryItems, IItem, IItemFormResult, IRemoveCategoryPayload, IUpdateCategoryPayload, IUpdateItemPayload } from '@app/content/models';
@@ -86,6 +86,11 @@ export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {
           });
         });
     }
+  }
+
+  @HostListener('document:keydown.escape')
+  onEsc() {
+    this.collapseAllPanels();
   }
 
   addCategory(name: string) {
