@@ -1,12 +1,33 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, HostListener, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  HostListener,
+  OnDestroy,
+  OnInit,
+  QueryList,
+  ViewChild,
+  ViewChildren,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatExpansionPanel, MatExpansionPanelHeader } from '@angular/material';
-import { ICategory, ICategoryItems, IItem, IItemFormResult, IRemoveCategoryPayload, IUpdateCategoryPayload, IUpdateItemPayload } from '@app/content/models';
+import {
+  ICategory,
+  ICategoryItems,
+  IItem,
+  IItemFormResult,
+  IRemoveCategoryPayload,
+  IUpdateCategoryPayload,
+  IUpdateItemPayload,
+} from '@app/content/models';
+import { ExpandableInputMaterialComponent } from '@ng-expandable-input/material';
 import { combineLatest, Observable, Subject } from 'rxjs';
 import { auditTime, debounceTime, filter, first, take, takeUntil, tap } from 'rxjs/operators';
+
 import { CategoriesQuery, CategoriesService } from '../../state/categories';
 import { ItemsQuery } from '../../state/items';
-import { ExpandableInputComponent } from '../expandable-input/expandable-input.component';
+
 
 @Component({
   selector: 'app-category-list',
@@ -24,7 +45,7 @@ export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChildren(MatExpansionPanel) expansionPanels: QueryList<MatExpansionPanel>;
   @ViewChildren(MatExpansionPanelHeader, { read: ElementRef }) expansionPanelsHtml: QueryList<ElementRef>;
 
-  @ViewChild('expandableSearch') expandableSearch: ExpandableInputComponent;
+  @ViewChild('searchExpInput') searchExpInput: ExpandableInputMaterialComponent;
 
   constructor(
     private categoriesService: CategoriesService,
@@ -132,6 +153,11 @@ export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {
   areAllClosed() {
     if (!this.expansionPanels) { return true; }
     return !this.expansionPanels.map(x => x.expanded).some(x => x);
+  }
+
+  escSearch() {
+    this.clearSearch();
+    this.searchExpInput.cdk.close();
   }
 
   clearSearch() {

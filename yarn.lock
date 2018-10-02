@@ -259,6 +259,18 @@
   dependencies:
     tslib "^1.9.0"
 
+"@ng-expandable-input/cdk@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@ng-expandable-input/cdk/-/cdk-1.0.0.tgz#a98677d3c4849b2c684db69adb2ff3ad7cd17e82"
+  dependencies:
+    tslib "^1.9.0"
+
+"@ng-expandable-input/material@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@ng-expandable-input/material/-/material-1.0.0.tgz#68ad01764831597f8c494a51d4cc0d7e38e187ee"
+  dependencies:
+    tslib "^1.9.0"
+
 "@ngtools/json-schema@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@ngtools/json-schema/-/json-schema-1.1.0.tgz#c3a0c544d62392acc2813a42c8a0dc6f58f86922"
