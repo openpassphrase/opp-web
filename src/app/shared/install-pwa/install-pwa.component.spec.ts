@@ -2,36 +2,40 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatSnackBar } from '@angular/material';
 import { SwUpdate } from '@angular/service-worker';
 import { PwaService } from '@app/core/pwa.service';
-
 import { InstallPwaComponent } from './install-pwa.component';
+
+
+class PwaServiceMock extends PwaService {
+  showIosCustomButton = true;
+}
 
 describe('InstallPwaComponent', () => {
   let component: InstallPwaComponent;
   let fixture: ComponentFixture<InstallPwaComponent>;
-  let button: () => HTMLElement;
+  let button: (className: string) => HTMLElement;
 
-  function expectButtonToBeShown() {
-    const btn = button();
+  function expectButtonToBeShown(className: string) {
+    const btn = button(className);
     expect(btn).not.toBeNull();
     expect(btn.tagName).toBe('BUTTON');
   }
 
-  function expectButtonToBeHidden() {
-    expect(button()).toBeNull();
+  function expectButtonToBeHidden(className: string) {
+    expect(button(className)).toBeNull();
   }
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [InstallPwaComponent],
       providers: [
-        PwaService,
+        { provide: PwaService, useClass: PwaServiceMock },
         { provide: SwUpdate, useValue: {} },
         { provide: MatSnackBar, useValue: {} }
       ]
     });
     fixture = TestBed.createComponent(InstallPwaComponent);
     component = fixture.componentInstance;
-    button = () => fixture.nativeElement.querySelector('button');
+    button = (className: string) => fixture.nativeElement.querySelector(`button.${className}`);
   });
 
   it('should instantiate', () => {
@@ -40,19 +44,19 @@ describe('InstallPwaComponent', () => {
 
   it('should initially not show button', () => {
     fixture.detectChanges();
-    expectButtonToBeHidden();
+    expectButtonToBeHidden('js-button');
   });
 
   it('should not show button if app is installed', () => {
     triggerDocEvent('appinstalled');
     fixture.detectChanges();
-    expectButtonToBeHidden();
+    expectButtonToBeHidden('js-button');
   });
 
   it('should show button after beforeinstallprompt event', () => {
     triggerDocEvent('beforeinstallprompt');
     fixture.detectChanges();
-    expectButtonToBeShown();
+    expectButtonToBeShown('js-button');
   });
 
   it('should hide button after app installation', () => {
@@ -60,7 +64,12 @@ describe('InstallPwaComponent', () => {
     fixture.detectChanges();
     triggerDocEvent('appinstalled');
     fixture.detectChanges();
-    expectButtonToBeHidden();
+    expectButtonToBeHidden('js-button');
+  });
+
+  it('should show ios button', () => {
+    fixture.detectChanges();
+    expectButtonToBeShown('js-ios-button');
   });
 });
 

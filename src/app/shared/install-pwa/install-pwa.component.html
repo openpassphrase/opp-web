@@ -4,6 +4,18 @@
   mat-raised-button
   color="accent"
   type="button"
+  class="js-button"
+>
+  Install App
+</button>
+
+<button 
+  *ngIf="pwa.showIosCustomButton"
+  (click)="pwa.promptInstallPwaOnIos()"
+  mat-raised-button
+  color="accent"
+  type="button"
+  class="js-ios-button"
 >
   Install App
 </button>
