@@ -24,12 +24,6 @@
     "paths": {
       "@app/*": [
         "src/app/*"
-      ],
-      "expandable-input": [
-        "dist/expandable-input"
-      ],
-      "expandable-input/*": [
-        "dist/expandable-input/*"
       ]
     }
   }

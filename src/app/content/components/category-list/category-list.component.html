@@ -9,33 +9,32 @@
     <mat-icon>{{areAllClosed() ? 'border_outer' : 'border_horizontal'}}</mat-icon>
   </button>
 
-  <app-expandable-input
-    #expandableSearch
+  <mat-expandable-input
+    #searchExpInput
     [isAbsolute]="true"
     [slideToEdge]="true"
-    (keydown.escape)="clearSearch()"
+    (keydown.escape)="escSearch()"
     openOnKey="/"
     right="40"
     group="g1"
   >
-    <input matInput expInput
+    <input matInput matExpInput
       [formControl]="searchForControl"
       type="text"
-
       placeholder="Search" />
 
-    <button expIconOpen mat-icon-button>
+    <button matExpIconOpen mat-icon-button>
       <mat-icon matRipple>search</mat-icon>
     </button>
 
-    <button expIconClose
+    <button matExpIconClose
       mat-icon-button mat-mini-icon-button
       type="button"
       (click)="clearSearch()"
     >
       <mat-icon matRipple>close</mat-icon>
     </button>
-  </app-expandable-input>
+  </mat-expandable-input>
 
   <app-add-category-form (add)="addCategory($event)"></app-add-category-form>
 </div>
