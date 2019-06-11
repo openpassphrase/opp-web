@@ -1,4 +1,4 @@
-:host /deep/ {
+:host ::ng-deep {
   .hide {
     display: none !important;
   }
@@ -52,7 +52,7 @@ table.resp-table {
     display: none; // for accessibility, use a visually hidden method here instead!
   }
 
-  &/deep/td {
+  &::ng-deep td {
     display: block;
 
     &:before {
@@ -70,7 +70,7 @@ table.resp-table {
     }
   }
 
-  th, &/deep/td {
+  th, &::ng-deep td {
     text-align: left;
     
     @media (min-width: $breakpoint-alpha) {
@@ -88,7 +88,7 @@ table.resp-table {
   }
 
   @media (max-width: $breakpoint-alpha) {
-    tr/deep/ {
+    tr ::ng-deep {
       display: block;
       margin-bottom: 20px;
       border-radius: 2px;

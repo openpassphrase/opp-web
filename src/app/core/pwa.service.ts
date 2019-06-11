@@ -1,6 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { SwUpdate } from '@angular/service-worker';
 import { InstallOnIosInstructionsComponent } from '@app/shared/install-on-ios-instructions/install-on-ios-instructions.component';
 import { UpdateAvailableComponent } from '@app/shared/update-available/update-available.component';

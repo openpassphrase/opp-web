@@ -1,32 +1,13 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  HostListener,
-  OnDestroy,
-  OnInit,
-  QueryList,
-  ViewChild,
-  ViewChildren,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, HostListener, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatExpansionPanel, MatExpansionPanelHeader } from '@angular/material';
-import {
-  ICategory,
-  ICategoryItems,
-  IItem,
-  IItemFormResult,
-  IRemoveCategoryPayload,
-  IUpdateCategoryPayload,
-  IUpdateItemPayload,
-} from '@app/content/models';
+import { MatExpansionPanel, MatExpansionPanelHeader } from '@angular/material/expansion';
+import { ICategory, ICategoryItems, IItem, IItemFormResult, IRemoveCategoryPayload, IUpdateCategoryPayload, IUpdateItemPayload } from '@app/content/models';
 import { ExpandableInputMaterialComponent } from '@ng-expandable-input/material';
 import { combineLatest, Observable, Subject } from 'rxjs';
 import { auditTime, debounceTime, filter, first, take, takeUntil, tap } from 'rxjs/operators';
-
 import { CategoriesQuery, CategoriesService } from '../../state/categories';
 import { ItemsQuery } from '../../state/items';
+
 
 
 @Component({
@@ -45,7 +26,7 @@ export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChildren(MatExpansionPanel) expansionPanels: QueryList<MatExpansionPanel>;
   @ViewChildren(MatExpansionPanelHeader, { read: ElementRef }) expansionPanelsHtml: QueryList<ElementRef>;
 
-  @ViewChild('searchExpInput') searchExpInput: ExpandableInputMaterialComponent;
+  @ViewChild('searchExpInput', { static: false }) searchExpInput: ExpandableInputMaterialComponent;
 
   constructor(
     private categoriesService: CategoriesService,

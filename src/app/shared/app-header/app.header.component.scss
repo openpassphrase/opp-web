@@ -1,8 +1,8 @@
-:host /deep/ mat-toolbar-row {
+:host ::ng-deep mat-toolbar-row {
   height: 80px;
 }
 
-mat-form-field /deep/ {
+mat-form-field ::ng-deep {
   label {
     color: #ffd740;
   }

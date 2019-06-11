@@ -1,16 +1,7 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnInit,
-  Output,
-  SimpleChanges,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogRef, MatTooltip } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatTooltip } from '@angular/material/tooltip';
 import { ItemFormComponent } from '@app/content/components/item-form/item-form.component';
 import { ICategoryItems, IItemFormResult, IRemoveCategoryPayload, IUpdateCategoryPayload } from '@app/content/models';
 
@@ -45,7 +36,7 @@ export class CategoryComponent implements OnInit, OnChanges {
   changeCategoryForm: FormGroup;
   isInEditMode = false;
 
-  @ViewChild('addItemTooltip', { read: MatTooltip }) addItemTooltip: MatTooltip;
+  @ViewChild('addItemTooltip', { read: MatTooltip, static: false }) addItemTooltip: MatTooltip;
 
   @Input() category: ICategoryItems;
   @Input() readonly isExpanded = false;
