@@ -3,7 +3,7 @@ form {
     white-space: nowrap;
   }
 
-  .input-height /deep/ {
+  .input-height ::ng-deep {
     .mat-checkbox-layout {
       padding: 16px 0 27px;
     }

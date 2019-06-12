@@ -26,7 +26,7 @@ export class CategoriesStore extends EntityStore<CategoriesState, ICategory> {
   }
 
   updateUi(ui: Partial<IUiState>) {
-    this.updateRoot(state => ({ ui: { ...state.ui, ...ui } }));
+    this.update(state => ({ ui: { ...state.ui, ...ui } }));
   }
 
   optimisticAdd(name: string) {

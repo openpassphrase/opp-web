@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ICategoryItems, IItem } from '@app/content/models';
 import { BackendMockService, BackendService } from '@app/content/services';
 import { CategoriesQuery } from './categories.query';

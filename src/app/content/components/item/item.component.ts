@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { MatDialog, MatDialogRef, MatSnackBar } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ItemFormComponent } from '@app/content/components/item-form/item-form.component';
 import { IItem, IItemFormResult, IUpdateItemPayload } from '@app/content/models';
 
