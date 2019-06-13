@@ -23,8 +23,8 @@ describe('Categories Store', () => {
       ]
     });
 
-    service = TestBed.get(CategoriesService);
-    query = TestBed.get(CategoriesQuery);
+    service = TestBed.get<CategoriesService>(CategoriesService);
+    query = TestBed.get<CategoriesQuery>(CategoriesQuery);
   });
 
   it('should add two categories', () => {
