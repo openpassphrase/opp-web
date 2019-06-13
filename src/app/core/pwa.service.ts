@@ -28,9 +28,9 @@ export class PwaService {
       this.isAppInstalledSubj$.next(true);
     });
 
-    this.showCustomButton$ = combineLatest(
+    this.showCustomButton$ = combineLatest([
       this.promptEvent$, this.isAppInstalledSubj$.asObservable()
-    ).pipe(
+    ]).pipe(
       map(([promptEvent, isAppInstalled]) => !!promptEvent && !isAppInstalled)
     );
   }

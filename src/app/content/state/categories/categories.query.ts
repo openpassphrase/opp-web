@@ -18,19 +18,19 @@ export class CategoriesQuery extends QueryEntity<CategoriesState, ICategory> {
   }
 
   selectCategoryItems() {
-    return combineLatest(
+    return combineLatest([
       this.selectAll(),
-      this.itemsQuery.selectAll(),
-    ).pipe(
+      this.itemsQuery.selectAll()
+    ]).pipe(
       map(([categories, items]) => categories.map(associateItemsWithCategory(items)))
     );
   }
 
   selectVisibleCategoryItems() {
-    return combineLatest(
+    return combineLatest([
       this.selectCategoryItems(),
       this.select(s => s.ui.searchFor)
-    ).pipe(
+    ]).pipe(
       map(([categoryItems, searchFor]) => {
         if (!searchFor) {
           return categoryItems;

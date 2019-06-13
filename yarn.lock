@@ -339,15 +339,15 @@
     schematics-utilities "^1.1.1"
     tslib "^1.9.0"
 
-"@ng-expandable-input/cdk@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@ng-expandable-input/cdk/-/cdk-1.0.0.tgz#a98677d3c4849b2c684db69adb2ff3ad7cd17e82"
+"@ng-expandable-input/cdk@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@ng-expandable-input/cdk/-/cdk-1.2.1.tgz#f5b3cea5dd613717b28ee3dedb6e57fb3f692efc"
   dependencies:
     tslib "^1.9.0"
 
-"@ng-expandable-input/material@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@ng-expandable-input/material/-/material-1.0.0.tgz#68ad01764831597f8c494a51d4cc0d7e38e187ee"
+"@ng-expandable-input/material@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@ng-expandable-input/material/-/material-1.2.1.tgz#b8c5c8a9937e9554df4d31b3688f713a96564f1b"
   dependencies:
     tslib "^1.9.0"
 
@@ -951,7 +951,7 @@ babel-messages@^6.23.0:
   dependencies:
     babel-runtime "^6.22.0"
 
-babel-runtime@^6.22.0, babel-runtime@^6.26.0, babel-runtime@^6.6.1:
+babel-runtime@^6.22.0, babel-runtime@^6.26.0:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.26.0.tgz#965c7058668e82b55d7bfe04ff2337bc8b5647fe"
   dependencies:
@@ -1065,7 +1065,7 @@ blocking-proxy@^1.0.0:
   dependencies:
     minimist "^1.2.0"
 
-bluebird@^3.3.0, bluebird@^3.4.6, bluebird@^3.5.1, bluebird@^3.5.3:
+bluebird@^3.3.0, bluebird@^3.5.1, bluebird@^3.5.3:
   version "3.5.5"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.5.tgz#a8d0afd73251effbbd5fe384a77d73003c17a71f"
 
@@ -3708,15 +3708,6 @@ less@3.9.0, less@^3.8.0:
     request "^2.83.0"
     source-map "~0.6.0"
 
-libphonenumber-js@^0.4.5:
-  version "0.4.52"
-  resolved "https://registry.yarnpkg.com/libphonenumber-js/-/libphonenumber-js-0.4.52.tgz#19aec62488f039faee243df14d68ae56d77780a6"
-  dependencies:
-    babel-runtime "^6.6.1"
-    bluebird "^3.4.6"
-    minimist "^1.2.0"
-    xml2js "^0.4.17"
-
 license-webpack-plugin@2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/license-webpack-plugin/-/license-webpack-plugin-2.1.1.tgz#f0ab760f7f301c76f5af52e480f320656b5721bb"
@@ -4151,12 +4142,6 @@ ng-packagr@^5.1.0:
     stylus "^0.54.5"
     terser "^4.0.0"
     update-notifier "^3.0.0"
-
-ng2-validation@^4.2.0:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/ng2-validation/-/ng2-validation-4.2.0.tgz#f38d441d3fb7e862155166480045aaff9ad11dbb"
-  dependencies:
-    libphonenumber-js "^0.4.5"
 
 ngx-clipboard@^12.1.0:
   version "12.1.0"

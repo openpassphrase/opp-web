@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ICategory, IItem, IItemFormResult } from '@app/content/models';
 import { IBackendService } from '@app/content/services';
 import { ID } from '@datorama/akita';
-import { asyncScheduler, BehaviorSubject, Observable, of } from 'rxjs';
+import { asyncScheduler, BehaviorSubject, Observable, scheduled } from 'rxjs';
 
 const initialItems: IItem[] = [
   // tslint:disable:max-line-length
@@ -29,15 +29,15 @@ export class BackendMockService implements IBackendService {
   secret: string | undefined;
 
   fetchAll() {
-    return of({
+    return scheduled([{
       categories: this._categories.getValue(),
       items: this._items.getValue(),
       result: 'success'
-    }, asyncScheduler);
+    }], asyncScheduler);
   }
 
   getCategories() {
-    return of(this._categories.getValue(), asyncScheduler);
+    return scheduled([this._categories.getValue()], asyncScheduler);
   }
 
   addCategory(name: string): Observable<ICategory> {
@@ -45,7 +45,7 @@ export class BackendMockService implements IBackendService {
     let maxId = Math.max(...categories.map(x => (<number>x.id)));
     const newCategory = { id: ++maxId, name };
     this._categories.next([...categories, newCategory]);
-    return of(newCategory, asyncScheduler);
+    return scheduled([newCategory], asyncScheduler);
   }
 
   updateCategory(category: ICategory) {
@@ -55,7 +55,7 @@ export class BackendMockService implements IBackendService {
         : x;
     });
     this._categories.next(categories);
-    return of(true, asyncScheduler);
+    return scheduled([true], asyncScheduler);
   }
 
   removeCategory(opts: { id: number, cascade: boolean }) {
@@ -69,11 +69,11 @@ export class BackendMockService implements IBackendService {
     this._categories.next(newCategories);
     this._items.next(newItems);
 
-    return of(true, asyncScheduler);
+    return scheduled([true], asyncScheduler);
   }
 
   getItems() {
-    return of(this._items, asyncScheduler);
+    return scheduled([this._items], asyncScheduler);
   }
 
   addItem(info: IItemFormResult) {
@@ -81,7 +81,7 @@ export class BackendMockService implements IBackendService {
     let maxId = Math.max(...items.map(x => <number>x.id));
     const item = { ...info.item, id: ++maxId as ID };
     this._items.next([...items, item]);
-    return of(item, asyncScheduler);
+    return scheduled([item], asyncScheduler);
   }
 
   updateItem(info: IItemFormResult) {
@@ -94,13 +94,13 @@ export class BackendMockService implements IBackendService {
     this._items.next(items);
     const item = newItems.find(x => x.id === info.item.id);
 
-    return of(item, asyncScheduler);
+    return scheduled([item], asyncScheduler);
   }
 
   removeItem(id: number) {
     const items = this._items.getValue().filter(x => x.id === id);
     this._items.next(items);
-    return of(true, asyncScheduler);
+    return scheduled([true], asyncScheduler);
   }
 
   secretPassphraseChange(secret: string | undefined) {

@@ -45,7 +45,7 @@ export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {
       first()
     );
 
-    combineLatest(definedCategories$, this.searchFor$).pipe(
+    combineLatest([definedCategories$, this.searchFor$]).pipe(
       auditTime(0)
     )
       .subscribe(([_c, s]) => {
