@@ -339,7 +339,6 @@
     schematics-utilities "^1.1.1"
     tslib "^1.9.0"
 
-<<<<<<< HEAD
 "@ng-expandable-input/cdk@^1.2.1":
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/@ng-expandable-input/cdk/-/cdk-1.2.1.tgz#f5b3cea5dd613717b28ee3dedb6e57fb3f692efc"
@@ -349,17 +348,6 @@
 "@ng-expandable-input/material@^1.2.1":
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/@ng-expandable-input/material/-/material-1.2.1.tgz#b8c5c8a9937e9554df4d31b3688f713a96564f1b"
-=======
-"@ng-expandable-input/cdk@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@ng-expandable-input/cdk/-/cdk-1.1.0.tgz#161f21ed9fca6ceaa06486d0e76c85a406bb4f53"
-  dependencies:
-    tslib "^1.9.0"
-
-"@ng-expandable-input/material@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@ng-expandable-input/material/-/material-1.1.0.tgz#9198efbcae5f4a4e8e8e18d63a5506b451377e70"
->>>>>>> dfd6794d0543fff2adbd859fc3199c63065ae943
   dependencies:
     tslib "^1.9.0"
 
