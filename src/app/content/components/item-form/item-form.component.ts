@@ -1,8 +1,8 @@
-import { Component, OnInit, Input, HostListener } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { Component, HostListener, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { CustomValidators } from 'ng2-validation';
 import { IItem, IItemFormResult } from '@app/content/models';
+import { urlValidator } from '@app/content/services/misc';
 
 
 @Component({
@@ -28,7 +28,7 @@ export class ItemFormComponent implements OnInit {
     this.saveItemForm = this._fb.group({
       id: [this.item.id],
       name: [this.item.name, Validators.required],
-      url: [this.item.url, CustomValidators.url],
+      url: [this.item.url, urlValidator],
       account: [this.item.account],
       username: [this.item.username],
       password: [this.item.password],
@@ -54,7 +54,7 @@ export class ItemFormComponent implements OnInit {
 
   @HostListener('document:keydown', ['$event'])
   closeOnEsc(event: KeyboardEvent) {
-    if (event.keyCode === 27) {
+    if (event.key === 'Escape') {
       this.dialogRef.close(null);
     }
   }
