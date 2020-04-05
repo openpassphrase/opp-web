@@ -2,17 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { Auth } from '@app/shared/auth-services';
 import { environment } from '../../../environments/environment';
-
+import { AuthService } from '../../core/auth/auth.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-
   authForm: FormGroup;
   userNameAutocompleteState = 'off';
   showTokenExp = false;
@@ -25,43 +23,50 @@ export class LoginComponent implements OnInit {
   ];
 
   constructor(
-    private auth: Auth,
+    private auth: AuthService,
     private router: Router,
     private _fb: FormBuilder,
-    private snackBar: MatSnackBar,
-  ) { }
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnInit() {
     this.authForm = this._fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required],
       exp_delta_amount: [5],
-      exp_delta_multiplier: ['60']
+      exp_delta_multiplier: ['60'],
     });
 
     const exp_delta_amountCtrl = this.authForm.controls['exp_delta_amount'];
-    const exp_delta_multiplierCtrl = this.authForm.controls['exp_delta_multiplier'];
+    const exp_delta_multiplierCtrl = this.authForm.controls[
+      'exp_delta_multiplier'
+    ];
 
-    exp_delta_amountCtrl.valueChanges.subscribe(newVal => {
+    exp_delta_amountCtrl.valueChanges.subscribe((newVal) => {
       const notEmpty = newVal !== undefined && newVal !== null && newVal !== '';
-      exp_delta_multiplierCtrl.setValidators(notEmpty ? Validators.required : null);
+      exp_delta_multiplierCtrl.setValidators(
+        notEmpty ? Validators.required : null
+      );
       exp_delta_multiplierCtrl.updateValueAndValidity({ emitEvent: false });
 
       if (notEmpty) {
         const intVal = parseInt(newVal);
-        this.deltaMultiplierOpts = this.deltaMultiplierOpts.map(opt => ({
-          ...opt, text: pluralizeTime(intVal, opt.val)
+        this.deltaMultiplierOpts = this.deltaMultiplierOpts.map((opt) => ({
+          ...opt,
+          text: pluralizeTime(intVal, opt.val),
         }));
       }
     });
 
-    exp_delta_multiplierCtrl.valueChanges.subscribe(newVal => {
+    exp_delta_multiplierCtrl.valueChanges.subscribe((newVal) => {
       const notEmpty = newVal !== undefined && newVal !== null && newVal !== '';
       exp_delta_amountCtrl.setValidators(notEmpty ? Validators.required : null);
       exp_delta_amountCtrl.updateValueAndValidity({ emitEvent: false });
     });
 
-    this.userNameAutocompleteState = environment.isUserNameAutocompleteEnabled ? 'on' : 'off';
+    this.userNameAutocompleteState = environment.isUserNameAutocompleteEnabled
+      ? 'on'
+      : 'off';
     this.showTokenExp = environment.showTokenExpirationCustomization;
   }
 
@@ -70,7 +75,9 @@ export class LoginComponent implements OnInit {
       const toSubmit = {
         username: this.authForm.value.username,
         password: this.authForm.value.password,
-        exp_delta: this.authForm.value.exp_delta_amount * this.authForm.value.exp_delta_multiplier
+        exp_delta:
+          this.authForm.value.exp_delta_amount *
+          this.authForm.value.exp_delta_multiplier,
       };
       this.loading = true;
       this.auth.login(toSubmit).subscribe(
@@ -80,14 +87,18 @@ export class LoginComponent implements OnInit {
           this.loading = false;
           this.router.navigate(['your', 'phrase']);
         },
-        error => {
+        (error) => {
+          console.log('error', error);
           this.loading = false;
           if (error.status === 401) {
-            this.snackBar.open('invalid user name or password.', undefined, { duration: 6000 });
+            this.snackBar.open('invalid user name or password.', undefined, {
+              duration: 6000,
+            });
           } else {
             console.error(error);
           }
-        });
+        }
+      );
     }
   }
 }
@@ -103,8 +114,14 @@ export function pluralizeTime(num: number, multiplier: string) {
     d = d + 's';
   }
 
-  if (multiplier === '60') { return m; }
-  if (multiplier === '3600') { return h; }
-  if (multiplier === '86400') { return d; }
+  if (multiplier === '60') {
+    return m;
+  }
+  if (multiplier === '3600') {
+    return h;
+  }
+  if (multiplier === '86400') {
+    return d;
+  }
   throw new Error(`Unexpected value for multiplier: ${multiplier}`);
 }

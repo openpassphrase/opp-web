@@ -1,29 +1,29 @@
-import { Injectable } from '@angular/core';
 import {
-  HttpRequest,
   HttpHandler,
   HttpInterceptor,
-  HttpResponse
+  HttpRequest,
+  HttpResponse,
 } from '@angular/common/http';
-import { tap, catchError } from 'rxjs/operators';
-import { CategoriesService } from '@app/content/state/categories';
+import { Injectable } from '@angular/core';
+import { catchError, tap } from 'rxjs/operators';
+import { LoadingService } from './loading.service';
 
 @Injectable()
 export class LoadingInterceptor implements HttpInterceptor {
   private totalRequests = 0;
 
-  constructor(private categoriesService: CategoriesService) { }
+  constructor(private loadingService: LoadingService) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler) {
     this.totalRequests++;
-    this.categoriesService.setLoading(true);
+    this.loadingService.setLoading(true);
     return next.handle(request).pipe(
-      tap(res => {
+      tap((res) => {
         if (res instanceof HttpResponse) {
           this.decreaseRequests();
         }
       }),
-      catchError(err => {
+      catchError((err) => {
         this.decreaseRequests();
         throw err;
       })
@@ -33,7 +33,7 @@ export class LoadingInterceptor implements HttpInterceptor {
   private decreaseRequests() {
     this.totalRequests--;
     if (this.totalRequests === 0) {
-      this.categoriesService.setLoading(false);
+      this.loadingService.setLoading(false);
     }
   }
 }

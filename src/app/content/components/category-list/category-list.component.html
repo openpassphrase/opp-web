@@ -1,12 +1,16 @@
 <div class="expandables">
   <button
     *ngIf="(categories$ | async)!.length"
-    mat-icon-button mat-mini-icon-button
+    mat-icon-button
+    mat-mini-icon-button
     matTooltip="Toggle all categories"
     class="btn-expand-all"
     (click)="toggleAll()"
-    type="button">
-    <mat-icon>{{areAllClosed() ? 'border_outer' : 'border_horizontal'}}</mat-icon>
+    type="button"
+  >
+    <mat-icon>{{
+      areAllClosed() ? 'border_outer' : 'border_horizontal'
+    }}</mat-icon>
   </button>
 
   <mat-expandable-input
@@ -15,20 +19,25 @@
     [slideToEdge]="true"
     (keydown.escape)="escSearch()"
     openOnKey="/"
-    right="40"
+    [right]="40"
     group="g1"
   >
-    <input matInput matExpInput
+    <input
+      matInput
+      matExpInput
       [formControl]="searchForControl"
       type="text"
-      placeholder="Search" />
+      placeholder="Search"
+    />
 
     <button matExpIconOpen mat-icon-button>
       <mat-icon matRipple>search</mat-icon>
     </button>
 
-    <button matExpIconClose
-      mat-icon-button mat-mini-icon-button
+    <button
+      matExpIconClose
+      mat-icon-button
+      mat-mini-icon-button
       type="button"
       (click)="clearSearch()"
     >
@@ -68,15 +77,15 @@
             <th>Blob</th>
             <th>&nbsp;</th>
           </tr>
-          <tr *ngFor="let item of c.items"
+          <tr
+            *ngFor="let item of c.items"
             app-item
             [item]="item"
             [searchFor]="searchFor$ | async"
             [ngClass]="{ hide: item.isHidden }"
             (updateItem)="updateItem($event)"
             (removeItem)="removeItem($event)"
-          >
-          </tr>
+          ></tr>
         </table>
       </div>
     </mat-expansion-panel>
@@ -85,12 +94,12 @@
 
 <div>
   <table class="resp-table">
-    <tr *ngFor="let item of itemsWithoutCategory$ | async"
+    <tr
+      *ngFor="let item of itemsWithoutCategory$ | async"
       app-item
       [item]="item"
       (updateItem)="updateItem($event)"
       (removeItem)="removeItem($event)"
-    >
-    </tr>
+    ></tr>
   </table>
 </div>

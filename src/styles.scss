@@ -3,7 +3,8 @@
 $config: mat-typography-config();
 $mat-font-family: mat-font-family($config);
 
-html, body {
+html,
+body {
   overscroll-behavior-y: contain; /* disable pull to refresh, keeps glow effects */
 }
 
@@ -22,18 +23,17 @@ body {
   font-style: normal;
   font-weight: 400;
   src: url(assets/icons/MaterialIcons-Regular.eot); /* For IE6-8 */
-  src: local('Material Icons'),
-       local('MaterialIcons-Regular'),
-       url(assets/icons/MaterialIcons-Regular.woff2) format('woff2'),
-       url(assets/icons/MaterialIcons-Regular.woff) format('woff'),
-       url(assets/icons/MaterialIcons-Regular.ttf) format('truetype');
+  src: local('Material Icons'), local('MaterialIcons-Regular'),
+    url(assets/icons/MaterialIcons-Regular.woff2) format('woff2'),
+    url(assets/icons/MaterialIcons-Regular.woff) format('woff'),
+    url(assets/icons/MaterialIcons-Regular.ttf) format('truetype');
 }
 
 .material-icons {
   font-family: 'Material Icons';
   font-weight: normal;
   font-style: normal;
-  font-size: 24px;  /* Preferred icon size */
+  font-size: 24px; /* Preferred icon size */
   display: inline-block;
   line-height: 1;
   text-transform: none;
@@ -82,7 +82,7 @@ button.mat-icon-button[mat-mini-icon-button] {
   }
 }
 
-[val-message] {
+[ngxerrors] {
   color: red;
 }
 

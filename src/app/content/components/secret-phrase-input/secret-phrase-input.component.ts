@@ -1,30 +1,36 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { CategoriesService, CategoriesQuery } from '@app/content/state/categories';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { filter, tap, first } from 'rxjs/operators';
+import { filter, first, tap } from 'rxjs/operators';
+import { CategoriesQuery, CategoriesService } from '../../state/categories';
 
 @Component({
   selector: 'app-secret-phrase-input',
   templateUrl: './secret-phrase-input.component.html',
-  styleUrls: ['./secret-phrase-input.component.scss']
+  styleUrls: ['./secret-phrase-input.component.scss'],
 })
 export class SecretPhraseInputComponent implements OnInit {
   @Output() secretPhraseChange = new EventEmitter<string>();
-  secretPhrase = new FormControl('', [Validators.required, Validators.minLength(6)]);
+  secretPhrase = new FormControl('', [
+    Validators.required,
+    Validators.minLength(6),
+  ]);
 
   constructor(
     private categoriesService: CategoriesService,
-    private categoriesQuery: CategoriesQuery,
-  ) { }
+    private categoriesQuery: CategoriesQuery
+  ) {}
 
   ngOnInit() {
-    this.categoriesQuery.selectIsPathPhraseCorrect().pipe(
-      filter(isCorrect => !!isCorrect),
-      tap(() => {
-        this.secretPhrase.setValue('');
-      }),
-      first()
-    ).subscribe();
+    this.categoriesQuery
+      .selectIsPathPhraseCorrect()
+      .pipe(
+        filter((isCorrect) => !!isCorrect),
+        tap(() => {
+          this.secretPhrase.setValue('');
+        }),
+        first()
+      )
+      .subscribe();
   }
 
   submit() {

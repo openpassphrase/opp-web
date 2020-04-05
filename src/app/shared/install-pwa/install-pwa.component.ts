@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { PwaService } from '@app/core/pwa.service';
+import { PwaService } from '../../core/pwa.service';
 
 @Component({
   selector: 'app-install-pwa',
   templateUrl: './install-pwa.component.html',
   styleUrls: ['./install-pwa.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InstallPwaComponent {
-  constructor(public pwa: PwaService) { }
+  constructor(public pwa: PwaService) {}
 }

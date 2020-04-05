@@ -1,6 +1,7 @@
 <div class="loading-overlay" *ngIf="loading">
-    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 </div>
+
 <div fxLayout fxLayoutAlign="center start">
   <mat-card fxFlex="500px" fxFlex.xs="100">
     <mat-card-title>
@@ -23,7 +24,8 @@
               type="text"
               [autocomplete]="userNameAutocompleteState"
               autofocus
-              autocapitalize="none">
+              autocapitalize="none"
+            />
           </mat-form-field>
 
           <mat-form-field>
@@ -34,30 +36,53 @@
               required
               type="password"
               autocomplete="off"
-              autocapitalize="none">
+              autocapitalize="none"
+            />
           </mat-form-field>
         </div>
 
         <br />
 
         <div *ngIf="showTokenExp">
-          <mat-card-subtitle>How soon should your session expire?</mat-card-subtitle>
+          <mat-card-subtitle
+            >How soon should your session expire?</mat-card-subtitle
+          >
 
           <div fxLayout="column" fxLayout.gt-xs="row" fxLayoutGap.gt-xs="5px">
             <mat-form-field>
-              <input matInput formControlName="exp_delta_amount" placeholder="Type in amount" type="number">
+              <input
+                matInput
+                formControlName="exp_delta_amount"
+                placeholder="Type in amount"
+                type="number"
+              />
             </mat-form-field>
 
             <mat-form-field>
-              <mat-select name="items" formControlName="exp_delta_multiplier" placeholder="Select interval">
-                <mat-option *ngFor="let opt of deltaMultiplierOpts" value="{{opt.val}}">{{opt.text}}</mat-option>
+              <mat-select
+                name="items"
+                formControlName="exp_delta_multiplier"
+                placeholder="Select interval"
+              >
+                <mat-option
+                  *ngFor="let opt of deltaMultiplierOpts"
+                  value="{{ opt.val }}"
+                  >{{ opt.text }}</mat-option
+                >
               </mat-select>
             </mat-form-field>
           </div>
         </div>
 
         <div>
-          <button mat-raised-button type="submit" color="primary" [disabled]="authForm.invalid">Submit</button>
+          <button
+            mat-raised-button
+            type="submit"
+            color="primary"
+            [disabled]="authForm.invalid"
+          >
+            Submit
+          </button>
         </div>
       </form>
     </mat-card-content>

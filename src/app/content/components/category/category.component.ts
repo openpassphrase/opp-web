@@ -1,58 +1,86 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatTooltip } from '@angular/material/tooltip';
-import { ItemFormComponent } from '@app/content/components/item-form/item-form.component';
-import { ICategoryItems, IItemFormResult, IRemoveCategoryPayload, IUpdateCategoryPayload } from '@app/content/models';
+import {
+  ICategoryItems,
+  IItemFormResult,
+  IRemoveCategoryPayload,
+  IUpdateCategoryPayload,
+} from '../../models';
+import { ItemFormComponent } from '../item-form/item-form.component';
 
 @Component({
   selector: 'app-delete-category-dialog',
   template: `
-  <h1 mat-dialig-title>Delete category</h1>
-  <mat-dialog-content>Are you sure?</mat-dialog-content>
-  <mat-dialog-actions>
-    <button mat-raised-button (click)="dialogRef.close('deleteAll')" *ngIf="hasItems" color="warn">
-      Delete category and all its belongings
-    </button>
-    <button mat-raised-button (click)="dialogRef.close('deleteJustCategory')" color="accent">
-      {{hasItems ? 'Delete category, but save all its belongings' : 'Yes, delete'}}
-    </button>
-    <button mat-button (click)="dialogRef.close()">Cancel</button>
-  </mat-dialog-actions>
+    <h1 mat-dialig-title>Delete category</h1>
+    <mat-dialog-content>Are you sure?</mat-dialog-content>
+    <mat-dialog-actions>
+      <button
+        mat-raised-button
+        (click)="dialogRef.close('deleteAll')"
+        *ngIf="hasItems"
+        color="warn"
+      >
+        Delete category and all its belongings
+      </button>
+      <button
+        mat-raised-button
+        (click)="dialogRef.close('deleteJustCategory')"
+        color="accent"
+      >
+        {{
+          hasItems
+            ? 'Delete category, but save all its belongings'
+            : 'Yes, delete'
+        }}
+      </button>
+      <button mat-button (click)="dialogRef.close()">Cancel</button>
+    </mat-dialog-actions>
   `,
 })
 export class DeleteCategoryDialogComponent {
   hasItems: boolean;
-  constructor(public dialogRef: MatDialogRef<DeleteCategoryDialogComponent>) { }
+  constructor(public dialogRef: MatDialogRef<DeleteCategoryDialogComponent>) {}
 }
 
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CategoryComponent implements OnInit, OnChanges {
   changeCategoryForm: FormGroup;
   isInEditMode = false;
 
-  @ViewChild('addItemTooltip', { read: MatTooltip, static: false }) addItemTooltip: MatTooltip;
+  @ViewChild('addItemTooltip', { read: MatTooltip }) addItemTooltip: MatTooltip;
 
   @Input() category: ICategoryItems;
   @Input() readonly isExpanded = false;
-  @Input() readonly searchFor: string;
+  @Input() readonly searchFor: string | null;
   @Output() update = new EventEmitter<IUpdateCategoryPayload>(false);
   @Output() remove = new EventEmitter<IRemoveCategoryPayload>(false);
   @Output() addItem = new EventEmitter<IItemFormResult>(false);
 
-  constructor(
-    private _fb: FormBuilder,
-    private dialog: MatDialog
-  ) { }
+  constructor(private _fb: FormBuilder, private dialog: MatDialog) {}
 
   ngOnInit() {
     this.changeCategoryForm = this._fb.group({
-      newName: [this.category.name, [Validators.required, Validators.minLength(3)]]
+      newName: [
+        this.category.name,
+        [Validators.required, Validators.minLength(3)],
+      ],
     });
   }
 
@@ -63,7 +91,9 @@ export class CategoryComponent implements OnInit, OnChanges {
   }
 
   toggleEditCategory(ev?: MouseEvent) {
-    if (ev) { ev.stopPropagation(); }
+    if (ev) {
+      ev.stopPropagation();
+    }
     this.isInEditMode = !this.isInEditMode;
   }
 
@@ -72,7 +102,7 @@ export class CategoryComponent implements OnInit, OnChanges {
       const toSubmit: IUpdateCategoryPayload = {
         id: this.category.id,
         name: this.changeCategoryForm.value.newName,
-        initialName: this.category.name
+        initialName: this.category.name,
       };
       this.update.emit(toSubmit);
       this.toggleEditCategory();
@@ -83,7 +113,7 @@ export class CategoryComponent implements OnInit, OnChanges {
     ev.stopPropagation();
     const dialogRef = this.dialog.open(DeleteCategoryDialogComponent);
     dialogRef.componentInstance.hasItems = this.category.items.length > 0;
-    dialogRef.afterClosed().subscribe(chosenOption => {
+    dialogRef.afterClosed().subscribe((chosenOption) => {
       if (chosenOption) {
         const cascade = chosenOption === 'deleteAll';
         this.remove.emit({ category: this.category, cascade: cascade });

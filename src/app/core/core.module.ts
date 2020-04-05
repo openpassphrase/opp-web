@@ -1,20 +1,63 @@
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CspService } from '@app/core/csp.service';
-import { PwaService } from '@app/core/pwa.service';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { JwtModule } from '@auth0/angular-jwt';
+import { environment } from '../../environments/environment';
+import { AuthStorage } from './auth-token-storage';
+import { AuthApiMockService, AuthApiService } from './auth/auth-api.service';
+import { AuthStateService } from './auth/auth-state.service';
+import { AuthService } from './auth/auth.service';
+import { InstallOnIosInstructionsComponent } from './components/install-on-ios-instructions/install-on-ios-instructions.component';
+import { UpdateAvailableComponent } from './components/update-available/update-available.component';
+import { CspService } from './csp.service';
+import { LoadingInterceptor } from './loading.interceptor';
+import { PwaService } from './pwa.service';
 
+const swJs = `${environment.baseHref}/ngsw-worker.js`;
+
+export function tokenGetter() {
+  return AuthStorage.getToken();
+}
+
+/**
+ * Only keep dependencies absolutely necessary for the initial page load in this module
+ */
 @NgModule({
   imports: [
     BrowserModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    HttpClientModule,
+    MatSnackBarModule,
+    MatButtonModule,
+    ServiceWorkerModule.register(swJs, { enabled: environment.name !== 'dev' }),
+    JwtModule.forRoot({
+      config: { tokenGetter, headerName: 'x-opp-jwt', authScheme: '' },
+    }),
   ],
-  declarations: [
+  declarations: [UpdateAvailableComponent, InstallOnIosInstructionsComponent],
+  entryComponents: [
+    UpdateAvailableComponent,
+    InstallOnIosInstructionsComponent,
   ],
   providers: [
     PwaService,
-    CspService
-  ]
+    CspService,
+    AuthService,
+    AuthStateService,
+    {
+      provide: AuthApiService,
+      useClass: environment.mockApi ? AuthApiMockService : AuthApiService,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoadingInterceptor,
+      multi: true,
+    },
+  ],
 })
 export class CoreModule {
   constructor(pwa: PwaService, csp: CspService) {
@@ -28,11 +71,5 @@ export class CoreModule {
     pwa.listenForUpdate();
 
     csp.register();
-  }
-
-  static forRoot() {
-    return {
-      ngModule: CoreModule,
-    };
   }
 }

@@ -1,14 +1,12 @@
-import { ID } from '@datorama/akita';
-
 export interface ICategory {
-  id: ID;
+  id: number;
   name: string;
   dirty?: string;
   isHidden?: boolean;
 }
 
 export interface IItem {
-  id: ID;
+  id: number;
   name?: string;
   url?: string;
   account?: string;
