@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { ID } from '@datorama/akita';
 import { Observable } from 'rxjs';
 import { map, share } from 'rxjs/operators';
+import { AuthStateService } from '../../core/auth/auth-state.service';
 import { ICategory, IItem, IItemFormResult } from '../models';
 
 export interface IBackendService {
@@ -20,9 +21,12 @@ export interface IBackendService {
 export class BackendService implements IBackendService {
   private categoriesEndpoint: string;
   private itemsEndpoint: string;
-  secret: string | undefined;
 
-  constructor(private http: HttpClient, private location: Location) {
+  constructor(
+    private http: HttpClient,
+    private location: Location,
+    private authStateService: AuthStateService
+  ) {
     this.categoriesEndpoint = this.location.prepareExternalUrl(
       'api/v1/categories'
     );
@@ -101,6 +105,6 @@ export class BackendService implements IBackendService {
   }
 
   secretPassphraseChange(secret: string | undefined) {
-    this.secret = secret;
+    this.authStateService.secret = secret;
   }
 }

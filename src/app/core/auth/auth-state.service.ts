@@ -7,6 +7,7 @@ import { AuthStorage } from '../auth-token-storage';
 export class AuthStateService {
   private readonly isAuthenticated = new BehaviorSubject<boolean>(false);
   isAuthenticated$ = this.isAuthenticated.asObservable();
+  secret: string | undefined;
 
   constructor(private router: Router) {}
 

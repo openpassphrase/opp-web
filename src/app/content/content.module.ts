@@ -1,5 +1,4 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -31,7 +30,6 @@ import { BackendMockService } from './services/backend.mock.service';
 import { BackendService } from './services/backend.service';
 import { CapitalizePipe } from './services/capitalizePipe';
 import { HighlightPipe } from './services/highlightPipe';
-import { PhraseInterceptor } from './services/phrase.interceptor';
 import { ScrollToService } from './services/scrollTo';
 import {
   CategoriesQuery,
@@ -43,7 +41,6 @@ import { ItemsQuery, ItemsStore } from './state/items';
 @NgModule({
   imports: [
     CommonModule,
-    HttpClientModule,
     ReactiveFormsModule,
     ContentRoutingModule,
     SharedModule,
@@ -78,11 +75,6 @@ import { ItemsQuery, ItemsStore } from './state/items';
     CategoriesQuery,
     ItemsStore,
     ItemsQuery,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: PhraseInterceptor,
-      multi: true,
-    },
     {
       provide: BackendService,
       useClass: environment.mockApi ? BackendMockService : BackendService,
