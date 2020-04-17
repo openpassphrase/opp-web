@@ -1,16 +1,13 @@
-<app-header
-  [loggedIn]="auth.isLoggedIn"
-  (logout)="logout()"
-></app-header>
+<app-header [loggedIn]="auth.isLoggedIn$" (logout)="logout()"></app-header>
 
 <div fxLayout fxLayoutAlign="center start">
   <div fxFlex="98" fxFlex.gt-xs="95" fxFlex.gt-sm="800px">
-
     <div class="progress-bar-wrapper">
       <mat-progress-bar
         *ngIf="loading$ | async"
         color="accent"
-        mode="indeterminate">
+        mode="indeterminate"
+      >
       </mat-progress-bar>
     </div>
 

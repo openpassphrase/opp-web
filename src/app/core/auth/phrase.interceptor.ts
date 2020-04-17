@@ -1,21 +1,20 @@
-import { Injectable } from '@angular/core';
 import {
-  HttpRequest,
   HttpHandler,
   HttpInterceptor,
+  HttpRequest,
 } from '@angular/common/http';
-import { BackendService } from '@app/content/services/backend.service';
+import { Injectable } from '@angular/core';
+import { AuthStateService } from './auth-state.service';
 
 @Injectable()
 export class PhraseInterceptor implements HttpInterceptor {
-
-  constructor(private api: BackendService) { }
+  constructor(private authStateService: AuthStateService) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler) {
     request = request.clone({
       setHeaders: {
-        'x-opp-phrase': this.api.secret || ''
-      }
+        'x-opp-phrase': this.authStateService.secret || '',
+      },
     });
 
     return next.handle(request);

@@ -10,7 +10,7 @@ export class AddCategoryFormComponent implements OnInit {
   addCategoryForm: FormGroup;
   categoryControl = new FormControl('');
   @Output() add = new EventEmitter<string>(false);
-  @ViewChild('category', { static: false }) categoryInput: ElementRef;
+  @ViewChild('category') categoryInput: ElementRef;
 
   constructor(private _fb: FormBuilder) { }
 

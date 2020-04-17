@@ -1,20 +1,38 @@
 import { NgModule } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CspService } from '@app/core/csp.service';
-import { PwaService } from '@app/core/pwa.service';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../../environments/environment';
+import { AppHttpModule } from './app-http.module';
+import { AuthStateService } from './auth/auth-state.service';
+import { AuthService } from './auth/auth.service';
+import { InstallOnIosInstructionsComponent } from './components/install-on-ios-instructions/install-on-ios-instructions.component';
+import { UpdateAvailableComponent } from './components/update-available/update-available.component';
+import { CspService } from './csp.service';
+import { PwaService } from './pwa.service';
 
+const swJs = `${environment.baseHref}/ngsw-worker.js`;
+
+/**
+ * Only keep dependencies absolutely necessary for the initial page load in this module
+ */
 @NgModule({
   imports: [
     BrowserModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    AppHttpModule,
+    MatSnackBarModule,
+    MatButtonModule,
+    ServiceWorkerModule.register(swJs, { enabled: environment.name !== 'dev' }),
   ],
-  declarations: [
+  declarations: [UpdateAvailableComponent, InstallOnIosInstructionsComponent],
+  entryComponents: [
+    UpdateAvailableComponent,
+    InstallOnIosInstructionsComponent,
   ],
-  providers: [
-    PwaService,
-    CspService
-  ]
+  providers: [PwaService, CspService, AuthService, AuthStateService],
 })
 export class CoreModule {
   constructor(pwa: PwaService, csp: CspService) {
@@ -28,11 +46,5 @@ export class CoreModule {
     pwa.listenForUpdate();
 
     csp.register();
-  }
-
-  static forRoot() {
-    return {
-      ngModule: CoreModule,
-    };
   }
 }

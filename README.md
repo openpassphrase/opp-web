@@ -3,63 +3,79 @@
 ## Install locally
 
 ### Prerequisites:
-* [NodeJs > 6.10.2](https://nodejs.org/en/download/)
-* [Yarn](https://yarnpkg.com/) installed globally by running command: `npm i -g yarn`
 
-*Notice! This project uses [Yarn](https://yarnpkg.com/en/) for dependency management - not `npm`.*
+- [NodeJs > 6.10.2](https://nodejs.org/en/download/)
+- [Yarn](https://yarnpkg.com/) installed globally by running command: `npm i -g yarn`
+
+_Notice! This project uses [Yarn](https://yarnpkg.com/en/) for dependency management - not `npm`._
 
 ### Install deps:
-* Run `yarn`
+
+- Run `yarn`
 
 ## Development
+
 ### IDE
-* **[!Important]** Use [Visual Studio Code](https://code.visualstudio.com/) for development
+
+- **[!Important]** Use [Visual Studio Code](https://code.visualstudio.com/) for development
   Not only it provides better intellisense and type checking, it has a few default linting rules that apply automatically as you code.
-* Install `Angular Language Service` VSC extension to get even better intellisense.
-* Install `TSLint` VSC extension for real time linting error information.
+- Install `Angular Language Service` VSC extension to get even better intellisense.
+- Install `TSLint` VSC extension for real time linting error information.
 
 ### Run locally
+
 If you just got latest, make sure you have all dependencies installed:
-* Run `yarn`
+
+- Run `yarn`
 
 Start the server on port 5000. You can do it via running docker commands from the `opp` directory:
+
 ```
 docker build -t opp .
 docker run -p 5000:5000 -it opp
 ```
 
 Then run one of the following commands, which will start local dev server, but point any /api requests to the running instance of Opp server
-* `yarn start`.
+
+- `yarn start`
 
 #### Testing PWA
-* generate cert files - run `./cert/makeCert.bat`
-* register the generated certificate in your OS
-* `npm i -g http-server` - only once
-* `npm run build:prod` - this creates production build in ./dist folder
-* `npm run server:dist` - serves files from ./dist
-* open `https://localhost:8080/`
+
+- generate cert files - run `./cert/makeCert.bat`
+- register the generated certificate in your OS
+- `npm i -g http-server` - only once
+- `npm run build:prod` - this creates production build in ./dist folder
+- `npm run server:dist` - serves files from ./dist
+- open `https://localhost:8080/`
 
 ### Test user credentials:
-* username: demo
-* password: demo
-* passphrase: phrase
+
+- username: demo
+- password: demo
+- passphrase: phrase
 
 ### Build
-Project is compiled into *dist* folder.
-* `yarn build`.
+
+Project is compiled into _dist_ folder.
+
+- `yarn build`.
 
 ### Running unit tests
-* `yarn test`
+
+- `yarn test`
 
 ### Running lint
-* `yarn run lint`
+
+- `yarn run lint`
 
 ## Technology to learn:
 
 ### Core concepts
-* [Angular](https://angular.io/docs/ts/latest/guide/learning-angular.html)
-* [RxJs](https://github.com/Reactive-Extensions/RxJS) - See tutorials under [Resource](https://github.com/Reactive-Extensions/RxJS#resources)
-* [ngrx/store](https://github.com/ngrx/store) - See tutorials under [Introduction](https://github.com/ngrx/store#introduction)
+
+- [Angular](https://angular.io/docs/ts/latest/guide/learning-angular.html)
+- [RxJs](https://github.com/Reactive-Extensions/RxJS) - See tutorials under [Resource](https://github.com/Reactive-Extensions/RxJS#resources)
+- [ngrx/store](https://github.com/ngrx/store) - See tutorials under [Introduction](https://github.com/ngrx/store#introduction)
 
 ### UI Frameworks used:
-* [Angular Material](https://github.com/angular/material2)
+
+- [Angular Material](https://github.com/angular/material2)

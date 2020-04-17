@@ -1,14 +1,18 @@
 import { Component, HostListener, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { IItem, IItemFormResult } from '@app/content/models';
-import { urlValidator } from '@app/content/services/misc';
-
+import { IItem, IItemFormResult } from '../../models';
+import { urlValidator } from '../../services/misc';
 
 @Component({
   selector: 'app-item-form',
   templateUrl: './item-form.component.html',
-  styleUrls: ['./item-form.component.scss']
+  styleUrls: ['./item-form.component.scss'],
 })
 export class ItemFormComponent implements OnInit {
   @Input() item: IItem;
@@ -20,7 +24,7 @@ export class ItemFormComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<ItemFormComponent>,
     private _fb: FormBuilder
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.autoGenPassword = new FormControl(false);
@@ -33,11 +37,11 @@ export class ItemFormComponent implements OnInit {
       username: [this.item.username],
       password: [this.item.password],
       blob: [this.item.blob],
-      category_id: [this.item.category_id]
+      category_id: [this.item.category_id],
     });
 
     this.genopts = this._fb.group({
-      numwords: [1]
+      numwords: [1],
     });
   }
 
@@ -46,7 +50,7 @@ export class ItemFormComponent implements OnInit {
       const result: IItemFormResult = {
         item: this.saveItemForm.value,
         auto_pass: this.autoGenPassword.value,
-        genopts: this.genopts.value
+        genopts: this.genopts.value,
       };
       this.dialogRef.close(result);
     }

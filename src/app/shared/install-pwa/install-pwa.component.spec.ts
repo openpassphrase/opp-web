@@ -1,9 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SwUpdate } from '@angular/service-worker';
-import { PwaService } from '@app/core/pwa.service';
+import { PwaService } from '../../pwa.service';
 import { InstallPwaComponent } from './install-pwa.component';
-
 
 class PwaServiceMock extends PwaService {
   showIosCustomButton = true;
@@ -30,12 +29,13 @@ describe('InstallPwaComponent', () => {
       providers: [
         { provide: PwaService, useClass: PwaServiceMock },
         { provide: SwUpdate, useValue: {} },
-        { provide: MatSnackBar, useValue: {} }
-      ]
+        { provide: MatSnackBar, useValue: {} },
+      ],
     });
     fixture = TestBed.createComponent(InstallPwaComponent);
     component = fixture.componentInstance;
-    button = (className: string) => fixture.nativeElement.querySelector(`button.${className}`);
+    button = (className: string) =>
+      fixture.nativeElement.querySelector(`button.${className}`);
   });
 
   it('should instantiate', () => {

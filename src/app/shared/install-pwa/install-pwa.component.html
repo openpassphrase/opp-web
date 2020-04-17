@@ -1,4 +1,4 @@
-<button 
+<button
   *ngIf="pwa.showCustomButton$ | async"
   (click)="pwa.promptInstallPwa()"
   mat-raised-button
@@ -9,7 +9,7 @@
   Install App
 </button>
 
-<button 
+<button
   *ngIf="pwa.showIosCustomButton"
   (click)="pwa.promptInstallPwaOnIos()"
   mat-raised-button

@@ -1,39 +1,41 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { Auth } from '@app/shared/auth-services';
-import { Observable } from 'rxjs';
-import { CategoriesQuery, CategoriesService } from './state/categories';
-
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
+import { Observable, Subject } from 'rxjs';
+import { AuthService } from '../core/auth/auth.service';
+import { LoadingService } from '../core/loading.service';
+import { CategoriesService } from './state/categories';
 
 @Component({
   selector: 'app-content',
   templateUrl: './content.component.html',
   styleUrls: ['./content.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ContentComponent implements OnInit {
+export class ContentComponent implements OnInit, OnDestroy {
   loading$: Observable<boolean>;
+  private _destroyed = new Subject();
 
   constructor(
     private categoriesService: CategoriesService,
-    private categoriesQuery: CategoriesQuery,
-    public auth: Auth,
-    private router: Router
-  ) { }
+    private loadingService: LoadingService,
+    public auth: AuthService
+  ) {}
 
   ngOnInit() {
-    this.loading$ = this.categoriesQuery.selectLoading();
+    this.loading$ = this.loadingService.isLoading$;
+  }
 
-    this.auth.isLoggedIn.subscribe(isLoggedIn => {
-      if (!isLoggedIn) {
-        this.logout();
-      }
-    });
+  ngOnDestroy() {
+    this._destroyed.next();
+    this._destroyed.complete();
   }
 
   logout() {
     this.categoriesService.logout();
-    this.router.navigate(['/']);
     this.auth.logout();
   }
 }

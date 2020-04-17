@@ -1,20 +1,48 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, HostListener, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  HostListener,
+  OnDestroy,
+  OnInit,
+  QueryList,
+  ViewChild,
+  ViewChildren,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatExpansionPanel, MatExpansionPanelHeader } from '@angular/material/expansion';
-import { ICategory, ICategoryItems, IItem, IItemFormResult, IRemoveCategoryPayload, IUpdateCategoryPayload, IUpdateItemPayload } from '@app/content/models';
+import {
+  MatExpansionPanel,
+  MatExpansionPanelHeader,
+} from '@angular/material/expansion';
 import { ExpandableInputMaterialComponent } from '@ng-expandable-input/material';
 import { combineLatest, Observable, Subject } from 'rxjs';
-import { auditTime, debounceTime, filter, first, take, takeUntil, tap } from 'rxjs/operators';
+import {
+  auditTime,
+  debounceTime,
+  filter,
+  first,
+  take,
+  takeUntil,
+  tap,
+} from 'rxjs/operators';
+import {
+  ICategory,
+  ICategoryItems,
+  IItem,
+  IItemFormResult,
+  IRemoveCategoryPayload,
+  IUpdateCategoryPayload,
+  IUpdateItemPayload,
+} from '../../models';
 import { CategoriesQuery, CategoriesService } from '../../state/categories';
 import { ItemsQuery } from '../../state/items';
-
-
 
 @Component({
   selector: 'app-category-list',
   templateUrl: './category-list.component.html',
   styleUrls: ['./category-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {
   private ngUnsubscribe = new Subject<any>();
@@ -23,31 +51,33 @@ export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {
   searchFor$: Observable<string>;
   searchForControl = new FormControl();
 
-  @ViewChildren(MatExpansionPanel) expansionPanels: QueryList<MatExpansionPanel>;
-  @ViewChildren(MatExpansionPanelHeader, { read: ElementRef }) expansionPanelsHtml: QueryList<ElementRef>;
+  @ViewChildren(MatExpansionPanel) expansionPanels: QueryList<
+    MatExpansionPanel
+  >;
+  @ViewChildren(MatExpansionPanelHeader, { read: ElementRef })
+  expansionPanelsHtml: QueryList<ElementRef>;
 
-  @ViewChild('searchExpInput', { static: false }) searchExpInput: ExpandableInputMaterialComponent;
+  @ViewChild('searchExpInput') searchExpInput: ExpandableInputMaterialComponent;
 
   constructor(
     private categoriesService: CategoriesService,
     private categoriesQuery: CategoriesQuery,
-    private itemsQuery: ItemsQuery,
-  ) { }
+    private itemsQuery: ItemsQuery
+  ) {}
 
   ngOnInit() {
     this.categories$ = this.categoriesQuery.selectVisibleCategoryItems();
     this.itemsWithoutCategory$ = this.itemsQuery.selectItemsWithoutCategory();
 
-    this.searchFor$ = this.categoriesQuery.select(s => s.ui.searchFor);
+    this.searchFor$ = this.categoriesQuery.select((s) => s.ui.searchFor);
 
     const definedCategories$ = this.categories$.pipe(
-      filter(c => !!c && c.length > 0),
+      filter((c) => !!c && c.length > 0),
       first()
     );
 
-    combineLatest([definedCategories$, this.searchFor$]).pipe(
-      auditTime(0)
-    )
+    combineLatest([definedCategories$, this.searchFor$])
+      .pipe(auditTime(0))
       .subscribe(([_c, s]) => {
         if (!!s) {
           for (let i = 0; i < _c.length; i++) {
@@ -63,13 +93,15 @@ export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       });
 
-    this.searchForControl.valueChanges.pipe(
-      takeUntil(this.ngUnsubscribe),
-      debounceTime(300),
-      tap(searchFor => {
-        this.categoriesService.updateSearchFor(searchFor);
-      })
-    ).subscribe();
+    this.searchForControl.valueChanges
+      .pipe(
+        takeUntil(this.ngUnsubscribe),
+        debounceTime(300),
+        tap((searchFor) => {
+          this.categoriesService.updateSearchFor(searchFor);
+        })
+      )
+      .subscribe();
   }
 
   ngAfterViewInit() {
@@ -77,11 +109,12 @@ export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.expansionPanelsHtml.first) {
       this.focusElRef(this.expansionPanelsHtml.first);
     } else {
-      this.expansionPanelsHtml.changes.pipe(
-        takeUntil(this.ngUnsubscribe),
-        filter(c => c.length > 0),
-        take(1)
-      )
+      this.expansionPanelsHtml.changes
+        .pipe(
+          takeUntil(this.ngUnsubscribe),
+          filter((c) => c.length > 0),
+          take(1)
+        )
         .subscribe(() => {
           setTimeout(() => {
             this.focusElRef(this.expansionPanelsHtml.first);
@@ -132,8 +165,10 @@ export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   areAllClosed() {
-    if (!this.expansionPanels) { return true; }
-    return !this.expansionPanels.map(x => x.expanded).some(x => x);
+    if (!this.expansionPanels) {
+      return true;
+    }
+    return !this.expansionPanels.map((x) => x.expanded).some((x) => x);
   }
 
   escSearch() {
@@ -156,7 +191,7 @@ export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {
     setTimeout(() => {
       if (this.expansionPanels.length) {
         this.expansionPanels.first.accordion.multi = true;
-        this.expansionPanels.forEach(x => x.open());
+        this.expansionPanels.forEach((x) => x.open());
       }
     });
   }
@@ -164,7 +199,7 @@ export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {
   private collapseAllPanels() {
     setTimeout(() => {
       if (this.expansionPanels.length) {
-        this.expansionPanels.forEach(x => x.close());
+        this.expansionPanels.forEach((x) => x.close());
         // this.expansionPanels.first.accordion.multi = false;
       }
     });
@@ -173,7 +208,9 @@ export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {
   private collapsePanelAtIx(ix: number) {
     setTimeout(() => {
       const panel = this.expansionPanels.find((_, i) => ix === i);
-      if (panel && panel.opened) { panel.close(); }
+      if (panel && panel.opened) {
+        panel.close();
+      }
     });
   }
 
@@ -181,7 +218,9 @@ export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {
     this.expansionPanels.first.accordion.multi = true;
     setTimeout(() => {
       const panel = this.expansionPanels.find((_, i) => ix === i);
-      if (panel && panel.closed) { panel.open(); }
+      if (panel && panel.closed) {
+        panel.open();
+      }
     });
   }
 

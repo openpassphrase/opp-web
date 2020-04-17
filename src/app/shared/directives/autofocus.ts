@@ -1,13 +1,22 @@
-import { AfterViewInit, ChangeDetectorRef, Directive, ElementRef, HostListener, Input } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Directive,
+  ElementRef,
+  HostListener,
+  Input,
+  Optional,
+} from '@angular/core';
+import { MatInput } from '@angular/material/input';
 
 @Directive({
   // tslint:disable-next-line:directive-selector
-  selector: '[autofocus]'
+  selector: '[autofocus]',
 })
 export class AutofocusDirective implements AfterViewInit {
   private _autofocus = true;
 
-  @Input() set autofocus(condition: boolean) {
+  @Input() set autofocus(condition: boolean | '') {
     this._autofocus = condition !== false;
   }
 
@@ -15,8 +24,9 @@ export class AutofocusDirective implements AfterViewInit {
 
   constructor(
     private el: ElementRef,
-    private _cd: ChangeDetectorRef
-  ) { }
+    private _cd: ChangeDetectorRef,
+    @Optional() private matInput?: MatInput
+  ) {}
 
   ngAfterViewInit() {
     if (this._autofocus) {
@@ -26,16 +36,22 @@ export class AutofocusDirective implements AfterViewInit {
 
   @HostListener('document:keydown', ['$event'])
   keyboardInput(event: KeyboardEvent) {
-    if (this.focusOnKey !== undefined &&
+    if (
+      this.focusOnKey !== undefined &&
       event.key === this.focusOnKey &&
       event.altKey &&
-      event.ctrlKey) {
+      event.ctrlKey
+    ) {
       this.focus();
     }
   }
 
   private focus() {
-    this.el.nativeElement.focus();
+    if (this.matInput) {
+      this.matInput.focus();
+    } else {
+      this.el.nativeElement.focus();
+    }
     this._cd.detectChanges();
   }
 }

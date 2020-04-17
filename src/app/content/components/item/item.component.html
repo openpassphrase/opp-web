@@ -1,10 +1,10 @@
 <td data-th="Name:" class="cell">
-  <a 
+  <a
     *ngIf="item.url"
     [href]="item.url"
     target="_blank"
-    ngxClipboard
-    [cbContent]="item.password"
+    [ngxClipboard]="$any('')"
+    [cbContent]="item.password!"
     [matTooltip]="item.name"
     [innerHTML]="item.name | highlight: searchFor"
   >
@@ -12,32 +12,66 @@
   <span *ngIf="!item.url" [innerHTML]="item.name | highlight: searchFor"></span>
 </td>
 
-<td data-th="Account:" ngxClipboard [cbContent]="item.account" (cbOnSuccess)="copied()" class="cell" [matTooltip]="item.account">
-  {{item.account}}
+<td
+  data-th="Account:"
+  [ngxClipboard]="$any('')"
+  [cbContent]="item.account!"
+  (cbOnSuccess)="copied()"
+  class="cell"
+  [matTooltip]="item.account"
+>
+  {{ item.account }}
 </td>
 
-<td data-th="Username:" ngxClipboard [cbContent]="item.username" (cbOnSuccess)="copied()" class="cell" [matTooltip]="item.username">
-  {{item.username}}
+<td
+  data-th="Username:"
+  [ngxClipboard]="$any('')"
+  [cbContent]="item.username!"
+  (cbOnSuccess)="copied()"
+  class="cell"
+  [matTooltip]="item.username"
+>
+  {{ item.username }}
 </td>
 
-<td data-th="Password:" ngxClipboard [cbContent]="item.password" (cbOnSuccess)="copied()" class="cell" [matTooltip]="item.password">
-  {{item.password}}
+<td
+  data-th="Password:"
+  [ngxClipboard]="$any('')"
+  [cbContent]="item.password!"
+  (cbOnSuccess)="copied()"
+  class="cell"
+  [matTooltip]="item.password"
+>
+  {{ item.password }}
 </td>
 
-<td data-th="Blob:" ngxClipboard [cbContent]="item.blob" (cbOnSuccess)="copied()" class="cell" [matTooltip]="item.blob">
-  {{item.blob}}
+<td
+  data-th="Blob:"
+  [ngxClipboard]="$any('')"
+  [cbContent]="item.blob!"
+  (cbOnSuccess)="copied()"
+  class="cell"
+  [matTooltip]="item.blob"
+>
+  {{ item.blob }}
 </td>
 
 <td fxLayout fxLayoutGap="10px">
-  <button mat-mini-fab matTooltip="Edit item"
+  <button
+    mat-mini-fab
+    matTooltip="Edit item"
     (click)="promptEdit()"
-    type="button">
+    type="button"
+  >
     <mat-icon>edit</mat-icon>
   </button>
 
-  <button mat-mini-fab matTooltip="Delete item"
+  <button
+    mat-mini-fab
+    matTooltip="Delete item"
     (click)="promptDelete()"
-    type="button">
+    type="button"
+  >
     <mat-icon>delete</mat-icon>
   </button>
 </td>

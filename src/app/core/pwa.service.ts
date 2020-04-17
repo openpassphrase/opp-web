@@ -2,11 +2,11 @@ import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SwUpdate } from '@angular/service-worker';
-import { InstallOnIosInstructionsComponent } from '@app/shared/install-on-ios-instructions/install-on-ios-instructions.component';
-import { UpdateAvailableComponent } from '@app/shared/update-available/update-available.component';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
+import { InstallOnIosInstructionsComponent } from './components/install-on-ios-instructions/install-on-ios-instructions.component';
+import { UpdateAvailableComponent } from './components/update-available/update-available.component';
 @Injectable()
 export class PwaService {
   private promptEventSubj$ = new BehaviorSubject<any>(undefined);
@@ -20,7 +20,7 @@ export class PwaService {
     private snackBar: MatSnackBar,
     @Inject(DOCUMENT) private doc: Document
   ) {
-    window.addEventListener('beforeinstallprompt', event => {
+    window.addEventListener('beforeinstallprompt', (event) => {
       this.promptEventSubj$.next(event);
     });
 
@@ -29,7 +29,8 @@ export class PwaService {
     });
 
     this.showCustomButton$ = combineLatest([
-      this.promptEvent$, this.isAppInstalledSubj$.asObservable()
+      this.promptEvent$,
+      this.isAppInstalledSubj$.asObservable(),
     ]).pipe(
       map(([promptEvent, isAppInstalled]) => !!promptEvent && !isAppInstalled)
     );
@@ -51,8 +52,9 @@ export class PwaService {
 
   register() {
     if (environment.name !== 'dev' && 'serviceWorker' in navigator) {
-      navigator.serviceWorker.getRegistration()
-        .then(sw => {
+      navigator.serviceWorker
+        .getRegistration()
+        .then((sw) => {
           if (!sw) {
             const swJs = `${environment.baseHref}/ngsw-worker.js`;
             navigator.serviceWorker.register(swJs);
@@ -76,6 +78,9 @@ export class PwaService {
   }
 
   private isInStandaloneMode() {
-    return ('standalone' in window.navigator) && ((window.navigator as any).standalone === true);
+    return (
+      'standalone' in window.navigator &&
+      (window.navigator as any).standalone === true
+    );
   }
 }

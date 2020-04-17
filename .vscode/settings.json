@@ -31,5 +31,7 @@
   "typescript.preferences.quoteStyle": "single",
   "workbench.colorCustomizations": {
     "editorRuler.foreground": "#ff4081"
-  }
+  },
+  "prettier.jsxSingleQuote": true,
+  "prettier.singleQuote": true
 }
