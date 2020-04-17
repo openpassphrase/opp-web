@@ -4,7 +4,7 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AuthStateService } from '../../core/auth/auth-state.service';
+import { AuthStateService } from './auth-state.service';
 
 @Injectable()
 export class PhraseInterceptor implements HttpInterceptor {

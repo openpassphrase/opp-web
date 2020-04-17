@@ -1,15 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { AuthStorage } from '../auth-token-storage';
 
 @Injectable()
 export class AuthStateService {
-  private readonly isAuthenticated = new BehaviorSubject<boolean>(false);
-  isAuthenticated$ = this.isAuthenticated.asObservable();
+  private readonly isAuthenticated: BehaviorSubject<boolean>;
+  isAuthenticated$: Observable<boolean>;
   secret: string | undefined;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+    const token = AuthStorage.getToken();
+    this.isAuthenticated = new BehaviorSubject<boolean>(token !== null);
+    this.isAuthenticated$ = this.isAuthenticated.asObservable();
+  }
 
   setAuthenticated(isAuthenticated: false): void;
   setAuthenticated(isAuthenticated: true, access_token: string): void;

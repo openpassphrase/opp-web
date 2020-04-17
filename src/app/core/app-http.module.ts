@@ -2,9 +2,9 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { JwtModule } from '@auth0/angular-jwt';
 import { environment } from '../../environments/environment';
-import { PhraseInterceptor } from '../content/services/phrase.interceptor';
 import { AuthStorage } from './auth-token-storage';
 import { AuthApiMockService, AuthApiService } from './auth/auth-api.service';
+import { PhraseInterceptor } from './auth/phrase.interceptor';
 import { LoadingInterceptor } from './loading.interceptor';
 
 export function tokenGetter() {
@@ -15,7 +15,11 @@ export function tokenGetter() {
   imports: [
     HttpClientModule,
     JwtModule.forRoot({
-      config: { tokenGetter, headerName: 'x-opp-jwt', authScheme: '' },
+      config: {
+        tokenGetter,
+        headerName: 'x-opp-jwt',
+        authScheme: '',
+      },
     }),
   ],
   providers: [
