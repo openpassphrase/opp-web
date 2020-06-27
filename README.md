@@ -28,6 +28,9 @@ If you just got latest, make sure you have all dependencies installed:
 
 - Run `yarn`
 
+If you want to develop with mock data, the just run `yarn start`.
+
+If you want to run front-end against the server, you need to start it.
 Start the server on port 5000. You can do it via running docker commands from the `opp` directory:
 
 ```
@@ -37,9 +40,9 @@ docker run -p 5000:5000 -it opp
 
 Then run one of the following commands, which will start local dev server, but point any /api requests to the running instance of Opp server
 
-- `yarn start`
+- `yarn start:with-server`
 
-#### Testing PWA
+#### Testing PWA functionality
 
 - generate cert files - run `./cert/makeCert.bat`
 - register the generated certificate in your OS
@@ -56,9 +59,21 @@ Then run one of the following commands, which will start local dev server, but p
 
 ### Build
 
-Project is compiled into _dist_ folder.
+#### Dev build:
 
 - `yarn build`.
+
+#### Prod build:
+
+Creates assets to be deployed to production server
+
+- `yarn build:prod`
+
+#### Demo build:
+
+Creates assets to be deployed to the demo server
+
+- `yarn build:demo`
 
 ### Running unit tests
 
@@ -68,13 +83,17 @@ Project is compiled into _dist_ folder.
 
 - `yarn run lint`
 
+### Evaluate bundles:
+
+- `yarn build:stats && yarn source-map-explorer`
+
 ## Technology to learn:
 
 ### Core concepts
 
 - [Angular](https://angular.io/docs/ts/latest/guide/learning-angular.html)
 - [RxJs](https://github.com/Reactive-Extensions/RxJS) - See tutorials under [Resource](https://github.com/Reactive-Extensions/RxJS#resources)
-- [ngrx/store](https://github.com/ngrx/store) - See tutorials under [Introduction](https://github.com/ngrx/store#introduction)
+- [Akita](https://datorama.github.io/akita/)
 
 ### UI Frameworks used:
 

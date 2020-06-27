@@ -3,7 +3,7 @@
     *ngIf="item.url"
     [href]="item.url"
     target="_blank"
-    [ngxClipboard]="$any('')"
+    ngxClipboard
     [cbContent]="item.password!"
     [matTooltip]="item.name"
     [innerHTML]="item.name | highlight: searchFor"
@@ -14,7 +14,7 @@
 
 <td
   data-th="Account:"
-  [ngxClipboard]="$any('')"
+  ngxClipboard
   [cbContent]="item.account!"
   (cbOnSuccess)="copied()"
   class="cell"
@@ -25,7 +25,7 @@
 
 <td
   data-th="Username:"
-  [ngxClipboard]="$any('')"
+  ngxClipboard
   [cbContent]="item.username!"
   (cbOnSuccess)="copied()"
   class="cell"
@@ -34,20 +34,16 @@
   {{ item.username }}
 </td>
 
-<td
-  data-th="Password:"
-  [ngxClipboard]="$any('')"
-  [cbContent]="item.password!"
-  (cbOnSuccess)="copied()"
-  class="cell"
-  [matTooltip]="item.password"
->
-  {{ item.password }}
+<td data-th="Password:" class="cell rel">
+  <app-show-hide-password
+    [password]="item.password!"
+    (copied)="copied()"
+  ></app-show-hide-password>
 </td>
 
 <td
   data-th="Blob:"
-  [ngxClipboard]="$any('')"
+  ngxClipboard
   [cbContent]="item.blob!"
   (cbOnSuccess)="copied()"
   class="cell"
