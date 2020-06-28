@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { AuthStorage } from '../auth-token-storage';
@@ -9,7 +10,7 @@ export class AuthStateService {
   isAuthenticated$: Observable<boolean>;
   secret: string | undefined;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private dialog: MatDialog) {
     const token = AuthStorage.getToken();
     this.isAuthenticated = new BehaviorSubject<boolean>(token !== null);
     this.isAuthenticated$ = this.isAuthenticated.asObservable();
@@ -24,6 +25,7 @@ export class AuthStateService {
     if (!isAuthenticated) {
       AuthStorage.removeToken();
       this.router.navigate(['/']);
+      this.dialog.closeAll();
     }
     this.isAuthenticated.next(isAuthenticated);
   }

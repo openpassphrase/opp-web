@@ -37,6 +37,7 @@ import {
   CategoriesStore,
 } from './state/categories';
 import { ItemsQuery, ItemsStore } from './state/items';
+import { ShowHidePasswordComponent } from './components/show-hide-password/show-hide-password.component';
 
 @NgModule({
   imports: [
@@ -67,6 +68,7 @@ import { ItemsQuery, ItemsStore } from './state/items';
     SecretsComponent,
     HighlightPipe,
     CapitalizePipe,
+    ShowHidePasswordComponent,
   ],
   providers: [
     ScrollToService,

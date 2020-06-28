@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -25,6 +26,7 @@ const swJs = `${environment.baseHref}/ngsw-worker.js`;
     AppHttpModule,
     MatSnackBarModule,
     MatButtonModule,
+    MatDialogModule,
     ServiceWorkerModule.register(swJs, { enabled: environment.name !== 'dev' }),
   ],
   declarations: [UpdateAvailableComponent, InstallOnIosInstructionsComponent],
