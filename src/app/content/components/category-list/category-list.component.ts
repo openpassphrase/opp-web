@@ -16,6 +16,7 @@ import {
   MatExpansionPanelHeader,
 } from '@angular/material/expansion';
 import { ExpandableInputMaterialComponent } from '@ng-expandable-input/material';
+import { unparse } from 'papaparse';
 import { combineLatest, Observable, Subject } from 'rxjs';
 import {
   auditTime,
@@ -180,6 +181,19 @@ export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {
     this.categoriesService.updateSearchFor('');
     this.searchForControl.setValue('');
     this.collapseAllPanels();
+  }
+
+  downloadAllData() {
+    const data = this.categoriesQuery.getAllForDownload();
+    const csv = unparse(data, { quotes: true });
+    const blob = new Blob([csv], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const el = document.createElement('a');
+    el.setAttribute('href', url);
+    el.setAttribute('download', 'my-passwords.csv');
+    document.body.appendChild(el);
+    el.click();
+    document.body.removeChild(el);
   }
 
   ngOnDestroy() {

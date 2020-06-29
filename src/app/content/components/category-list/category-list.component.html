@@ -4,13 +4,23 @@
     mat-icon-button
     mat-mini-icon-button
     matTooltip="Toggle all categories"
-    class="btn-expand-all"
+    class="btn-expand-all mr-1"
     (click)="toggleAll()"
     type="button"
   >
     <mat-icon>{{
       areAllClosed() ? 'border_outer' : 'border_horizontal'
     }}</mat-icon>
+  </button>
+
+  <button
+    mat-icon-button
+    mat-mini-icon-button
+    type="button"
+    matTooltip="Download all data"
+    (click)="downloadAllData()"
+  >
+    <mat-icon>cloud_download</mat-icon>
   </button>
 
   <mat-expandable-input
