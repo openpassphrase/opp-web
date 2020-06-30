@@ -186,7 +186,9 @@ export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {
   downloadAllData() {
     const data = this.categoriesQuery.getAllForDownload();
     const csv = unparse(data, { quotes: true });
-    const blob = new Blob([csv], { type: 'text/plain' });
+    const blob = new Blob(['\ufeff' + csv], {
+      type: 'text/plain;charset=UTF-8-BOM',
+    });
     const url = URL.createObjectURL(blob);
     const el = document.createElement('a');
     el.setAttribute('href', url);
