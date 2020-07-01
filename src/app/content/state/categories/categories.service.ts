@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthStateService } from '../../../core/auth/auth-state.service';
 import {
   IItem,
   IItemFormResult,
@@ -17,21 +18,22 @@ export class CategoriesService {
     private categoriesStore: CategoriesStore,
     private itemsStore: ItemsStore,
     private api: BackendService,
+    private authStateService: AuthStateService,
     private snackbar: MatSnackBar
   ) {}
 
   fetchAll() {
-    this.categoriesStore.setIsPathPhraseCorrect(false);
+    this.authStateService.setIsPathPhraseCorrect(false);
 
     this.api.fetchAll().subscribe(
       (res) => {
         this.categoriesStore.add(res.categories);
         this.itemsStore.add(res.items);
-        this.categoriesStore.setIsPathPhraseCorrect(true);
+        this.authStateService.setIsPathPhraseCorrect(true);
       },
       () => {
         this.categoriesStore.remove();
-        this.categoriesStore.setIsPathPhraseCorrect(false);
+        this.authStateService.setIsPathPhraseCorrect(false);
         this.itemsStore.remove();
         this.snackbar.open('Incorrect passphrase', undefined, {
           duration: 2000,
@@ -129,11 +131,9 @@ export class CategoriesService {
     this.categoriesStore.remove();
     this.itemsStore.remove();
 
-    this.api.secretPassphraseChange(secret);
+    this.authStateService.secretPassphraseChange(secret);
     if (secret !== undefined) {
       this.fetchAll();
-    } else {
-      this.categoriesStore.setIsPathPhraseCorrect(false);
     }
   }
 

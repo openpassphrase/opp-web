@@ -88,10 +88,6 @@ export class CategoriesQuery extends QueryEntity<CategoriesState> {
     });
     return result;
   }
-
-  selectIsPathPhraseCorrect() {
-    return this.select((x) => x.ui.isPathPhraseCorrect);
-  }
 }
 
 function associateItemsWithCategory(items: IItem[]) {

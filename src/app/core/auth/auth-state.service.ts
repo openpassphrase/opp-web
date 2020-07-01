@@ -7,7 +7,11 @@ import { AuthStorage } from '../auth-token-storage';
 @Injectable()
 export class AuthStateService {
   private readonly isAuthenticatedSubj: BehaviorSubject<boolean>;
+  private readonly isPathPhraseCorrectSubj = new BehaviorSubject<boolean>(
+    false
+  );
   isAuthenticated$: Observable<boolean>;
+  isPathPhraseCorrect$ = this.isPathPhraseCorrectSubj.asObservable();
   secret: string | undefined;
 
   constructor(private router: Router, private dialog: MatDialog) {
@@ -37,9 +41,22 @@ export class AuthStateService {
     }
     if (!isAuthenticated) {
       AuthStorage.removeToken();
+      this.secret = undefined;
+      this.setIsPathPhraseCorrect(false);
       this.router.navigate(['/']);
       this.dialog.closeAll();
     }
     this.isAuthenticatedSubj.next(isAuthenticated);
+  }
+
+  secretPassphraseChange(secret: string | undefined) {
+    this.secret = secret;
+    if (secret === undefined) {
+      this.setIsPathPhraseCorrect(false);
+    }
+  }
+
+  setIsPathPhraseCorrect(isCorrect: boolean) {
+    this.isPathPhraseCorrectSubj.next(isCorrect);
   }
 }

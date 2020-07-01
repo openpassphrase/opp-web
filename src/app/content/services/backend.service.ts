@@ -103,8 +103,4 @@ export class BackendService implements IBackendService {
       body: { ids: [id] },
     });
   }
-
-  secretPassphraseChange(secret: string | undefined) {
-    this.authStateService.secret = secret;
-  }
 }
