@@ -59,8 +59,34 @@ export class CategoriesQuery extends QueryEntity<CategoriesState> {
       .pipe(shareReplay(1));
   }
 
-  selectIsPathPhraseCorrect() {
-    return this.select((x) => x.ui.isPathPhraseCorrect);
+  getAllForDownload() {
+    const categories = this.getAll();
+    const items = this.itemsQuery.getAll();
+    const result = items.map((item) => {
+      const {
+        name,
+        url,
+        account,
+        username,
+        password,
+        blob,
+        category_id,
+      } = item;
+      const category =
+        category_id !== undefined
+          ? categories.find((c) => c.id === category_id)?.name ?? ''
+          : '';
+      return {
+        category,
+        name,
+        url,
+        account,
+        username,
+        password,
+        blob,
+      };
+    });
+    return result;
   }
 }
 

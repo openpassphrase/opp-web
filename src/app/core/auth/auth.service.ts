@@ -6,6 +6,9 @@ import { environment } from '../../../environments/environment';
 import { AuthApiService } from './auth-api.service';
 import { AuthStateService } from './auth-state.service';
 
+const seconds5 = 5 * 1000;
+const minutes5 = seconds5 * 60; // default timeout time
+
 @Injectable()
 export class AuthService {
   isLoggedIn$ = this.authStateService.isAuthenticated$;
@@ -17,10 +20,22 @@ export class AuthService {
     private jwtHelper: JwtHelperService
   ) {}
 
-  login(data: { username: string; password: string; exp_delta: number }) {
+  login(data: {
+    username: string;
+    password: string;
+    exp_delta: number | undefined;
+  }) {
     return this.authApiService.login(data).pipe(
       tap((res) => {
-        this.authStateService.setAuthenticated(true, res.access_token);
+        const sessionExpireIn = data.exp_delta
+          ? data.exp_delta * 1000
+          : minutes5;
+        const sessionExpireAt = new Date().getTime() + sessionExpireIn;
+        this.authStateService.setAuthenticated(
+          true,
+          res.access_token,
+          sessionExpireAt
+        );
 
         this.checkForTokenExpiration(data.exp_delta);
       })
@@ -40,8 +55,6 @@ export class AuthService {
    * that user selected to wait before session expiration
    */
   private checkForTokenExpiration(exp_delta: number | undefined) {
-    const seconds5 = 5 * 1000;
-    const minutes5 = seconds5 * 60; // default timeout time
     const sessionExpireIn = exp_delta ? exp_delta * 1000 : minutes5;
     const startFrom = sessionExpireIn - seconds5;
 

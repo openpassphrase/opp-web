@@ -1,7 +1,8 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { filter, first, tap } from 'rxjs/operators';
-import { CategoriesQuery, CategoriesService } from '../../state/categories';
+import { AuthStateService } from '../../../core/auth/auth-state.service';
+import { CategoriesService } from '../../state/categories';
 
 @Component({
   selector: 'app-secret-phrase-input',
@@ -17,12 +18,11 @@ export class SecretPhraseInputComponent implements OnInit {
 
   constructor(
     private categoriesService: CategoriesService,
-    private categoriesQuery: CategoriesQuery
+    private authStateService: AuthStateService
   ) {}
 
   ngOnInit() {
-    this.categoriesQuery
-      .selectIsPathPhraseCorrect()
+    this.authStateService.isPathPhraseCorrect$
       .pipe(
         filter((isCorrect) => !!isCorrect),
         tap(() => {

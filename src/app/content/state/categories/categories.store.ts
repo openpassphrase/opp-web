@@ -3,7 +3,6 @@ import { EntityState, EntityStore, guid, StoreConfig } from '@datorama/akita';
 import { ICategory } from '../../models';
 
 export interface IUiState {
-  isPathPhraseCorrect: boolean;
   searchFor: string;
 }
 
@@ -18,7 +17,6 @@ export class CategoriesStore extends EntityStore<CategoriesState> {
     const initialState: CategoriesState = {
       loading: false,
       ui: {
-        isPathPhraseCorrect: false,
         searchFor: '',
       },
     };
@@ -33,9 +31,5 @@ export class CategoriesStore extends EntityStore<CategoriesState> {
     const category = { id: guid() as any, name };
     this.add(category);
     return category.id;
-  }
-
-  setIsPathPhraseCorrect(isCorrect: boolean) {
-    this.updateUi({ isPathPhraseCorrect: isCorrect });
   }
 }
