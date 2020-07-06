@@ -20,7 +20,7 @@ import {
   DeleteItemDialogComponent,
   ItemComponent,
   ItemFormComponent,
-  SecretPhraseInputComponent,
+  SecretPhraseInputComponent
 } from './components';
 import { ShowHidePasswordComponent } from './components/show-hide-password/show-hide-password.component';
 import { ContentRoutingModule } from './content-routing.module';
@@ -35,7 +35,7 @@ import { ScrollToService } from './services/scrollTo';
 import {
   CategoriesQuery,
   CategoriesService,
-  CategoriesStore,
+  CategoriesStore
 } from './state/categories';
 import { ItemsQuery, ItemsStore } from './state/items';
 
