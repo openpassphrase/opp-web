@@ -82,7 +82,6 @@ import { ItemsQuery, ItemsStore } from './state/items';
       useClass: environment.mockApi ? BackendMockService : BackendService,
     },
   ],
-  // entryComponents: [DeleteCategoryDialogComponent, DeleteItemDialogComponent],
 })
 export class ContentModule {
   constructor() {

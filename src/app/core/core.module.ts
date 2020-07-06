@@ -30,10 +30,6 @@ const swJs = `${environment.baseHref}/ngsw-worker.js`;
     ServiceWorkerModule.register(swJs, { enabled: environment.name !== 'dev' }),
   ],
   declarations: [UpdateAvailableComponent, InstallOnIosInstructionsComponent],
-  // entryComponents: [
-  //   UpdateAvailableComponent,
-  //   InstallOnIosInstructionsComponent,
-  // ],
   providers: [PwaService, CspService, AuthService, AuthStateService],
 })
 export class CoreModule {
