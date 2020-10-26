@@ -5,7 +5,8 @@
     target="_blank"
     ngxClipboard
     [cbContent]="item.password!"
-    [matTooltip]="item.name"
+    [matTooltip]="item.name!"
+    [matTooltipDisabled]="!item.name"
     [innerHTML]="item.name | highlight: searchFor"
   >
   </a>
@@ -18,7 +19,8 @@
   [cbContent]="item.account!"
   (cbOnSuccess)="copied()"
   class="cell"
-  [matTooltip]="item.account"
+  [matTooltip]="item.account!"
+  [matTooltipDisabled]="!item.account"
 >
   {{ item.account }}
 </td>
@@ -29,7 +31,8 @@
   [cbContent]="item.username!"
   (cbOnSuccess)="copied()"
   class="cell"
-  [matTooltip]="item.username"
+  [matTooltip]="item.username!"
+  [matTooltipDisabled]="!item.username"
 >
   {{ item.username }}
 </td>
@@ -47,7 +50,8 @@
   [cbContent]="item.blob!"
   (cbOnSuccess)="copied()"
   class="cell"
-  [matTooltip]="item.blob"
+  [matTooltip]="item.blob!"
+  [matTooltipDisabled]="!item.blob"
 >
   {{ item.blob }}
 </td>
