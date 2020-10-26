@@ -20,8 +20,9 @@ import {
   DeleteItemDialogComponent,
   ItemComponent,
   ItemFormComponent,
-  SecretPhraseInputComponent,
+  SecretPhraseInputComponent
 } from './components';
+import { ShowHidePasswordComponent } from './components/show-hide-password/show-hide-password.component';
 import { ContentRoutingModule } from './content-routing.module';
 import { ContentComponent } from './content.component';
 import { PhraseComponent } from './route-components/phrase/phrase.component';
@@ -34,10 +35,9 @@ import { ScrollToService } from './services/scrollTo';
 import {
   CategoriesQuery,
   CategoriesService,
-  CategoriesStore,
+  CategoriesStore
 } from './state/categories';
 import { ItemsQuery, ItemsStore } from './state/items';
-import { ShowHidePasswordComponent } from './components/show-hide-password/show-hide-password.component';
 
 @NgModule({
   imports: [
@@ -82,7 +82,6 @@ import { ShowHidePasswordComponent } from './components/show-hide-password/show-
       useClass: environment.mockApi ? BackendMockService : BackendService,
     },
   ],
-  entryComponents: [DeleteCategoryDialogComponent, DeleteItemDialogComponent],
 })
 export class ContentModule {
   constructor() {

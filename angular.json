@@ -115,13 +115,16 @@
               ],
               "optimization": true,
               "outputHashing": "none",
-              "sourceMap": true,
+              "sourceMap": {
+                "styles": true,
+                "scripts": true,
+                "vendor": false
+              },
               "extractCss": true,
               "namedChunks": true,
               "aot": true,
               "extractLicenses": false,
               "vendorChunk": false,
-              "vendorSourceMap": false,
               "buildOptimizer": true,
               "serviceWorker": true,
               "statsJson": true
@@ -136,6 +139,9 @@
           "configurations": {
             "production": {
               "browserTarget": "web:build:production"
+            },
+            "local-prod": {
+              "browserTarget": "web:build:local-prod"
             }
           }
         },

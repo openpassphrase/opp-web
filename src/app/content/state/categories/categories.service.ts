@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { filter, tap } from 'rxjs/operators';
 import { AuthStateService } from '../../../core/auth/auth-state.service';
 import {
   IItem,
@@ -20,7 +21,19 @@ export class CategoriesService {
     private api: BackendService,
     private authStateService: AuthStateService,
     private snackbar: MatSnackBar
-  ) {}
+  ) {
+    // clear state when logout
+    authStateService.isAuthenticated$
+      .pipe(
+        filter((isAuthenticated) => !isAuthenticated),
+        tap(() => {
+          this.itemsStore.remove();
+          this.categoriesStore.remove();
+          this.categoriesStore.updateUi({ searchFor: '' });
+        })
+      )
+      .subscribe();
+  }
 
   fetchAll() {
     this.authStateService.setIsPathPhraseCorrect(false);
