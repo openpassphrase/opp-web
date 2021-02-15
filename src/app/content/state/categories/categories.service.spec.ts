@@ -1,7 +1,12 @@
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MockProvider } from 'ng-mocks';
+import { of } from 'rxjs';
+import { AuthStateService } from '../../../core/auth/auth-state.service';
 import { ICategoryItems, IItem } from '../../models';
-import { BackendMockService, BackendService } from '../../services';
+import { BackendMockService } from '../../services/backend.mock.service';
+import { BackendService } from '../../services/backend.service';
+import { ItemsQuery, ItemsStore } from '../items';
 import { CategoriesQuery } from './categories.query';
 import { CategoriesService } from './categories.service';
 import { CategoriesStore } from './categories.store';
@@ -18,6 +23,11 @@ describe('Categories Store', () => {
         CategoriesService,
         CategoriesStore,
         CategoriesQuery,
+        ItemsStore,
+        ItemsQuery,
+        MockProvider(AuthStateService, {
+          isAuthenticated$: of(true)
+        }),
         { provide: BackendService, useClass: BackendMockService },
         { provide: MatSnackBar, useClass: MatSnackBarMock },
       ],
