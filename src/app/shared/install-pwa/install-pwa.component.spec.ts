@@ -1,9 +1,11 @@
+import { Injectable } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SwUpdate } from '@angular/service-worker';
-import { PwaService } from '../../pwa.service';
+import { PwaService } from '../../core/pwa.service';
 import { InstallPwaComponent } from './install-pwa.component';
 
+@Injectable()
 class PwaServiceMock extends PwaService {
   showIosCustomButton = true;
 }
