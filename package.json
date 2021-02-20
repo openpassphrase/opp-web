@@ -10,7 +10,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "build:prod": "node make_version.js && ng build --prod --base-href /opp --deploy-url opp/",
-    "build:demo": "ng build --configuration demo --base-href /demo --deploy-url demo/",
+    "build:demo": "node make_version.js && ng build --configuration demo --base-href /demo --deploy-url demo/",
     "build:test": "ng build --configuration local-prod",
     "build:stats": "ng build --configuration local-stats",
     "server:dist": "http-server ./dist/web/ -S -C cert/localhost.crt -K cert/localhost.key -P http://localhost:5000",
