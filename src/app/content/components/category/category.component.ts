@@ -67,7 +67,7 @@ export class CategoryComponent implements OnInit, OnChanges {
   @ViewChild('addItemTooltip', { read: MatTooltip }) addItemTooltip: MatTooltip;
 
   @Input() category: ICategoryItems;
-  @Input() readonly isExpanded = false;
+  @Input() readonly isExpanded: boolean = false;
   @Input() readonly searchFor: string | null;
   @Output() update = new EventEmitter<IUpdateCategoryPayload>(false);
   @Output() remove = new EventEmitter<IRemoveCategoryPayload>(false);

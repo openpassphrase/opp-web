@@ -8,7 +8,7 @@ import {
   Output,
 } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import * as versionFile from '../../../assets/version.json';
+import { version } from '../../../assets/version';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -20,7 +20,7 @@ export class AppHeaderComponent implements AfterViewInit {
   @Input() loggedIn: Observable<boolean> | undefined;
   @Output() logout = new EventEmitter();
 
-  version = 'Version: ' + (versionFile as any).version;
+  version = 'Version: ' + version;
 
   ngAfterViewInit() {
     if (!this.loggedIn) {
