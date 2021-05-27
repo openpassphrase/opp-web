@@ -1,3 +1,4 @@
+@use '~@angular/material' as mat;
 @import '~@angular/material/_theming';
 
 :host {
@@ -14,8 +15,8 @@
 
 .shadow {
   border-radius: 4px;
-  @include mat-elevation(2);
-  @include mat-elevation-transition;
+  @include mat.elevation(2);
+  @include mat.elevation-transition;
 }
 
 .category-name {
