@@ -1,0 +1,22 @@
+[req]
+default_bits = 2048
+prompt = no
+default_md = sha256
+x509_extensions = v3_req
+distinguished_name = dn
+
+[dn]
+C = US
+ST = AZ
+L = Phoenix
+O = IT
+OU = IT Department
+emailAddress = webmaster@localhost.com
+CN = localhost.com
+
+[v3_req]
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1 = localhost
+DNS.2 = myweb.com

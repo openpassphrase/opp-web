@@ -4,7 +4,7 @@
   "theme_color": "#1976d2",
   "background_color": "#fafafa",
   "description": "open source password manager project",
-  "display": "fullscreen",
+  "display": "standalone",
   "lang": "en-US",
   "scope": "./",
   "start_url": "./",
