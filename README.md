@@ -4,14 +4,11 @@
 
 ### Prerequisites:
 
-- [NodeJs > 6.10.2](https://nodejs.org/en/download/)
-- [Yarn](https://yarnpkg.com/) installed globally by running command: `npm i -g yarn`
-
-_Notice! This project uses [Yarn](https://yarnpkg.com/en/) for dependency management - not `npm`._
+- [NodeJs > 14.15.0](https://nodejs.org/en/download/)
 
 ### Install deps:
 
-- Run `yarn`
+- Run `npm i`
 
 ## Development
 
@@ -26,9 +23,9 @@ _Notice! This project uses [Yarn](https://yarnpkg.com/en/) for dependency manage
 
 If you just got latest, make sure you have all dependencies installed:
 
-- Run `yarn`
+- Run `npm i`
 
-If you want to develop with mock data, the just run `yarn start`.
+If you want to develop with mock data, the just run `npm start`.
 
 If you want to run front-end against the server, you need to start it.
 Start the server on port 5000. You can do it via running docker commands from the `opp` directory:
@@ -40,7 +37,7 @@ docker run -p 5000:5000 -it opp
 
 Then run one of the following commands, which will start local dev server, but point any /api requests to the running instance of Opp server
 
-- `yarn start:with-server`
+- `npm run start:with-server`
 
 #### Testing PWA functionality
 
@@ -61,31 +58,31 @@ Then run one of the following commands, which will start local dev server, but p
 
 #### Dev build:
 
-- `yarn build`.
+- `npm run build`.
 
 #### Prod build:
 
 Creates assets to be deployed to production server
 
-- `yarn build:prod`
+- `npm run build:prod`
 
 #### Demo build:
 
 Creates assets to be deployed to the demo server
 
-- `yarn build:demo`
+- `npm run build:demo`
 
 ### Running unit tests
 
-- `yarn test`
+- `npm run test`
 
 ### Running lint
 
-- `yarn run lint`
+- `npm run run lint`
 
 ### Evaluate bundles:
 
-- `yarn build:stats && yarn source-map-explorer`
+- `npm run build:stats && npm run source-map-explorer`
 
 ## Technology to learn:
 

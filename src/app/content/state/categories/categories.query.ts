@@ -63,15 +63,8 @@ export class CategoriesQuery extends QueryEntity<CategoriesState> {
     const categories = this.getAll();
     const items = this.itemsQuery.getAll();
     const result = items.map((item) => {
-      const {
-        name,
-        url,
-        account,
-        username,
-        password,
-        blob,
-        category_id,
-      } = item;
+      const { name, url, account, username, password, blob, category_id } =
+        item;
       const category =
         category_id !== undefined
           ? categories.find((c) => c.id === category_id)?.name ?? ''
