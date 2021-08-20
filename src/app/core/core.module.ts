@@ -36,11 +36,6 @@ export class CoreModule {
   constructor(pwa: PwaService, csp: CspService) {
     pwa.addManifestLink();
 
-    // in some cases ServiceWorkerModule.register does not register service worker.
-    // https://github.com/angular/angular/issues/20970
-    // register it manually:
-    pwa.register();
-
     pwa.listenForUpdate();
 
     csp.register();
