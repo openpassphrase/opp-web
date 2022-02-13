@@ -107,28 +107,20 @@
               "serviceWorker": true
             },
             "local-stats": {
-              "budgets": [
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb"
-                }
-              ],
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.local-prod.ts"
                 }
               ],
-              "optimization": true,
               "outputHashing": "none",
               "sourceMap": {
                 "styles": true,
                 "scripts": true,
-                "vendor": false
+                "vendor": true
               },
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "serviceWorker": true,
+              "namedChunks": true,
+              "extractLicenses": false,
               "statsJson": true
             },
             "development": {}

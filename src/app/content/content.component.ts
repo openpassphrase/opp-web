@@ -7,7 +7,7 @@ import {
 import { Observable, Subject } from 'rxjs';
 import { AuthService } from '../core/auth/auth.service';
 import { LoadingService } from '../core/loading.service';
-import { CategoriesService } from './state/categories';
+import { CategoriesRepository } from './state';
 
 @Component({
   selector: 'app-content',
@@ -20,7 +20,7 @@ export class ContentComponent implements OnInit, OnDestroy {
   private _destroyed = new Subject();
 
   constructor(
-    private categoriesService: CategoriesService,
+    private categoriesRepository: CategoriesRepository,
     private loadingService: LoadingService,
     public auth: AuthService
   ) {}
@@ -35,7 +35,7 @@ export class ContentComponent implements OnInit, OnDestroy {
   }
 
   logout() {
-    this.categoriesService.logout();
+    this.categoriesRepository.secretPhraseChange(undefined);
     this.auth.logout();
   }
 }

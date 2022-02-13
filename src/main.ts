@@ -8,5 +8,9 @@ if (environment.name !== 'dev') {
 }
 
 platformBrowserDynamic()
-  .bootstrapModule(AppModule)
+  .bootstrapModule(AppModule, {
+    preserveWhitespaces: false,
+    ngZoneEventCoalescing: true,
+    ngZoneRunCoalescing: true,
+  })
   .catch((err) => console.log(err));

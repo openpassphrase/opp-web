@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
@@ -9,6 +9,7 @@ import { AuthService } from '../../core/auth/auth.service';
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent implements OnInit {
   authForm: FormGroup;
@@ -38,9 +39,8 @@ export class LoginComponent implements OnInit {
     });
 
     const exp_delta_amountCtrl = this.authForm.controls['exp_delta_amount'];
-    const exp_delta_multiplierCtrl = this.authForm.controls[
-      'exp_delta_multiplier'
-    ];
+    const exp_delta_multiplierCtrl =
+      this.authForm.controls['exp_delta_multiplier'];
 
     exp_delta_amountCtrl.valueChanges.subscribe((newVal) => {
       const notEmpty = newVal !== undefined && newVal !== null && newVal !== '';

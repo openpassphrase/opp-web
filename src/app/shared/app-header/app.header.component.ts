@@ -11,10 +11,10 @@ import { Observable, of } from 'rxjs';
 import { version } from '../../../assets/version';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-header',
   templateUrl: './app.header.component.html',
   styleUrls: ['./app.header.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppHeaderComponent implements AfterViewInit {
   @Input() loggedIn: Observable<boolean> | undefined;

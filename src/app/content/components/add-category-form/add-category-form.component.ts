@@ -1,10 +1,19 @@
-import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  EventEmitter,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-add-category-form',
   templateUrl: './add-category-form.component.html',
-  styleUrls: ['./add-category-form.component.scss']
+  styleUrls: ['./add-category-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddCategoryFormComponent implements OnInit {
   addCategoryForm: FormGroup;
@@ -12,11 +21,11 @@ export class AddCategoryFormComponent implements OnInit {
   @Output() add = new EventEmitter<string>(false);
   @ViewChild('category') categoryInput: ElementRef;
 
-  constructor(private _fb: FormBuilder) { }
+  constructor(private _fb: FormBuilder) {}
 
   ngOnInit() {
     this.addCategoryForm = this._fb.group({
-      category: this.categoryControl
+      category: this.categoryControl,
     });
   }
 

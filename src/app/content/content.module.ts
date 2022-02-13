@@ -5,16 +5,18 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { enableAkitaProdMode } from '@datorama/akita';
 import { ExpandableInputMaterialModule } from '@ng-expandable-input/material';
 import { NgxErrorsModule } from '@ngspot/ngx-errors';
+import { NgLetModule } from 'ng-let';
 import { ClipboardModule } from 'ngx-clipboard';
 import { environment } from '../../environments/environment';
 import { SharedModule } from '../shared/shared.module';
 import {
   AddCategoryFormComponent,
   CategoryComponent,
+  CategoryExpandedTrackerDirective,
   CategoryListComponent,
   DeleteCategoryDialogComponent,
   DeleteItemDialogComponent,
@@ -32,12 +34,7 @@ import { BackendService } from './services/backend.service';
 import { CapitalizePipe } from './services/capitalizePipe';
 import { HighlightPipe } from './services/highlightPipe';
 import { ScrollToService } from './services/scrollTo';
-import {
-  CategoriesQuery,
-  CategoriesService,
-  CategoriesStore,
-} from './state/categories';
-import { ItemsQuery, ItemsStore } from './state/items';
+import { CategoriesRepository } from './state';
 
 @NgModule({
   imports: [
@@ -53,6 +50,8 @@ import { ItemsQuery, ItemsStore } from './state/items';
     MatExpansionModule,
     MatTooltipModule,
     MatCheckboxModule,
+    MatPaginatorModule,
+    NgLetModule,
   ],
   declarations: [
     ContentComponent,
@@ -69,24 +68,15 @@ import { ItemsQuery, ItemsStore } from './state/items';
     HighlightPipe,
     CapitalizePipe,
     ShowHidePasswordComponent,
+    CategoryExpandedTrackerDirective,
   ],
   providers: [
     ScrollToService,
-    CategoriesService,
-    CategoriesStore,
-    CategoriesQuery,
-    ItemsStore,
-    ItemsQuery,
     {
       provide: BackendService,
       useClass: environment.mockApi ? BackendMockService : BackendService,
     },
+    CategoriesRepository,
   ],
 })
-export class ContentModule {
-  constructor() {
-    if (environment.name !== 'dev') {
-      enableAkitaProdMode();
-    }
-  }
-}
+export class ContentModule {}

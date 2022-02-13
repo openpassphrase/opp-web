@@ -1,4 +1,10 @@
-import { Component, HostListener, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostListener,
+  Input,
+  OnInit,
+} from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -6,13 +12,14 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { urlValidator } from '../../../misc';
 import { IItem, IItemFormResult } from '../../models';
-import { urlValidator } from '../../services/misc';
 
 @Component({
   selector: 'app-item-form',
   templateUrl: './item-form.component.html',
   styleUrls: ['./item-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ItemFormComponent implements OnInit {
   @Input() item: IItem;

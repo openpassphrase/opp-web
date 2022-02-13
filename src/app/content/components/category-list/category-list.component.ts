@@ -11,101 +11,145 @@ import {
   ViewChildren,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import {
-  MatExpansionPanel,
-  MatExpansionPanelHeader,
-} from '@angular/material/expansion';
+import { MatExpansionPanelHeader } from '@angular/material/expansion';
 import { ExpandableInputMaterialComponent } from '@ng-expandable-input/material';
 import { unparse } from 'papaparse';
-import { combineLatest, Observable, Subject } from 'rxjs';
-import {
-  auditTime,
-  debounceTime,
-  filter,
-  first,
-  take,
-  takeUntil,
-  tap,
-} from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { filter, take, takeUntil, tap } from 'rxjs/operators';
 import {
   ICategory,
-  ICategoryItems,
   IItem,
   IItemFormResult,
   IRemoveCategoryPayload,
   IUpdateCategoryPayload,
   IUpdateItemPayload,
 } from '../../models';
-import { CategoriesQuery, CategoriesService } from '../../state/categories';
-import { ItemsQuery } from '../../state/items';
+import { paginate, PaginationService } from '../../services/pagination';
+import { CategoriesRepository } from '../../state';
 
 @Component({
   selector: 'app-category-list',
   templateUrl: './category-list.component.html',
   styleUrls: ['./category-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [PaginationService],
 })
 export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {
   private ngUnsubscribe = new Subject<any>();
-  categories$: Observable<ICategoryItems[]>;
-  itemsWithoutCategory$: Observable<IItem[]>;
-  searchFor$: Observable<string>;
+
+  categories$ = this.categoriesRepository.filteredCategories$.pipe(
+    paginate(this.pagination)
+  );
+
+  itemsWithoutCategory$ =
+    this.categoriesRepository.filteredItemsWithoutCategory$;
+
+  searchFor$ = this.categoriesRepository.searchTerm$;
+
+  areAllCategoriesClosed$ = this.categoriesRepository.areAllCategoriesClosed$;
+
   searchForControl = new FormControl();
 
-  @ViewChildren(MatExpansionPanel) expansionPanels: QueryList<
-    MatExpansionPanel
-  >;
-  @ViewChildren(MatExpansionPanelHeader, { read: ElementRef })
-  expansionPanelsHtml: QueryList<ElementRef>;
+  @ViewChild('searchExpInput')
+  private searchExpInput: ExpandableInputMaterialComponent;
 
-  @ViewChild('searchExpInput') searchExpInput: ExpandableInputMaterialComponent;
+  @ViewChildren(MatExpansionPanelHeader, { read: ElementRef })
+  private expansionPanelsHtml: QueryList<ElementRef>;
 
   constructor(
-    private categoriesService: CategoriesService,
-    private categoriesQuery: CategoriesQuery,
-    private itemsQuery: ItemsQuery
+    private categoriesRepository: CategoriesRepository,
+    public pagination: PaginationService
   ) {}
 
   ngOnInit() {
-    this.categories$ = this.categoriesQuery.selectVisibleCategoryItems();
-    this.itemsWithoutCategory$ = this.itemsQuery.selectItemsWithoutCategory();
-
-    this.searchFor$ = this.categoriesQuery.select((s) => s.ui.searchFor);
-
-    const definedCategories$ = this.categories$.pipe(
-      filter((c) => !!c && c.length > 0),
-      first()
-    );
-
-    combineLatest([definedCategories$, this.searchFor$])
-      .pipe(auditTime(0))
-      .subscribe(([_c, s]) => {
-        if (!!s) {
-          for (let i = 0; i < _c.length; i++) {
-            const c = _c[i];
-            if (c.isHidden) {
-              this.collapsePanelAtIx(i);
-            } else {
-              this.expandPanelAtIx(i);
-            }
-          }
-        } else {
-          this.collapseAllPanels();
-        }
-      });
-
     this.searchForControl.valueChanges
       .pipe(
         takeUntil(this.ngUnsubscribe),
-        debounceTime(300),
         tap((searchFor) => {
-          this.categoriesService.updateSearchFor(searchFor);
+          this.pagination.setPageIndex(0);
+          this.categoriesRepository.setSearchTerm(searchFor);
         })
       )
       .subscribe();
   }
 
   ngAfterViewInit() {
+    this.focusOnFirstPanel();
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
+
+  @HostListener('document:keydown.escape')
+  onEsc() {
+    this.categoriesRepository.setExpandedCategories([]);
+  }
+
+  addCategory(name: string) {
+    this.categoriesRepository.addCategory(name);
+  }
+
+  removeCategory(info: IRemoveCategoryPayload) {
+    this.categoriesRepository.deleteCategory(info);
+  }
+
+  updateCategory(info: IUpdateCategoryPayload) {
+    this.categoriesRepository.updateCategory(info);
+  }
+
+  addItem(info: IItemFormResult) {
+    this.categoriesRepository.addItem(info);
+  }
+
+  updateItem(info: IUpdateItemPayload) {
+    this.categoriesRepository.updateItem(info);
+  }
+
+  removeItem(i: IItem) {
+    this.categoriesRepository.deleteItem(i);
+  }
+
+  trackByCategory(index: number, cat: ICategory) {
+    return cat.id !== undefined ? cat.id : index;
+  }
+
+  trackByItem(index: number, item: IItem) {
+    return item.id ?? index;
+  }
+
+  toggleAll() {
+    this.categoriesRepository.toggleAllExpandedCategories();
+  }
+
+  escSearch() {
+    this.clearSearch();
+    this.searchExpInput.cdk.close();
+  }
+
+  clearSearch() {
+    this.categoriesRepository.setSearchTerm('');
+    this.searchForControl.setValue('');
+    this.categoriesRepository.setExpandedCategories([]);
+  }
+
+  downloadAllData() {
+    const data = this.categoriesRepository.getAllForDownload();
+    const csv = unparse(data, { quotes: true });
+    const blob = new Blob(['\ufeff' + csv], {
+      type: 'text/plain;charset=UTF-8-BOM',
+    });
+    const url = URL.createObjectURL(blob);
+    const el = document.createElement('a');
+    el.setAttribute('href', url);
+    el.setAttribute('download', 'my-passwords.csv');
+    document.body.appendChild(el);
+    el.click();
+    document.body.removeChild(el);
+  }
+
+  private focusOnFirstPanel() {
     // once category panels are displayed, focus on the first
     if (this.expansionPanelsHtml.first) {
       this.focusElRef(this.expansionPanelsHtml.first);
@@ -124,123 +168,11 @@ export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  @HostListener('document:keydown.escape')
-  onEsc() {
-    this.collapseAllPanels();
-  }
-
-  addCategory(name: string) {
-    this.categoriesService.addCategory(name);
-  }
-
-  removeCategory(info: IRemoveCategoryPayload) {
-    this.categoriesService.removeCategory(info);
-  }
-
-  updateCategory(info: IUpdateCategoryPayload) {
-    this.categoriesService.updateCategory(info);
-  }
-
-  addItem(info: IItemFormResult) {
-    this.categoriesService.addItem(info);
-  }
-
-  updateItem(info: IUpdateItemPayload) {
-    this.categoriesService.updateItem(info);
-  }
-
-  removeItem(i: IItem) {
-    this.categoriesService.removeItem(i);
-  }
-
-  trackCategoriesBy(index: number, cat: ICategory) {
-    return cat.id !== undefined ? cat.id : index;
-  }
-
-  toggleAll() {
-    if (this.areAllClosed()) {
-      this.expandAllPanels();
-    } else {
-      this.collapseAllPanels();
-    }
-  }
-
-  areAllClosed() {
-    if (!this.expansionPanels) {
-      return true;
-    }
-    return !this.expansionPanels.map((x) => x.expanded).some((x) => x);
-  }
-
-  escSearch() {
-    this.clearSearch();
-    this.searchExpInput.cdk.close();
-  }
-
-  clearSearch() {
-    this.categoriesService.updateSearchFor('');
-    this.searchForControl.setValue('');
-    this.collapseAllPanels();
-  }
-
-  downloadAllData() {
-    const data = this.categoriesQuery.getAllForDownload();
-    const csv = unparse(data, { quotes: true });
-    const blob = new Blob(['\ufeff' + csv], {
-      type: 'text/plain;charset=UTF-8-BOM',
-    });
-    const url = URL.createObjectURL(blob);
-    const el = document.createElement('a');
-    el.setAttribute('href', url);
-    el.setAttribute('download', 'my-passwords.csv');
-    document.body.appendChild(el);
-    el.click();
-    document.body.removeChild(el);
-  }
-
-  ngOnDestroy() {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
-  }
-
-  private expandAllPanels() {
-    setTimeout(() => {
-      if (this.expansionPanels.length) {
-        this.expansionPanels.first.accordion.multi = true;
-        this.expansionPanels.forEach((x) => x.open());
-      }
-    });
-  }
-
-  private collapseAllPanels() {
-    setTimeout(() => {
-      if (this.expansionPanels.length) {
-        this.expansionPanels.forEach((x) => x.close());
-        // this.expansionPanels.first.accordion.multi = false;
-      }
-    });
-  }
-
-  private collapsePanelAtIx(ix: number) {
-    setTimeout(() => {
-      const panel = this.expansionPanels.find((_, i) => ix === i);
-      if (panel && panel.opened) {
-        panel.close();
-      }
-    });
-  }
-
-  private expandPanelAtIx(ix: number) {
-    this.expansionPanels.first.accordion.multi = true;
-    setTimeout(() => {
-      const panel = this.expansionPanels.find((_, i) => ix === i);
-      if (panel && panel.closed) {
-        panel.open();
-      }
-    });
-  }
-
   private focusElRef(el: ElementRef) {
     el.nativeElement.focus();
+  }
+
+  toggleExpandedCategory(id: number) {
+    this.categoriesRepository.toggleExpandedCategory(id);
   }
 }

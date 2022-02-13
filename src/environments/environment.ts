@@ -15,7 +15,7 @@ export const environment: IEnv = {
   baseHref: '',
   isUserNameAutocompleteEnabled: true,
   showTokenExpirationCustomization: true,
-  mockApi: true
+  mockApi: false,
 };
 
 /*

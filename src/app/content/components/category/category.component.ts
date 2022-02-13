@@ -48,6 +48,7 @@ import { ItemFormComponent } from '../item-form/item-form.component';
       <button mat-button (click)="dialogRef.close()">Cancel</button>
     </mat-dialog-actions>
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DeleteCategoryDialogComponent {
   hasItems: boolean;

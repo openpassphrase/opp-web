@@ -1,8 +1,6 @@
 export interface ICategory {
   id: number;
   name: string;
-  dirty?: string;
-  isHidden?: boolean;
 }
 
 export interface IItem {
@@ -14,7 +12,6 @@ export interface IItem {
   password?: string;
   blob?: string;
   category_id?: number;
-  isHidden?: boolean;
 }
 
 export interface IGenopts {
