@@ -1,4 +1,10 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IItem, IItemFormResult, IUpdateItemPayload } from '../../models';
@@ -20,6 +26,7 @@ import { ItemFormComponent } from '../item-form/item-form.component';
       <button mat-button (click)="dialogRef.close()">Cancel</button>
     </mat-dialog-actions>
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DeleteItemDialogComponent {
   constructor(public dialogRef: MatDialogRef<DeleteItemDialogComponent>) {}
@@ -30,16 +37,15 @@ export class DeleteItemDialogComponent {
   selector: '[app-item]',
   templateUrl: './item.component.html',
   styleUrls: ['./item.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ItemComponent implements OnInit {
+export class ItemComponent {
   @Input() item: IItem;
   @Input() searchFor: string | null;
   @Output() updateItem = new EventEmitter<IUpdateItemPayload>(false);
   @Output() removeItem = new EventEmitter<IItem>(false);
 
   constructor(private dialog: MatDialog, private snackbar: MatSnackBar) {}
-
-  ngOnInit() {}
 
   promptEdit() {
     const dialogRef = this.dialog.open(ItemFormComponent);

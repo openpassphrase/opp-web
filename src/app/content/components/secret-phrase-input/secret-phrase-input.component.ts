@@ -1,13 +1,20 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { filter, first, tap } from 'rxjs/operators';
 import { AuthStateService } from '../../../core/auth/auth-state.service';
-import { CategoriesService } from '../../state/categories';
+import { CategoriesRepository } from '../../state';
 
 @Component({
   selector: 'app-secret-phrase-input',
   templateUrl: './secret-phrase-input.component.html',
   styleUrls: ['./secret-phrase-input.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SecretPhraseInputComponent implements OnInit {
   @Output() secretPhraseChange = new EventEmitter<string>();
@@ -17,7 +24,7 @@ export class SecretPhraseInputComponent implements OnInit {
   ]);
 
   constructor(
-    private categoriesService: CategoriesService,
+    private categoriesRepository: CategoriesRepository,
     private authStateService: AuthStateService
   ) {}
 
@@ -36,7 +43,7 @@ export class SecretPhraseInputComponent implements OnInit {
   submit() {
     if (this.secretPhrase.valid) {
       const secret = this.secretPhrase.value;
-      this.categoriesService.secretPhraseChange(secret);
+      this.categoriesRepository.secretPhraseChange(secret);
       this.secretPhraseChange.emit(secret);
     }
   }

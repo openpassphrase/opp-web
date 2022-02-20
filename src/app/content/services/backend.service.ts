@@ -1,7 +1,6 @@
 import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ID } from '@datorama/akita';
 import { Observable } from 'rxjs';
 import { map, share } from 'rxjs/operators';
 import { ICategory, IItem, IItemFormResult } from '../models';
@@ -22,9 +21,8 @@ export class BackendService implements IBackendService {
   private itemsEndpoint: string;
 
   constructor(private http: HttpClient, private location: Location) {
-    this.categoriesEndpoint = this.location.prepareExternalUrl(
-      'api/v1/categories'
-    );
+    this.categoriesEndpoint =
+      this.location.prepareExternalUrl('api/v1/categories');
     this.itemsEndpoint = this.location.prepareExternalUrl('api/v1/items');
   }
 
@@ -57,7 +55,7 @@ export class BackendService implements IBackendService {
     return this.http.post(this.categoriesEndpoint, { categories: [category] });
   }
 
-  removeCategory(opts: { id: ID; cascade: boolean }) {
+  removeCategory(opts: { id: number; cascade: boolean }) {
     return this.http.request('delete', this.categoriesEndpoint, {
       body: {
         cascade: opts.cascade,
@@ -93,7 +91,7 @@ export class BackendService implements IBackendService {
       .pipe(map((x) => x.items[0]));
   }
 
-  removeItem(id: ID) {
+  removeItem(id: number) {
     return this.http.request('delete', this.itemsEndpoint, {
       body: { ids: [id] },
     });

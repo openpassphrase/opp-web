@@ -39,6 +39,16 @@ Then run one of the following commands, which will start local dev server, but p
 
 - `npm run start:with-server`
 
+#### Generate Test data
+
+- Open docker container console and run:
+
+```
+python3 dummy_data.py
+```
+
+Modify the `dummy_data.py` script to adjust number of categories/items generated
+
 #### Testing PWA functionality
 
 - generate cert files - run `./cert/makeCert.bat`
