@@ -3,7 +3,7 @@ import {
   Component,
   EventEmitter,
   Input,
-  Output,
+  Output
 } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -33,7 +33,7 @@ export class DeleteItemDialogComponent {
 }
 
 @Component({
-  // tslint:disable-next-line:component-selector
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[app-item]',
   templateUrl: './item.component.html',
   styleUrls: ['./item.component.scss'],
