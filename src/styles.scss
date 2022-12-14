@@ -1,6 +1,6 @@
-@use '~@angular/material' as mat;
-@import '~@angular/material/_theming';
-@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+@use '@angular/material' as mat;
+@import '@angular/material/_theming';
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 $config: mat.define-typography-config();
 $mat-font-family: mat.font-family($config);
 
