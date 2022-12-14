@@ -7,7 +7,7 @@
     140
   ],
   "editor.tabSize": 2,
-  "editor.tabCompletion": true,
+  "editor.tabCompletion": "onlySnippets",
   "editor.wordBasedSuggestions": false,
   "files.exclude": {
     "node_modules/": true
