@@ -9,7 +9,7 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatTooltip } from '@angular/material/tooltip';
 import {
@@ -62,7 +62,7 @@ export class DeleteCategoryDialogComponent {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CategoryComponent implements OnInit, OnChanges {
-  changeCategoryForm: FormGroup;
+  changeCategoryForm: UntypedFormGroup;
   isInEditMode = false;
 
   @ViewChild('addItemTooltip', { read: MatTooltip }) addItemTooltip: MatTooltip;
@@ -74,7 +74,7 @@ export class CategoryComponent implements OnInit, OnChanges {
   @Output() remove = new EventEmitter<IRemoveCategoryPayload>(false);
   @Output() addItem = new EventEmitter<IItemFormResult>(false);
 
-  constructor(private _fb: FormBuilder, private dialog: MatDialog) {}
+  constructor(private _fb: UntypedFormBuilder, private dialog: MatDialog) {}
 
   ngOnInit() {
     this.changeCategoryForm = this._fb.group({

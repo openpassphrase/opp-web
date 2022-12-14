@@ -5,7 +5,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { UntypedFormControl, Validators } from '@angular/forms';
 import { filter, first, tap } from 'rxjs/operators';
 import { AuthStateService } from '../../../core/auth/auth-state.service';
 import { CategoriesRepository } from '../../state';
@@ -18,7 +18,7 @@ import { CategoriesRepository } from '../../state';
 })
 export class SecretPhraseInputComponent implements OnInit {
   @Output() secretPhraseChange = new EventEmitter<string>();
-  secretPhrase = new FormControl('', [
+  secretPhrase = new UntypedFormControl('', [
     Validators.required,
     Validators.minLength(6),
   ]);

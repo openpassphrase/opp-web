@@ -185,7 +185,6 @@
       }
     }
   },
-  "defaultProject": "web",
   "cli": {
     "analytics": "f7a1181d-567b-4729-ae6c-ab75562a5fd8"
   }

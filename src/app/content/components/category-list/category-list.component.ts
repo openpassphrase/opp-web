@@ -10,7 +10,7 @@ import {
   ViewChild,
   ViewChildren,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { MatExpansionPanelHeader } from '@angular/material/expansion';
 import { ExpandableInputMaterialComponent } from '@ng-expandable-input/material';
 import { unparse } from 'papaparse';
@@ -48,7 +48,7 @@ export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   areAllCategoriesClosed$ = this.categoriesRepository.areAllCategoriesClosed$;
 
-  searchForControl = new FormControl();
+  searchForControl = new UntypedFormControl();
 
   @ViewChild('searchExpInput')
   private searchExpInput: ExpandableInputMaterialComponent;
