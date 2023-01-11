@@ -3,7 +3,7 @@ import {
   Component,
   EventEmitter,
   Input,
-  Output
+  Output,
 } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -13,7 +13,7 @@ import { ItemFormComponent } from '../item-form/item-form.component';
 @Component({
   selector: 'app-delete-item-dialog',
   template: `
-    <h1 mat-dialig-title>Delete item</h1>
+    <h1 mat-dialog-title>Delete item</h1>
     <mat-dialog-content>Are you sure?</mat-dialog-content>
     <mat-dialog-actions>
       <button

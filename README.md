@@ -8,7 +8,7 @@
 
 ### Install deps:
 
-- Run `npm i`
+- Run `yarn`
 
 ## Development
 
@@ -17,13 +17,13 @@
 - **[!Important]** Use [Visual Studio Code](https://code.visualstudio.com/) for development
   Not only it provides better intellisense and type checking, it has a few default linting rules that apply automatically as you code.
 - Install `Angular Language Service` VSC extension to get even better intellisense.
-- Install `TSLint` VSC extension for real time linting error information.
+- Install `ESLint` VSC extension for real time linting error information.
 
 ### Run locally
 
 If you just got latest, make sure you have all dependencies installed:
 
-- Run `npm i`
+- Run `yarn`
 
 If you want to develop with mock data, the just run `npm start`.
 
@@ -88,7 +88,7 @@ Creates assets to be deployed to the demo server
 
 ### Running lint
 
-- `npm run run lint`
+- `npm run lint`
 
 ### Evaluate bundles:
 
@@ -100,7 +100,7 @@ Creates assets to be deployed to the demo server
 
 - [Angular](https://angular.io/docs/ts/latest/guide/learning-angular.html)
 - [RxJs](https://github.com/Reactive-Extensions/RxJS) - See tutorials under [Resource](https://github.com/Reactive-Extensions/RxJS#resources)
-- [Akita](https://datorama.github.io/akita/)
+- [Elf](https://ngneat.github.io/elf/)
 
 ### UI Frameworks used:
 

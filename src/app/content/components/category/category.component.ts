@@ -9,7 +9,11 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatTooltip } from '@angular/material/tooltip';
 import {
@@ -23,9 +27,9 @@ import { ItemFormComponent } from '../item-form/item-form.component';
 @Component({
   selector: 'app-delete-category-dialog',
   template: `
-    <h1 mat-dialig-title>Delete category</h1>
+    <h1 mat-dialog-title>Delete category</h1>
     <mat-dialog-content>Are you sure?</mat-dialog-content>
-    <mat-dialog-actions>
+    <mat-dialog-actions class="flex flex-col gap-4">
       <button
         mat-raised-button
         (click)="dialogRef.close('deleteAll')"
@@ -34,6 +38,7 @@ import { ItemFormComponent } from '../item-form/item-form.component';
       >
         Delete category and all its belongings
       </button>
+
       <button
         mat-raised-button
         (click)="dialogRef.close('deleteJustCategory')"
@@ -45,6 +50,7 @@ import { ItemFormComponent } from '../item-form/item-form.component';
             : 'Yes, delete'
         }}
       </button>
+
       <button mat-button (click)="dialogRef.close()">Cancel</button>
     </mat-dialog-actions>
   `,

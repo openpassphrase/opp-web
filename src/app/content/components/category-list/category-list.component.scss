@@ -26,9 +26,12 @@
   align-items: center;
 }
 
-.btn-expand-all {
-  margin-left: 10px;
-  z-index: 2;
+input {
+  height: 100%;
+}
+
+.same-area {
+  grid-area: 1 / 1 / 2 / 2;
 }
 
 table {

@@ -1,0 +1,40 @@
+<ngs-expandable-input
+  [group]="group"
+  [blurInputOnEsc]="blurInputOnEsc"
+  [openOnKey]="openOnKey"
+  [animationDuration]="animationDuration"
+  [animationEasing]="animationEasing"
+  [iconOpenAnimation]="iconOpenAnimation"
+  [iconCloseAnimation]="iconCloseAnimation"
+  [iconActionAnimation]="iconCloseAnimation"
+  (opened)="opened.next($event)"
+  (closed)="closed.next($event)"
+>
+  <ng-container *ngIf="expInputDirective">
+    <ng-container
+      [ngTemplateOutlet]="expInputDirective.templateRef"
+      *ngsExpInput
+    ></ng-container>
+  </ng-container>
+
+  <ng-container *ngIf="iconOpenDirective">
+    <ng-container
+      [ngTemplateOutlet]="iconOpenDirective.templateRef"
+      *ngsExpIconOpen
+    ></ng-container>
+  </ng-container>
+
+  <ng-container *ngIf="iconCloseDirective">
+    <ng-container
+      [ngTemplateOutlet]="iconCloseDirective.templateRef"
+      *ngsExpIconClose
+    ></ng-container>
+  </ng-container>
+
+  <ng-container *ngIf="expIconActionDirective">
+    <ng-container
+      [ngTemplateOutlet]="expIconActionDirective.templateRef"
+      *ngsExpIconAction
+    ></ng-container>
+  </ng-container>
+</ngs-expandable-input>

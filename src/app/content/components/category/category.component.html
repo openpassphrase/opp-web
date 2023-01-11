@@ -1,32 +1,57 @@
-<div fxLayout fxLayoutAlign="start center">
-  <div *ngIf="!isInEditMode" fxLayout fxLayoutAlign="start center" class="ml-10">
-    <span class="category-name" [innerHTML]="category.name | capitalize | highlight: searchFor"></span>
+<div class="flex items-center">
+  <div *ngIf="!isInEditMode" class="flex items-center gap-4 ml-10">
+    <span
+      class="category-name"
+      [innerHTML]="category.name | capitalize | highlight : searchFor"
+    ></span>
 
-    <div *ngIf="isExpanded" fxLayout fxLayoutAlign="start center" fxLayoutGap="10px">
-      <button mat-mini-fab matTooltip="Edit category name"
+    <div *ngIf="isExpanded" class="flex items-center gap-4">
+      <button
+        mat-mini-fab
+        matTooltip="Edit category name"
         (click)="toggleEditCategory($event)"
-        type="button">
+        type="button"
+      >
         <mat-icon>edit</mat-icon>
       </button>
 
-      <button mat-mini-fab matTooltip="Delete category"
+      <button
+        mat-mini-fab
+        matTooltip="Delete category"
         (click)="promptDelete($event)"
-        type="button">
+        type="button"
+      >
         <mat-icon>delete</mat-icon>
       </button>
 
-      <button mat-mini-fab matTooltip="Add new item" #addItemTooltip
+      <button
+        mat-mini-fab
+        matTooltip="Add new item"
+        #addItemTooltip
         (click)="promptAddItem($event)"
-        type="button">
+        type="button"
+      >
         <mat-icon>add</mat-icon>
       </button>
     </div>
   </div>
 
   <div *ngIf="isInEditMode && isExpanded">
-    <form novalidate [formGroup]="changeCategoryForm" (ngSubmit)="saveCategoryName()" fxLayoutGap="10px">
+    <form
+      novalidate
+      [formGroup]="changeCategoryForm"
+      (ngSubmit)="saveCategoryName()"
+      class="flex gap-4 items-center"
+    >
       <mat-form-field>
-        <input matInput formControlName="newName" type="text" (click)="$event.stopPropagation()" placeholder="">
+        <mat-label>Category name</mat-label>
+
+        <input
+          matInput
+          formControlName="newName"
+          type="text"
+          (click)="$event.stopPropagation()"
+        />
       </mat-form-field>
 
       <button mat-mini-fab type="submit" (click)="$event.stopPropagation()">

@@ -7,7 +7,7 @@ import {
   deleteEntitiesByPredicate,
   entitiesPropsFactory,
   selectActiveIds,
-  selectAll,
+  selectAllEntities,
   setActiveIds,
   setEntities,
   toggleActiveIds,
@@ -56,10 +56,10 @@ const store = new Store({ name: 'categories', state, config });
 
 @Injectable()
 export class CategoriesRepository {
-  private categories$ = store.pipe(selectAll(), shareReplay(1));
+  private categories$ = store.pipe(selectAllEntities(), shareReplay(1));
 
   private items$ = store.pipe(
-    selectAll({ ref: itemEntitiesRef }),
+    selectAllEntities({ ref: itemEntitiesRef }),
     shareReplay(1)
   );
 

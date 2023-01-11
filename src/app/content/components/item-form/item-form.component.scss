@@ -1,16 +1,19 @@
 form {
+  display: block;
+  max-width: 420px;
+
   mat-checkbox {
     white-space: nowrap;
-  }
-
-  .input-height ::ng-deep {
-    .mat-checkbox-layout {
-      padding: 16px 0 27px;
-    }
   }
 
   h5 {
     margin-top: 0;
     padding-bottom: 12px;
   }
+}
+
+mat-card.pw-autogen {
+  --mdc-dialog-subhead-size: 14px;
+  --mdc-dialog-subhead-line-height: 20px;
+  margin: 1rem 0;
 }

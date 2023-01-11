@@ -12,7 +12,7 @@ const minutes5 = seconds5 * 60; // default timeout time
 @Injectable()
 export class AuthService {
   isLoggedIn$ = this.authStateService.isAuthenticated$;
-  private logoutClicked = new Subject();
+  private logoutClicked = new Subject<void>();
 
   constructor(
     private authApiService: AuthApiService,

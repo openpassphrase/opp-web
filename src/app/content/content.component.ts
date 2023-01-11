@@ -17,7 +17,7 @@ import { CategoriesRepository } from './state';
 })
 export class ContentComponent implements OnInit, OnDestroy {
   loading$: Observable<boolean>;
-  private _destroyed = new Subject();
+  private _destroyed = new Subject<void>();
 
   constructor(
     private categoriesRepository: CategoriesRepository,

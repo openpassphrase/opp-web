@@ -37,9 +37,11 @@ export class PwaService {
   }
 
   listenForUpdate() {
-    this.swUpdate.versionUpdates.pipe(filter((event) => event.type === 'VERSION_READY')).subscribe(() => {
-      this.snackBar.openFromComponent(UpdateAvailableComponent);
-    });
+    this.swUpdate.versionUpdates
+      .pipe(filter((event) => event.type === 'VERSION_READY'))
+      .subscribe(() => {
+        this.snackBar.openFromComponent(UpdateAvailableComponent);
+      });
   }
 
   promptInstallPwa() {
