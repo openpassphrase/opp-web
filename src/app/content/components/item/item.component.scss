@@ -18,13 +18,7 @@ $highlight-color: #fff6d0;
 }
 
 .cell {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-
   a {
-    white-space: nowrap;
-
     &:visited,
     &:link,
     &:active {

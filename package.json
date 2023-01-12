@@ -1,6 +1,6 @@
 {
   "name": "opp",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "license": "MIT",
   "engines": {
     "node": ">=18.10.0",
