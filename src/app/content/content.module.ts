@@ -7,11 +7,11 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { ExpandableInputMaterialModule } from '@ng-expandable-input/material';
 import { NgxErrorsModule } from '@ngspot/ngx-errors';
 import { NgLetModule } from 'ng-let';
 import { ClipboardModule } from 'ngx-clipboard';
 import { environment } from '../../environments/environment';
+import { ExpandableInputModule } from '../shared/expandable-input';
 import { SharedModule } from '../shared/shared.module';
 import {
   AddCategoryFormComponent,
@@ -44,7 +44,6 @@ import { CategoriesRepository } from './state';
     SharedModule,
     ClipboardModule,
     NgxErrorsModule,
-    ExpandableInputMaterialModule,
     MatIconModule,
     MatDialogModule,
     MatExpansionModule,
@@ -52,6 +51,7 @@ import { CategoriesRepository } from './state';
     MatCheckboxModule,
     MatPaginatorModule,
     NgLetModule,
+    ExpandableInputModule,
   ],
   declarations: [
     ContentComponent,

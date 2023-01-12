@@ -7,7 +7,12 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
+import { AppExpandableInputComponent } from '../../../shared/expandable-input';
 
 @Component({
   selector: 'app-add-category-form',
@@ -16,12 +21,21 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddCategoryFormComponent implements OnInit {
-  addCategoryForm: FormGroup;
-  categoryControl = new FormControl('');
+  addCategoryForm: UntypedFormGroup;
+  categoryControl = new UntypedFormControl('');
+
   @Output() add = new EventEmitter<string>(false);
+
   @ViewChild('category') categoryInput: ElementRef;
 
-  constructor(private _fb: FormBuilder) {}
+  @ViewChild(AppExpandableInputComponent, { static: true })
+  expandableInput: AppExpandableInputComponent;
+
+  get isOpen() {
+    return this.expandableInput?.isOpen;
+  }
+
+  constructor(private _fb: UntypedFormBuilder) {}
 
   ngOnInit() {
     this.addCategoryForm = this._fb.group({

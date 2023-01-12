@@ -3,11 +3,9 @@
   "editor.detectIndentation": false,
   "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
-  "editor.rulers": [
-    140
-  ],
+  "editor.rulers": [140],
   "editor.tabSize": 2,
-  "editor.tabCompletion": true,
+  "editor.tabCompletion": "onlySnippets",
   "editor.wordBasedSuggestions": false,
   "files.exclude": {
     "node_modules/": true
@@ -21,7 +19,6 @@
     "**/node_modules": true,
     "**/manual_types": true
   },
-  "tslint.autoFixOnSave": true,
   "[typescript]": {
     "editor.codeActionsOnSave": {
       "source.organizeImports": true

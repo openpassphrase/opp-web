@@ -1,0 +1,20 @@
+:host {
+  --expandable-input-align-items: baseline;
+  --expandable-input-trigger-icons-top: 0.8rem;
+  --expandable-input-items-gap: 1rem;
+  --expandable-input-action-icon-right: .5rem;
+  --expandable-input-action-icon-top: .8rem;
+}
+
+ngs-expandable-input {
+  ::ng-deep {
+    .mat-mdc-text-field-wrapper {
+      border-radius: 0 40px 40px 0;
+    }
+
+    .icons {
+      align-self: flex-start;
+      width: 30px;
+    }
+  }
+}

@@ -1,6 +1,9 @@
-@use '~@angular/material' as mat;
-@import '~@angular/material/_theming';
-@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+@use '@angular/material' as mat;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import '@angular/material/_theming';
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 $config: mat.define-typography-config();
 $mat-font-family: mat.font-family($config);
 
@@ -56,29 +59,25 @@ body {
 }
 
 // sass-lint:disable force-attribute-nesting
-button.mat-mini-fab {
+button[mat-mini-fab] {
   height: 30px;
   width: 30px;
 
-  .mat-button-wrapper {
-    padding: 0;
-  }
-
   mat-icon {
+    width: auto;
+    height: auto;
     font-size: 18px;
   }
 }
 
-button.mat-icon-button[mat-mini-icon-button] {
+button[mat-icon-button][mat-mini-icon-button] {
   height: 30px;
   width: 30px;
   line-height: 30px;
 
-  .mat-button-wrapper {
-    padding: 0;
-  }
-
   mat-icon {
+    width: auto;
+    height: auto;
     font-size: 18px;
   }
 }
@@ -103,22 +102,6 @@ button.mat-icon-button[mat-mini-icon-button] {
   border-radius: 4px;
 }
 
-.w-100 {
-  width: 100%;
-}
-
-.mt-1 {
-  margin-top: 0.5rem;
-}
-
-.mr-1 {
-  margin-right: 0.5rem !important;
-}
-
-.abs {
-  position: absolute;
-}
-
-.rel {
-  position: relative;
+.input-field_wrapper {
+  height: 100%;
 }

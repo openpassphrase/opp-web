@@ -7,10 +7,13 @@
     [cbContent]="item.password!"
     [matTooltip]="item.name!"
     [matTooltipDisabled]="!item.name"
-    [innerHTML]="item.name | highlight: searchFor"
+    [innerHTML]="item.name | highlight : searchFor"
   >
   </a>
-  <span *ngIf="!item.url" [innerHTML]="item.name | highlight: searchFor"></span>
+  <span
+    *ngIf="!item.url"
+    [innerHTML]="item.name | highlight : searchFor"
+  ></span>
 </td>
 
 <td
@@ -37,7 +40,7 @@
   {{ item.username }}
 </td>
 
-<td data-th="Password:" class="cell rel">
+<td data-th="Password:" class="cell relative">
   <app-show-hide-password
     [password]="item.password!"
     (copied)="copied()"
@@ -56,7 +59,7 @@
   {{ item.blob }}
 </td>
 
-<td fxLayout fxLayoutGap="10px">
+<td class="!flex gap-20">
   <button
     mat-mini-fab
     matTooltip="Edit item"

@@ -4,7 +4,6 @@ import { ICategory, IItem, IItemFormResult } from '../models';
 import { IBackendService } from './backend.service';
 
 const initialItems: IItem[] = [
-  // tslint:disable:max-line-length
   {
     username: 'username1',
     account: 'account1',

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
@@ -12,7 +12,7 @@ import { AuthService } from '../../core/auth/auth.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent implements OnInit {
-  authForm: FormGroup;
+  authForm: UntypedFormGroup;
   userNameAutocompleteState = 'off';
   showTokenExp = false;
   loading = false;
@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private auth: AuthService,
     private router: Router,
-    private _fb: FormBuilder,
+    private _fb: UntypedFormBuilder,
     private snackBar: MatSnackBar
   ) {}
 

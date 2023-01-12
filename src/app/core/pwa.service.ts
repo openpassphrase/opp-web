@@ -3,7 +3,7 @@ import { Inject, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SwUpdate } from '@angular/service-worker';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { InstallOnIosInstructionsComponent } from './components/install-on-ios-instructions/install-on-ios-instructions.component';
 import { UpdateAvailableComponent } from './components/update-available/update-available.component';
@@ -37,9 +37,11 @@ export class PwaService {
   }
 
   listenForUpdate() {
-    this.swUpdate.available.subscribe(() => {
-      this.snackBar.openFromComponent(UpdateAvailableComponent);
-    });
+    this.swUpdate.versionUpdates
+      .pipe(filter((event) => event.type === 'VERSION_READY'))
+      .subscribe(() => {
+        this.snackBar.openFromComponent(UpdateAvailableComponent);
+      });
   }
 
   promptInstallPwa() {

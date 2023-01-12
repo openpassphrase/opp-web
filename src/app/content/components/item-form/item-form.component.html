@@ -1,150 +1,115 @@
 <h1 mat-dialog-title>{{ action }}</h1>
 
 <mat-dialog-content>
-  <div fxFlex="100" fxFlex.gt-xs="420px">
-    <form
-      novalidate
-      [formGroup]="saveItemForm"
-      (ngSubmit)="saveItem()"
-      fxFlexFill
-    >
-      <div
-        fxLayout="column"
-        fxLayout.xs="column"
-        fxLayout.gt-xs="row"
-        fxLayoutGap="10px"
-      >
-        <div fxFlex>
-          <div>
-            <mat-form-field>
-              <input
-                matInput
-                formControlName="name"
-                placeholder="Name"
-                required
-                autocomplete="off"
-                type="text"
-                focused
-              />
-              <mat-hint ngxErrors="name">
-                <span ngxError="required">Required</span>
-              </mat-hint>
-            </mat-form-field>
-          </div>
+  <form novalidate [formGroup]="saveItemForm" (ngSubmit)="saveItem()">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <mat-form-field>
+        <mat-label>Name</mat-label>
 
-          <div>
-            <mat-form-field>
-              <input
-                matInput
-                formControlName="url"
-                placeholder="URL"
-                autocomplete="off"
-                type="url"
-              />
+        <input
+          matInput
+          formControlName="name"
+          required
+          autocomplete="off"
+          type="text"
+          focused
+        />
 
-              <mat-hint ngxErrors="url">
-                <span ngxError="url">Not a valid URL</span>
-              </mat-hint>
-            </mat-form-field>
-          </div>
+        <mat-hint ngxErrors="name">
+          <span ngxError="required">Required</span>
+        </mat-hint>
+      </mat-form-field>
 
-          <div>
-            <mat-form-field>
-              <input
-                matInput
-                formControlName="account"
-                placeholder="Account"
-                autocomplete="off"
-                type="text"
-              />
-            </mat-form-field>
-          </div>
-        </div>
+      <mat-form-field>
+        <mat-label>URL</mat-label>
 
-        <div fxFlex>
-          <div>
-            <mat-form-field>
-              <input
-                matInput
-                formControlName="username"
-                placeholder="Username"
-                autocomplete="off"
-                type="text"
-              />
-            </mat-form-field>
-          </div>
+        <input matInput formControlName="url" autocomplete="off" type="url" />
 
-          <div>
-            <mat-checkbox [formControl]="autoGenPassword" class="input-height"
-              >Auto-generate password</mat-checkbox
-            >
-          </div>
+        <mat-hint ngxErrors="url">
+          <span ngxError="url">Not a valid URL</span>
+        </mat-hint>
+      </mat-form-field>
 
-          <div *ngIf="!autoGenPassword.value">
-            <mat-form-field>
-              <input
-                matInput
-                formControlName="password"
-                placeholder="Password"
-                autocomplete="off"
-                type="text"
-              />
-            </mat-form-field>
-          </div>
+      <mat-form-field>
+        <mat-label>Account</mat-label>
 
-          <mat-card *ngIf="autoGenPassword.value" [formGroup]="genopts">
-            <div>
-              <h5>Password generation options:</h5>
-            </div>
+        <input
+          matInput
+          formControlName="account"
+          autocomplete="off"
+          type="text"
+        />
+      </mat-form-field>
 
-            <div>
-              <mat-form-field>
-                <mat-select
-                  placeholder="Number of words to generate"
-                  formControlName="numwords"
-                >
-                  <mat-option
-                    *ngFor="let num of [1, 2, 3, 4, 5, 6]"
-                    [value]="num"
-                  >
-                    {{ num }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-          </mat-card>
-        </div>
-      </div>
+      <mat-form-field>
+        <mat-label>Username</mat-label>
 
-      <div fxLayout>
-        <mat-form-field fxFlex>
-          <textarea
+        <input
+          matInput
+          formControlName="username"
+          autocomplete="off"
+          type="text"
+        />
+      </mat-form-field>
+
+      <mat-checkbox [formControl]="autoGenPassword" class="input-height">
+        Auto-generate password
+      </mat-checkbox>
+
+      <ng-container *ngIf="!autoGenPassword.value">
+        <mat-form-field>
+          <mat-label>Password</mat-label>
+
+          <input
             matInput
-            formControlName="blob"
-            placeholder="Blob"
+            formControlName="password"
             autocomplete="off"
             type="text"
-          >
-          </textarea>
+          />
         </mat-form-field>
-      </div>
+      </ng-container>
+    </div>
 
-      <div fxLayout fxLayoutGap="10px">
-        <span fxFlex [fxHide.xs]="true"></span>
+    <mat-card
+      *ngIf="autoGenPassword.value"
+      [formGroup]="genopts"
+      class="pw-autogen"
+    >
+      <h5 mat-dialog-title>Password generation options:</h5>
 
-        <button
-          mat-raised-button
-          type="submit"
-          [disabled]="!saveItemForm.valid"
-          color="accent"
-        >
-          Save
-        </button>
+      <mat-dialog-content>
+        <mat-form-field>
+          <mat-label> Number of words to generate </mat-label>
 
-        <button mat-button type="button" (click)="dialogRef.close()">
-          Cancel
-        </button>
-      </div>
-    </form>
-  </div>
+          <mat-select formControlName="numwords">
+            <mat-option *ngFor="let num of [1, 2, 3, 4, 5, 6]" [value]="num">
+              {{ num }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-dialog-content>
+    </mat-card>
+
+    <mat-form-field class="w-full">
+      <mat-label>Blob</mat-label>
+
+      <textarea matInput formControlName="blob" autocomplete="off" type="text">
+      </textarea>
+    </mat-form-field>
+
+    <div class="flex gap-4 justify-end">
+      <button
+        mat-raised-button
+        type="submit"
+        [disabled]="!saveItemForm.valid"
+        color="accent"
+      >
+        Save
+      </button>
+
+      <button mat-button type="button" (click)="dialogRef.close()">
+        Cancel
+      </button>
+    </div>
+  </form>
 </mat-dialog-content>

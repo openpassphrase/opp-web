@@ -1,14 +1,18 @@
-<mat-toolbar color="primary">
-  <div
-    fxFlexFill fxLayout="row"
-    fxLayoutAlign="space-between center">
-    <span class="title">
-      Open Pass Phrase<br>
-      <span class="font-sm">{{version}}</span>
-    </span>
+<mat-toolbar color="primary" class="justify-between">
+  <span class="title">
+    Open Pass Phrase
+    <br />
+    <span class="text-xs">{{ version }}</span>
+  </span>
 
-    <app-install-pwa></app-install-pwa>
+  <app-install-pwa></app-install-pwa>
 
-    <button mat-button color="accent" *ngIf="loggedIn | async" (click)="signOut()">Sign out</button>
-  </div>
+  <button
+    mat-button
+    color="accent"
+    *ngIf="loggedIn | async"
+    (click)="signOut()"
+  >
+    Sign out
+  </button>
 </mat-toolbar>

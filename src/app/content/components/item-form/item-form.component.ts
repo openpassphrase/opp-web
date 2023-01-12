@@ -6,9 +6,9 @@ import {
   OnInit,
 } from '@angular/core';
 import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -23,18 +23,18 @@ import { IItem, IItemFormResult } from '../../models';
 })
 export class ItemFormComponent implements OnInit {
   @Input() item: IItem;
-  saveItemForm: FormGroup;
-  genopts: FormGroup;
-  autoGenPassword: FormControl;
+  saveItemForm: UntypedFormGroup;
+  genopts: UntypedFormGroup;
+  autoGenPassword: UntypedFormControl;
   public action: String;
 
   constructor(
     public dialogRef: MatDialogRef<ItemFormComponent>,
-    private _fb: FormBuilder
+    private _fb: UntypedFormBuilder
   ) {}
 
   ngOnInit() {
-    this.autoGenPassword = new FormControl(false);
+    this.autoGenPassword = new UntypedFormControl(false);
 
     this.saveItemForm = this._fb.group({
       id: [this.item.id],

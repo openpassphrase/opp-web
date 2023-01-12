@@ -10,9 +10,15 @@ import {
   ViewChild,
   ViewChildren,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { MatExpansionPanelHeader } from '@angular/material/expansion';
-import { ExpandableInputMaterialComponent } from '@ng-expandable-input/material';
+import {
+  animateCssProperty,
+  ANIMATION_DURATION,
+  ANIMATION_EASING,
+  ExpandableInputComponent,
+  smoothHorizontalCollapse,
+} from '@ngspot/expandable-input';
 import { unparse } from 'papaparse';
 import { Subject } from 'rxjs';
 import { filter, take, takeUntil, tap } from 'rxjs/operators';
@@ -33,9 +39,29 @@ import { CategoriesRepository } from '../../state';
   styleUrls: ['./category-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [PaginationService],
+  animations: [
+    smoothHorizontalCollapse({
+      durationMs: ANIMATION_DURATION,
+      easing: ANIMATION_EASING,
+    }),
+    animateCssProperty({
+      propName: 'gap',
+      falseValue: '1rem',
+      trueValue: '0',
+      durationMs: ANIMATION_DURATION,
+      easing: ANIMATION_EASING,
+    }),
+    animateCssProperty({
+      propName: 'margin-right',
+      falseValue: 'calc(1rem + 30px)',
+      trueValue: '0',
+      durationMs: ANIMATION_DURATION,
+      easing: ANIMATION_EASING,
+    }),
+  ],
 })
 export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {
-  private ngUnsubscribe = new Subject<any>();
+  private ngUnsubscribe = new Subject<void>();
 
   categories$ = this.categoriesRepository.filteredCategories$.pipe(
     paginate(this.pagination)
@@ -48,10 +74,10 @@ export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   areAllCategoriesClosed$ = this.categoriesRepository.areAllCategoriesClosed$;
 
-  searchForControl = new FormControl();
+  searchForControl = new UntypedFormControl();
 
   @ViewChild('searchExpInput')
-  private searchExpInput: ExpandableInputMaterialComponent;
+  private searchExpInput: ExpandableInputComponent;
 
   @ViewChildren(MatExpansionPanelHeader, { read: ElementRef })
   private expansionPanelsHtml: QueryList<ElementRef>;
@@ -125,7 +151,7 @@ export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   escSearch() {
     this.clearSearch();
-    this.searchExpInput.cdk.close();
+    this.searchExpInput.close();
   }
 
   clearSearch() {

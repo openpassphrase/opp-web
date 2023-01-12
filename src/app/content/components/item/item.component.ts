@@ -13,7 +13,7 @@ import { ItemFormComponent } from '../item-form/item-form.component';
 @Component({
   selector: 'app-delete-item-dialog',
   template: `
-    <h1 mat-dialig-title>Delete item</h1>
+    <h1 mat-dialog-title>Delete item</h1>
     <mat-dialog-content>Are you sure?</mat-dialog-content>
     <mat-dialog-actions>
       <button
@@ -33,7 +33,7 @@ export class DeleteItemDialogComponent {
 }
 
 @Component({
-  // tslint:disable-next-line:component-selector
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[app-item]',
   templateUrl: './item.component.html',
   styleUrls: ['./item.component.scss'],
