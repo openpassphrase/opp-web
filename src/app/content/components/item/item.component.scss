@@ -11,6 +11,7 @@ $highlight-color: #fff6d0;
 [ngxClipboard] {
   cursor: pointer;
   line-height: 24px;
+  overflow-wrap: break-word;
 
   &:hover {
     background: darken($highlight-color, 10);
@@ -32,3 +33,10 @@ $highlight-color: #fff6d0;
     }
   }
 }
+    
+.no-overflow {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+  
