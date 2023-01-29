@@ -5,12 +5,12 @@ import {
   EventEmitter,
   OnInit,
   Output,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormControl,
-  UntypedFormGroup,
+  UntypedFormGroup
 } from '@angular/forms';
 import { AppExpandableInputComponent } from '../../../shared/expandable-input';
 
@@ -26,7 +26,8 @@ export class AddCategoryFormComponent implements OnInit {
 
   @Output() add = new EventEmitter<string>(false);
 
-  @ViewChild('category') categoryInput: ElementRef;
+  @ViewChild('category', { read: ElementRef<HTMLElement> })
+  private categoryInput: ElementRef<HTMLElement>;
 
   @ViewChild(AppExpandableInputComponent, { static: true })
   expandableInput: AppExpandableInputComponent;
