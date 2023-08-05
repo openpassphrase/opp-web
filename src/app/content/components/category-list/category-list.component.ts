@@ -13,10 +13,10 @@ import {
 import { UntypedFormControl } from '@angular/forms';
 import { MatExpansionPanelHeader } from '@angular/material/expansion';
 import {
-  animateCssProperty,
   ANIMATION_DURATION,
   ANIMATION_EASING,
   ExpandableInputComponent,
+  animateCssProperty,
   smoothHorizontalCollapse,
 } from '@ngspot/expandable-input';
 import { unparse } from 'papaparse';
@@ -30,7 +30,7 @@ import {
   IUpdateCategoryPayload,
   IUpdateItemPayload,
 } from '../../models';
-import { paginate, PaginationService } from '../../services/pagination';
+import { PaginationService, paginate } from '../../services/pagination';
 import { CategoriesRepository } from '../../state';
 
 @Component({
@@ -55,6 +55,13 @@ import { CategoriesRepository } from '../../state';
       propName: 'margin-right',
       falseValue: 'calc(1rem + 30px)',
       trueValue: '0',
+      durationMs: ANIMATION_DURATION,
+      easing: ANIMATION_EASING,
+    }),
+    animateCssProperty({
+      propName: 'z-index',
+      falseValue: '',
+      trueValue: '10',
       durationMs: ANIMATION_DURATION,
       easing: ANIMATION_EASING,
     }),
