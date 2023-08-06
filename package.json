@@ -21,8 +21,7 @@
     "build:stats": "ng build --configuration production,local-stats",
     "server:dist": "http-server ./dist/web/ -S -C cert/localhost.crt -K cert/localhost.key -P http://localhost:5000",
     "source-map-explorer": "source-map-explorer dist/web/*es2018.js",
-    "bundle-report": "webpack-bundle-analyzer dist/web/stats.json",
-    "postinstall": "ngcc --properties es2020 browser module main"
+    "bundle-report": "webpack-bundle-analyzer dist/web/stats.json"
   },
   "private": true,
   "dependencies": {
