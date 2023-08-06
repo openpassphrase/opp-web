@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { map, tap } from 'rxjs/operators';
 import { AuthStateService } from '../../core/auth/auth-state.service';
 
 @Injectable()
-export class PhraseIncorrectGuardService implements CanActivate {
+export class PhraseIncorrectGuardService  {
   constructor(
     private authStateService: AuthStateService,
     private router: Router

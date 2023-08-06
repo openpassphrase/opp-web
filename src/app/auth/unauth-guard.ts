@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { map, take } from 'rxjs/operators';
 import { AuthService } from '../core/auth/auth.service';
 
 @Injectable()
-export class UnAuthGuard implements CanActivate {
+export class UnAuthGuard  {
   constructor(private auth: AuthService, private router: Router) {}
 
   canActivate() {
