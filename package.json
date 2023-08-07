@@ -44,7 +44,7 @@
     "@ngspot/ngx-errors": "^3.2.1",
     "core-js": "3.32.0",
     "ng-let": "^15.0.1",
-    "ngx-clipboard": "^15.1.0",
+    "ngx-clipboard": "16.0.0",
     "papaparse": "^5.4.1",
     "rxjs": "7.8.1",
     "tslib": "2.6.1",
