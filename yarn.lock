@@ -2536,10 +2536,10 @@
   resolved "https://registry.yarnpkg.com/@ngneat/elf/-/elf-2.3.0.tgz#c046b0344b05ffdd2e0735122a31dfa2d67c6794"
   integrity sha512-uGoKOHu1T4KPKJSAf6y1VHi43eWaYe8Tx+J+o4R8Wki8gpeQUGlQz04qZoPllysLbqetDVXTMmMbQdostgG8Og==
 
-"@ngspot/expandable-input@^3.0.0":
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/@ngspot/expandable-input/-/expandable-input-3.0.0.tgz#b92e4b3e21f65093f7067f5ad76920880d0c5bd0"
-  integrity sha512-G6YUSpHGW2YguwK4sgOvNn7963WFpHB6+YAqNIOitmsSHDjfdch/2GK4mH2E2a0M+Yel+nfjo+PGF2G+uJ6HXQ==
+"@ngspot/expandable-input@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@ngspot/expandable-input/-/expandable-input-3.0.1.tgz#93703d316a813ad453b89c2337c91a0ae6cec0bb"
+  integrity sha512-HLJ00+F/LGPHZbBFAJAnWPiRlUTvAmRaBfvkJHTFi6iarX8QhnGP5/kB6AUucuHiNu0K1U97opPaofboClA1CQ==
   dependencies:
     tslib "^2.3.0"
 
