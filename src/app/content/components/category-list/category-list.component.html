@@ -90,7 +90,7 @@
               >
                 <app-category
                   [category]="c"
-                  [isExpanded]="isExpanded"
+                  [isExpanded]="!!isExpanded"
                   [searchFor]="searchFor$ | async"
                   (update)="updateCategory($event)"
                   (remove)="removeCategory($event)"
