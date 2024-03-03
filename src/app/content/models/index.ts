@@ -15,10 +15,8 @@ export interface IItem {
 }
 
 export interface IGenopts {
-  min_length?: number;
-  max_length?: number;
   valid_chars?: string;
-  numwords?: number;
+  numChars?: number;
   delimiter?: string;
 }
 

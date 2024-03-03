@@ -6,7 +6,7 @@
   "editor.rulers": [140],
   "editor.tabSize": 2,
   "editor.tabCompletion": "onlySnippets",
-  "editor.wordBasedSuggestions": false,
+  "editor.wordBasedSuggestions": "off",
   "files.exclude": {
     "node_modules/": true
   },
@@ -21,7 +21,7 @@
   },
   "[typescript]": {
     "editor.codeActionsOnSave": {
-      "source.organizeImports": true
+      "source.organizeImports": "explicit"
     }
   },
   "javascript.preferences.quoteStyle": "single",
