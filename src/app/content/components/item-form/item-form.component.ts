@@ -48,7 +48,7 @@ export class ItemFormComponent implements OnInit {
     });
 
     this.genopts = this._fb.group({
-      numwords: [1],
+      numChars: [16],
     });
   }
 
