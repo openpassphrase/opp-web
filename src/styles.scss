@@ -2,7 +2,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import '@angular/material/_theming';
 @import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 $config: mat.define-typography-config();
 $mat-font-family: mat.font-family($config);
