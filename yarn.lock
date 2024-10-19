@@ -7195,11 +7195,6 @@ ng-let@^17.0.4:
   dependencies:
     tslib "^2.3.1"
 
-ng-mocks@^14.11.0:
-  version "14.11.0"
-  resolved "https://registry.yarnpkg.com/ng-mocks/-/ng-mocks-14.11.0.tgz#3f37d309b7e76ebec01604a4d15893d9406e668a"
-  integrity sha512-6h0TafPogU7iEbWKGQt5npfEtI7IjThsqqnDboMIZ4AJyUY7VHUmhFa39Zkd2e4oOLDLb/6sVnfDIaWCp3oFgQ==
-
 ng-packagr@^17.2.0:
   version "17.2.0"
   resolved "https://registry.yarnpkg.com/ng-packagr/-/ng-packagr-17.2.0.tgz#9692731ba0baa04776fdf4dcb81491810340553f"

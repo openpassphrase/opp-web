@@ -73,7 +73,6 @@
     "karma-coverage-istanbul-reporter": "~3.0.2",
     "karma-jasmine": "^5.1.0",
     "karma-jasmine-html-reporter": "^2.1.0",
-    "ng-mocks": "^14.11.0",
     "ng-packagr": "^17.2.0",
     "pre-commit": "^1.2.2",
     "source-map-explorer": "^2.5.2",
