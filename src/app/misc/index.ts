@@ -8,9 +8,9 @@ export const urlValidator: ValidatorFn = (control: AbstractControl) => {
   const v: string = control.value;
   try {
     new URL(v);
-    return { url: true };
-  } catch (err) {
     return null;
+  } catch (err) {
+    return { url: true };
   }
 };
 
