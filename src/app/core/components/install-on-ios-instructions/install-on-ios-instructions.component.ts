@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { MatButton } from '@angular/material/button';
 import { MatSnackBarRef } from '@angular/material/snack-bar';
 
 @Component({
@@ -6,6 +7,8 @@ import { MatSnackBarRef } from '@angular/material/snack-bar';
   templateUrl: './install-on-ios-instructions.component.html',
   styleUrls: ['./install-on-ios-instructions.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [MatButton],
 })
 export class InstallOnIosInstructionsComponent {
   constructor(

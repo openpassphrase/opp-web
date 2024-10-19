@@ -1,3 +1,4 @@
+import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -10,18 +11,32 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
+  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatButton, MatMiniFabButton } from '@angular/material/button';
+import {
+  MatDialog,
+  MatDialogActions,
+  MatDialogContent,
+  MatDialogRef,
+  MatDialogTitle,
+} from '@angular/material/dialog';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatIcon } from '@angular/material/icon';
+import { MatInput } from '@angular/material/input';
 import { MatTooltip } from '@angular/material/tooltip';
+import { NgxErrorsModule } from '@ngspot/ngx-errors';
 import {
   ICategoryItems,
   IItemFormResult,
   IRemoveCategoryPayload,
   IUpdateCategoryPayload,
 } from '../../models';
+import { CapitalizePipe } from '../../services/capitalizePipe';
+import { HighlightPipe } from '../../services/highlightPipe';
 import { ItemFormComponent } from '../item-form/item-form.component';
 
 @Component({
@@ -55,6 +70,14 @@ import { ItemFormComponent } from '../item-form/item-form.component';
     </mat-dialog-actions>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    MatDialogTitle,
+    MatDialogContent,
+    MatDialogActions,
+    NgIf,
+    MatButton,
+  ],
 })
 export class DeleteCategoryDialogComponent {
   hasItems: boolean;
@@ -66,6 +89,20 @@ export class DeleteCategoryDialogComponent {
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgIf,
+    MatMiniFabButton,
+    MatTooltip,
+    MatIcon,
+    ReactiveFormsModule,
+    NgxErrorsModule,
+    MatFormField,
+    MatLabel,
+    MatInput,
+    HighlightPipe,
+    CapitalizePipe,
+  ],
 })
 export class CategoryComponent implements OnInit, OnChanges {
   changeCategoryForm: UntypedFormGroup;

@@ -5,13 +5,14 @@ import {
   ElementRef,
   HostListener,
   Input,
-  Optional
+  Optional,
 } from '@angular/core';
 import { MatInput } from '@angular/material/input';
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[autofocus]',
+  standalone: true,
 })
 export class AutofocusDirective implements AfterViewInit {
   private _autofocus = true;

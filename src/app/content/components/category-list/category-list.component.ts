@@ -1,3 +1,4 @@
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -10,18 +11,34 @@ import {
   ViewChild,
   ViewChildren,
 } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
-import { MatExpansionPanelHeader } from '@angular/material/expansion';
+import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
+import { MatMiniFabButton } from '@angular/material/button';
+import {
+  MatAccordion,
+  MatExpansionPanel,
+  MatExpansionPanelContent,
+  MatExpansionPanelHeader,
+} from '@angular/material/expansion';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatIcon } from '@angular/material/icon';
+import { MatInput } from '@angular/material/input';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTooltip } from '@angular/material/tooltip';
 import {
   ANIMATION_DURATION,
   ANIMATION_EASING,
+  ExpIconCloseDirective,
+  ExpIconOpenDirective,
+  ExpInputDirective,
   ExpandableInputComponent,
   animateCssProperty,
   smoothHorizontalCollapse,
 } from '@ngspot/expandable-input';
+import { NgLetModule } from 'ng-let';
 import { unparse } from 'papaparse';
 import { Subject } from 'rxjs';
 import { filter, take, takeUntil, tap } from 'rxjs/operators';
+import { AppExpandableInputComponent } from '../../../shared/expandable-input/expandable-input.component';
 import {
   ICategory,
   IItem,
@@ -32,6 +49,10 @@ import {
 } from '../../models';
 import { PaginationService, paginate } from '../../services/pagination';
 import { CategoriesRepository } from '../../state';
+import { AddCategoryFormComponent } from '../add-category-form/add-category-form.component';
+import { CategoryComponent } from '../category/category.component';
+import { ItemComponent } from '../item/item.component';
+import { CategoryExpandedTrackerDirective } from './category-expanded-tracker.directive';
 
 @Component({
   selector: 'app-category-list',
@@ -65,6 +86,33 @@ import { CategoriesRepository } from '../../state';
       durationMs: ANIMATION_DURATION,
       easing: ANIMATION_EASING,
     }),
+  ],
+  standalone: true,
+  imports: [
+    NgLetModule,
+    NgIf,
+    MatMiniFabButton,
+    MatTooltip,
+    MatIcon,
+    AppExpandableInputComponent,
+    ExpInputDirective,
+    MatFormField,
+    MatLabel,
+    MatInput,
+    ReactiveFormsModule,
+    ExpIconOpenDirective,
+    ExpIconCloseDirective,
+    AddCategoryFormComponent,
+    MatAccordion,
+    NgFor,
+    CategoryExpandedTrackerDirective,
+    MatExpansionPanel,
+    MatExpansionPanelHeader,
+    CategoryComponent,
+    MatExpansionPanelContent,
+    ItemComponent,
+    MatPaginator,
+    AsyncPipe,
   ],
 })
 export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {

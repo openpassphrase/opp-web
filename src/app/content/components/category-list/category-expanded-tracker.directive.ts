@@ -5,6 +5,7 @@ import { CategoriesRepository } from '../../state';
 @Directive({
   selector: '[appCategoryExpandedTracker]',
   exportAs: 'categoryExpandedTracker',
+  standalone: true,
 })
 export class CategoryExpandedTrackerDirective implements OnInit {
   @Input('appCategoryExpandedTracker') categoryId: number;

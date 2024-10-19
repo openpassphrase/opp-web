@@ -1,3 +1,4 @@
+import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -5,9 +6,22 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { UntypedFormControl, Validators } from '@angular/forms';
+import {
+  ReactiveFormsModule,
+  UntypedFormControl,
+  Validators,
+} from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import {
+  MatError,
+  MatFormField,
+  MatHint,
+  MatLabel,
+} from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
 import { filter, first, tap } from 'rxjs/operators';
 import { AuthStateService } from '../../../core/auth/auth-state.service';
+import { AutofocusDirective } from '../../../shared/directives/autofocus';
 import { CategoriesRepository } from '../../state';
 
 @Component({
@@ -15,6 +29,18 @@ import { CategoriesRepository } from '../../state';
   templateUrl: './secret-phrase-input.component.html',
   styleUrls: ['./secret-phrase-input.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    MatFormField,
+    MatLabel,
+    MatInput,
+    ReactiveFormsModule,
+    AutofocusDirective,
+    MatHint,
+    NgIf,
+    MatError,
+    MatButton,
+  ],
 })
 export class SecretPhraseInputComponent implements OnInit {
   @Output() secretPhraseChange = new EventEmitter<string>();

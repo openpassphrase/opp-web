@@ -1,3 +1,4 @@
+import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -5,10 +6,22 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatButton, MatMiniFabButton } from '@angular/material/button';
+import {
+  MatDialog,
+  MatDialogActions,
+  MatDialogContent,
+  MatDialogRef,
+  MatDialogTitle,
+} from '@angular/material/dialog';
+import { MatIcon } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTooltip } from '@angular/material/tooltip';
+import { ClipboardModule } from 'ngx-clipboard';
 import { IItem, IItemFormResult, IUpdateItemPayload } from '../../models';
+import { HighlightPipe } from '../../services/highlightPipe';
 import { ItemFormComponent } from '../item-form/item-form.component';
+import { ShowHidePasswordComponent } from '../show-hide-password/show-hide-password.component';
 
 @Component({
   selector: 'app-delete-item-dialog',
@@ -27,6 +40,8 @@ import { ItemFormComponent } from '../item-form/item-form.component';
     </mat-dialog-actions>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [MatDialogTitle, MatDialogContent, MatDialogActions, MatButton],
 })
 export class DeleteItemDialogComponent {
   constructor(public dialogRef: MatDialogRef<DeleteItemDialogComponent>) {}
@@ -38,6 +53,16 @@ export class DeleteItemDialogComponent {
   templateUrl: './item.component.html',
   styleUrls: ['./item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgIf,
+    ClipboardModule,
+    MatTooltip,
+    ShowHidePasswordComponent,
+    MatMiniFabButton,
+    MatIcon,
+    HighlightPipe,
+  ],
 })
 export class ItemComponent {
   @Input() item: IItem;

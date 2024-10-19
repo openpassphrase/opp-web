@@ -1,4 +1,4 @@
-<div class="loading-overlay" *ngIf="loading">
+<div class="loading-overlay" *ngIf="loading()">
   <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 </div>
 
@@ -67,8 +67,9 @@
                 <mat-option
                   *ngFor="let opt of deltaMultiplierOpts"
                   value="{{ opt.val }}"
-                  >{{ opt.text }}</mat-option
                 >
+                  {{ opt.text }}
+                </mat-option>
               </mat-select>
             </mat-form-field>
           </div>
