@@ -5,6 +5,7 @@ import {
   HostListener,
   Input,
   OnInit,
+  inject,
 } from '@angular/core';
 import {
   ReactiveFormsModule,
@@ -54,16 +55,14 @@ import { IItem, IItemFormResult } from '../../models';
   ],
 })
 export class ItemFormComponent implements OnInit {
+  dialogRef = inject<MatDialogRef<ItemFormComponent>>(MatDialogRef);
+  private _fb = inject(UntypedFormBuilder);
+
   @Input() item: IItem;
   saveItemForm: UntypedFormGroup;
   genopts: UntypedFormGroup;
   autoGenPassword: UntypedFormControl;
   public action: String;
-
-  constructor(
-    public dialogRef: MatDialogRef<ItemFormComponent>,
-    private _fb: UntypedFormBuilder
-  ) {}
 
   ngOnInit() {
     this.autoGenPassword = new UntypedFormControl(false);

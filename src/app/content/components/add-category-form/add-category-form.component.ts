@@ -6,6 +6,7 @@ import {
   OnInit,
   Output,
   ViewChild,
+  inject,
 } from '@angular/core';
 import {
   ReactiveFormsModule,
@@ -53,6 +54,8 @@ import { AppExpandableInputComponent as AppExpandableInputComponent_1 } from '..
   ],
 })
 export class AddCategoryFormComponent implements OnInit {
+  private _fb = inject(UntypedFormBuilder);
+
   addCategoryForm: UntypedFormGroup;
   categoryControl = new UntypedFormControl('');
 
@@ -67,8 +70,6 @@ export class AddCategoryFormComponent implements OnInit {
   get isOpen() {
     return this.expandableInput?.isOpen;
   }
-
-  constructor(private _fb: UntypedFormBuilder) {}
 
   ngOnInit() {
     this.addCategoryForm = this._fb.group({

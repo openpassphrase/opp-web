@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, share } from 'rxjs/operators';
 import { ICategory, IItem, IItemFormResult } from '../models';
@@ -17,10 +17,13 @@ export interface IBackendService {
 
 @Injectable()
 export class BackendService implements IBackendService {
+  private http = inject(HttpClient);
+  private location = inject(Location);
+
   private categoriesEndpoint: string;
   private itemsEndpoint: string;
 
-  constructor(private http: HttpClient, private location: Location) {
+  constructor() {
     this.categoriesEndpoint =
       this.location.prepareExternalUrl('api/v1/categories');
     this.itemsEndpoint = this.location.prepareExternalUrl('api/v1/items');

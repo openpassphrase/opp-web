@@ -5,6 +5,7 @@ import {
   EventEmitter,
   Input,
   Output,
+  inject,
 } from '@angular/core';
 import { MatButton, MatMiniFabButton } from '@angular/material/button';
 import {
@@ -44,7 +45,7 @@ import { ShowHidePasswordComponent } from '../show-hide-password/show-hide-passw
   imports: [MatDialogTitle, MatDialogContent, MatDialogActions, MatButton],
 })
 export class DeleteItemDialogComponent {
-  constructor(public dialogRef: MatDialogRef<DeleteItemDialogComponent>) {}
+  dialogRef = inject<MatDialogRef<DeleteItemDialogComponent>>(MatDialogRef);
 }
 
 @Component({
@@ -65,12 +66,13 @@ export class DeleteItemDialogComponent {
   ],
 })
 export class ItemComponent {
+  private dialog = inject(MatDialog);
+  private snackbar = inject(MatSnackBar);
+
   @Input() item: IItem;
   @Input() searchFor: string | null;
   @Output() updateItem = new EventEmitter<IUpdateItemPayload>(false);
   @Output() removeItem = new EventEmitter<IItem>(false);
-
-  constructor(private dialog: MatDialog, private snackbar: MatSnackBar) {}
 
   promptEdit() {
     const dialogRef = this.dialog.open(ItemFormComponent);

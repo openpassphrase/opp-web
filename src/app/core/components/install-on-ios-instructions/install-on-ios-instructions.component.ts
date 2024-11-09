@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MatSnackBarRef } from '@angular/material/snack-bar';
 
@@ -11,9 +11,8 @@ import { MatSnackBarRef } from '@angular/material/snack-bar';
   imports: [MatButton],
 })
 export class InstallOnIosInstructionsComponent {
-  constructor(
-    private snackBarRef: MatSnackBarRef<InstallOnIosInstructionsComponent>
-  ) {}
+  private snackBarRef =
+    inject<MatSnackBarRef<InstallOnIosInstructionsComponent>>(MatSnackBarRef);
 
   dismiss() {
     this.snackBarRef.dismiss();

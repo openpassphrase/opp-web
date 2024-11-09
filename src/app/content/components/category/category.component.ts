@@ -9,6 +9,7 @@ import {
   Output,
   SimpleChanges,
   ViewChild,
+  inject,
 } from '@angular/core';
 import {
   ReactiveFormsModule,
@@ -80,8 +81,9 @@ import { ItemFormComponent } from '../item-form/item-form.component';
   ],
 })
 export class DeleteCategoryDialogComponent {
+  dialogRef = inject<MatDialogRef<DeleteCategoryDialogComponent>>(MatDialogRef);
+
   hasItems: boolean;
-  constructor(public dialogRef: MatDialogRef<DeleteCategoryDialogComponent>) {}
 }
 
 @Component({
@@ -105,6 +107,9 @@ export class DeleteCategoryDialogComponent {
   ],
 })
 export class CategoryComponent implements OnInit, OnChanges {
+  private _fb = inject(UntypedFormBuilder);
+  private dialog = inject(MatDialog);
+
   changeCategoryForm: UntypedFormGroup;
   isInEditMode = false;
 
@@ -116,8 +121,6 @@ export class CategoryComponent implements OnInit, OnChanges {
   @Output() update = new EventEmitter<IUpdateCategoryPayload>(false);
   @Output() remove = new EventEmitter<IRemoveCategoryPayload>(false);
   @Output() addItem = new EventEmitter<IItemFormResult>(false);
-
-  constructor(private _fb: UntypedFormBuilder, private dialog: MatDialog) {}
 
   ngOnInit() {
     this.changeCategoryForm = this._fb.group({

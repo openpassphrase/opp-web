@@ -1,5 +1,5 @@
 import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { PwaService } from '../../core/pwa.service';
 
@@ -12,5 +12,5 @@ import { PwaService } from '../../core/pwa.service';
   imports: [NgIf, MatButton, AsyncPipe],
 })
 export class InstallPwaComponent {
-  constructor(public pwa: PwaService) {}
+  pwa = inject(PwaService);
 }

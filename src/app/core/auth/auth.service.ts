@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Subject, timer } from 'rxjs';
 import { map, takeUntil, takeWhile, tap } from 'rxjs/operators';
@@ -11,14 +11,12 @@ const minutes5 = seconds5 * 60; // default timeout time
 
 @Injectable()
 export class AuthService {
+  private authApiService = inject(AuthApiService);
+  private authStateService = inject(AuthStateService);
+  private jwtHelper = inject(JwtHelperService);
+
   isLoggedIn$ = this.authStateService.isAuthenticated$;
   private logoutClicked = new Subject<void>();
-
-  constructor(
-    private authApiService: AuthApiService,
-    private authStateService: AuthStateService,
-    private jwtHelper: JwtHelperService
-  ) {}
 
   login(data: {
     username: string;

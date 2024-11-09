@@ -2,6 +2,7 @@ import { NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   OnInit,
   signal,
 } from '@angular/core';
@@ -56,6 +57,11 @@ import { AutofocusDirective } from '../../shared/directives/autofocus';
   ],
 })
 export class LoginComponent implements OnInit {
+  private auth = inject(AuthService);
+  private router = inject(Router);
+  private _fb = inject(UntypedFormBuilder);
+  private snackBar = inject(MatSnackBar);
+
   authForm: UntypedFormGroup;
   userNameAutocompleteState = 'off';
   showTokenExp = false;
@@ -66,13 +72,6 @@ export class LoginComponent implements OnInit {
     { val: '3600', text: 'hours' },
     { val: '86400', text: 'days' },
   ];
-
-  constructor(
-    private auth: AuthService,
-    private router: Router,
-    private _fb: UntypedFormBuilder,
-    private snackBar: MatSnackBar
-  ) {}
 
   ngOnInit() {
     this.authForm = this._fb.group({

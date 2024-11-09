@@ -5,6 +5,7 @@ import {
   EventEmitter,
   OnInit,
   Output,
+  inject,
 } from '@angular/core';
 import {
   ReactiveFormsModule,
@@ -43,16 +44,14 @@ import { CategoriesRepository } from '../../state';
   ],
 })
 export class SecretPhraseInputComponent implements OnInit {
+  private categoriesRepository = inject(CategoriesRepository);
+  private authStateService = inject(AuthStateService);
+
   @Output() secretPhraseChange = new EventEmitter<string>();
   secretPhrase = new UntypedFormControl('', [
     Validators.required,
     Validators.minLength(6),
   ]);
-
-  constructor(
-    private categoriesRepository: CategoriesRepository,
-    private authStateService: AuthStateService
-  ) {}
 
   ngOnInit() {
     this.authStateService.isPathPhraseCorrect$

@@ -10,6 +10,7 @@ import {
   QueryList,
   ViewChild,
   ViewChildren,
+  inject,
 } from '@angular/core';
 import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { MatMiniFabButton } from '@angular/material/button';
@@ -116,6 +117,9 @@ import { CategoryExpandedTrackerDirective } from './category-expanded-tracker.di
   ],
 })
 export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {
+  private categoriesRepository = inject(CategoriesRepository);
+  pagination = inject(PaginationService);
+
   private ngUnsubscribe = new Subject<void>();
 
   categories$ = this.categoriesRepository.filteredCategories$.pipe(
@@ -136,11 +140,6 @@ export class CategoryListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChildren(MatExpansionPanelHeader, { read: ElementRef })
   private expansionPanelsHtml: QueryList<ElementRef>;
-
-  constructor(
-    private categoriesRepository: CategoriesRepository,
-    public pagination: PaginationService
-  ) {}
 
   ngOnInit() {
     this.searchForControl.valueChanges

@@ -5,7 +5,7 @@ import {
   ElementRef,
   HostListener,
   Input,
-  Optional,
+  inject,
 } from '@angular/core';
 import { MatInput } from '@angular/material/input';
 
@@ -15,6 +15,10 @@ import { MatInput } from '@angular/material/input';
   standalone: true,
 })
 export class AutofocusDirective implements AfterViewInit {
+  private el = inject(ElementRef);
+  private _cd = inject(ChangeDetectorRef);
+  private matInput = inject(MatInput, { optional: true });
+
   private _autofocus = true;
 
   @Input() set autofocus(condition: boolean | '') {
@@ -22,12 +26,6 @@ export class AutofocusDirective implements AfterViewInit {
   }
 
   @Input() focusOnKey: string | undefined;
-
-  constructor(
-    private el: ElementRef,
-    private _cd: ChangeDetectorRef,
-    @Optional() private matInput?: MatInput
-  ) {}
 
   ngAfterViewInit() {
     if (this._autofocus) {

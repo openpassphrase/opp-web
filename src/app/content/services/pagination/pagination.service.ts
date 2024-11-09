@@ -1,4 +1,4 @@
-import { Inject, Injectable, InjectionToken } from '@angular/core';
+import { Injectable, InjectionToken, inject } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { pluck } from 'rxjs/operators';
 import { PaginationOpts } from './model';
@@ -15,6 +15,8 @@ export const DEFAULT_PAGINATION_OPTIONS = new InjectionToken<PaginationOpts>(
 
 @Injectable()
 export class PaginationService {
+  private options = inject<PaginationOpts>(DEFAULT_PAGINATION_OPTIONS);
+
   private options$$ = new BehaviorSubject<PaginationOpts>(this.options);
   private totalItemsLength$$ = new BehaviorSubject<number>(0);
 
@@ -23,10 +25,6 @@ export class PaginationService {
 
   pageSize$ = this.options$.pipe(pluck('pageSize'));
   pageIndex$ = this.options$.pipe(pluck('pageIndex'));
-
-  constructor(
-    @Inject(DEFAULT_PAGINATION_OPTIONS) private options: PaginationOpts
-  ) {}
 
   updateOptions(opts: Partial<PaginationOpts>) {
     this.options$$.next({
