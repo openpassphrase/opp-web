@@ -35,10 +35,10 @@ import {
   animateCssProperty,
   smoothHorizontalCollapse,
 } from '@ngspot/expandable-input';
-import { NgLetModule } from 'ng-let';
 import { unparse } from 'papaparse';
 import { Subject } from 'rxjs';
 import { filter, take, takeUntil, tap } from 'rxjs/operators';
+
 import { AppExpandableInputComponent } from '../../../shared/expandable-input/expandable-input.component';
 import {
   ICategory,
@@ -90,7 +90,6 @@ import { CategoryExpandedTrackerDirective } from './category-expanded-tracker.di
   ],
   standalone: true,
   imports: [
-    NgLetModule,
     NgIf,
     MatMiniFabButton,
     MatTooltip,

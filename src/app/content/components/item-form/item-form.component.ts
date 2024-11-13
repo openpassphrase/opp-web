@@ -23,10 +23,13 @@ import {
   MatDialogRef,
   MatDialogTitle,
 } from '@angular/material/dialog';
-import { MatFormField, MatHint, MatLabel } from '@angular/material/form-field';
+import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { MatSelect } from '@angular/material/select';
-import { NgxErrorsModule } from '@ngspot/ngx-errors';
+import {
+  NGX_ERRORS_MATERIAL_DECLARATIONS,
+  provideNgxErrorsConfig,
+} from '@ngspot/ngx-errors-material';
 import { urlValidator } from '../../../misc';
 import { IItem, IItemFormResult } from '../../models';
 
@@ -40,11 +43,11 @@ import { IItem, IItemFormResult } from '../../models';
     MatDialogTitle,
     MatDialogContent,
     ReactiveFormsModule,
-    NgxErrorsModule,
+    NGX_ERRORS_MATERIAL_DECLARATIONS,
     MatFormField,
     MatLabel,
     MatInput,
-    MatHint,
+    MatError,
     MatCheckbox,
     NgIf,
     MatCard,
@@ -52,6 +55,12 @@ import { IItem, IItemFormResult } from '../../models';
     NgFor,
     MatOption,
     MatButton,
+  ],
+  providers: [
+    provideNgxErrorsConfig({
+      showErrorsWhenInput: 'dirty',
+      showMaxErrors: 1,
+    }),
   ],
 })
 export class ItemFormComponent implements OnInit {

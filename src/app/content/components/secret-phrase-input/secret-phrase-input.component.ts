@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -19,8 +18,10 @@ import {
   MatHint,
   MatLabel,
 } from '@angular/material/form-field';
-import { MatInput } from '@angular/material/input';
+import { NGX_ERRORS_MATERIAL_DECLARATIONS } from '@ngspot/ngx-errors-material';
 import { filter, first, tap } from 'rxjs/operators';
+
+import { MatInput } from '@angular/material/input';
 import { AuthStateService } from '../../../core/auth/auth-state.service';
 import { AutofocusDirective } from '../../../shared/directives/autofocus';
 import { CategoriesRepository } from '../../state';
@@ -33,14 +34,14 @@ import { CategoriesRepository } from '../../state';
   standalone: true,
   imports: [
     MatFormField,
-    MatLabel,
     MatInput,
+    MatLabel,
     ReactiveFormsModule,
     AutofocusDirective,
     MatHint,
-    NgIf,
     MatError,
     MatButton,
+    NGX_ERRORS_MATERIAL_DECLARATIONS,
   ],
 })
 export class SecretPhraseInputComponent implements OnInit {

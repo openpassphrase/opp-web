@@ -11,6 +11,7 @@ import { provideRouter } from '@angular/router';
 
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { JwtModule } from '@auth0/angular-jwt';
+import { provideNgxErrorsConfig } from '@ngspot/ngx-errors-material';
 import { environment } from '../environments/environment';
 import { ROUTES } from './app-routes';
 import { AuthStorage } from './core/auth-token-storage';
@@ -75,5 +76,9 @@ export const appConfig: ApplicationConfig = {
     APP_HTTP_PROVIDERS,
     PWA_PROVIDERS,
     CspService,
+    provideNgxErrorsConfig({
+      showErrorsWhenInput: 'dirty',
+      showMaxErrors: 1,
+    }),
   ],
 };

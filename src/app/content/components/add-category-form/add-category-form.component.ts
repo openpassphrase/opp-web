@@ -25,10 +25,9 @@ import {
   ExpIconOpenDirective,
   ExpInputDirective,
 } from '@ngspot/expandable-input';
-import { NgxErrorsModule } from '@ngspot/ngx-errors';
+
 import { AutofocusDirective } from '../../../shared/directives/autofocus';
 import { AppExpandableInputComponent } from '../../../shared/expandable-input';
-import { AppExpandableInputComponent as AppExpandableInputComponent_1 } from '../../../shared/expandable-input/expandable-input.component';
 
 @Component({
   selector: 'app-add-category-form',
@@ -38,8 +37,6 @@ import { AppExpandableInputComponent as AppExpandableInputComponent_1 } from '..
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    NgxErrorsModule,
-    AppExpandableInputComponent_1,
     ExpInputDirective,
     MatFormField,
     MatLabel,
@@ -51,6 +48,7 @@ import { AppExpandableInputComponent as AppExpandableInputComponent_1 } from '..
     MatIcon,
     ExpIconCloseDirective,
     ExpIconActionDirective,
+    AppExpandableInputComponent,
   ],
 })
 export class AddCategoryFormComponent implements OnInit {

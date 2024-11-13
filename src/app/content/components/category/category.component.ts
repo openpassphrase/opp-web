@@ -29,7 +29,6 @@ import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
 import { MatTooltip } from '@angular/material/tooltip';
-import { NgxErrorsModule } from '@ngspot/ngx-errors';
 import {
   ICategoryItems,
   IItemFormResult,
@@ -98,7 +97,6 @@ export class DeleteCategoryDialogComponent {
     MatTooltip,
     MatIcon,
     ReactiveFormsModule,
-    NgxErrorsModule,
     MatFormField,
     MatLabel,
     MatInput,

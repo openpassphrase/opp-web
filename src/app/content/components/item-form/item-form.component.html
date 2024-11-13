@@ -15,9 +15,7 @@
           focused
         />
 
-        <mat-hint ngxErrors="name">
-          <span ngxError="required">Required</span>
-        </mat-hint>
+        <mat-error *ngxError="'required'">Required</mat-error>
       </mat-form-field>
 
       <mat-form-field>
@@ -25,9 +23,7 @@
 
         <input matInput formControlName="url" autocomplete="off" type="url" />
 
-        <mat-hint ngxErrors="url">
-          <span ngxError="url">Not a valid URL</span>
-        </mat-hint>
+        <mat-error *ngxError="'url'">Not a valid URL</mat-error>
       </mat-form-field>
 
       <mat-form-field>
