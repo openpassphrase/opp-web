@@ -3,12 +3,12 @@ import {
   HttpInterceptor,
   HttpRequest,
 } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { AuthStateService } from './auth-state.service';
 
 @Injectable()
 export class PhraseInterceptor implements HttpInterceptor {
-  constructor(private authStateService: AuthStateService) {}
+  private authStateService = inject(AuthStateService);
 
   intercept(request: HttpRequest<any>, next: HttpHandler) {
     request = request.clone({

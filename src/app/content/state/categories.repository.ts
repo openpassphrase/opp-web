@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { createState, getRegistry, propsFactory, Store } from '@ngneat/elf';
 import {
@@ -56,6 +56,10 @@ const store = new Store({ name: 'categories', state, config });
 
 @Injectable()
 export class CategoriesRepository {
+  private api = inject(BackendService);
+  private authStateService = inject(AuthStateService);
+  private snackbar = inject(MatSnackBar);
+
   private categories$ = store.pipe(selectAllEntities(), shareReplay(1));
 
   private items$ = store.pipe(
@@ -152,12 +156,6 @@ export class CategoriesRepository {
     selectActiveIds(),
     map((ids) => ids.length === 0)
   );
-
-  constructor(
-    private api: BackendService,
-    private authStateService: AuthStateService,
-    private snackbar: MatSnackBar
-  ) {}
 
   isCategoryExpanded$(categoryId: ICategory['id']) {
     return store.pipe(

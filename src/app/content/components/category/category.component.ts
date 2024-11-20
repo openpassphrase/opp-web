@@ -1,3 +1,4 @@
+import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -8,13 +9,25 @@ import {
   Output,
   SimpleChanges,
   ViewChild,
+  inject,
 } from '@angular/core';
 import {
+  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatButton, MatMiniFabButton } from '@angular/material/button';
+import {
+  MatDialog,
+  MatDialogActions,
+  MatDialogContent,
+  MatDialogRef,
+  MatDialogTitle,
+} from '@angular/material/dialog';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatIcon } from '@angular/material/icon';
+import { MatInput } from '@angular/material/input';
 import { MatTooltip } from '@angular/material/tooltip';
 import {
   ICategoryItems,
@@ -22,6 +35,8 @@ import {
   IRemoveCategoryPayload,
   IUpdateCategoryPayload,
 } from '../../models';
+import { CapitalizePipe } from '../../services/capitalizePipe';
+import { HighlightPipe } from '../../services/highlightPipe';
 import { ItemFormComponent } from '../item-form/item-form.component';
 
 @Component({
@@ -55,10 +70,19 @@ import { ItemFormComponent } from '../item-form/item-form.component';
     </mat-dialog-actions>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    MatDialogTitle,
+    MatDialogContent,
+    MatDialogActions,
+    NgIf,
+    MatButton,
+  ],
 })
 export class DeleteCategoryDialogComponent {
+  dialogRef = inject<MatDialogRef<DeleteCategoryDialogComponent>>(MatDialogRef);
+
   hasItems: boolean;
-  constructor(public dialogRef: MatDialogRef<DeleteCategoryDialogComponent>) {}
 }
 
 @Component({
@@ -66,8 +90,24 @@ export class DeleteCategoryDialogComponent {
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgIf,
+    MatMiniFabButton,
+    MatTooltip,
+    MatIcon,
+    ReactiveFormsModule,
+    MatFormField,
+    MatLabel,
+    MatInput,
+    HighlightPipe,
+    CapitalizePipe,
+  ],
 })
 export class CategoryComponent implements OnInit, OnChanges {
+  private _fb = inject(UntypedFormBuilder);
+  private dialog = inject(MatDialog);
+
   changeCategoryForm: UntypedFormGroup;
   isInEditMode = false;
 
@@ -79,8 +119,6 @@ export class CategoryComponent implements OnInit, OnChanges {
   @Output() update = new EventEmitter<IUpdateCategoryPayload>(false);
   @Output() remove = new EventEmitter<IRemoveCategoryPayload>(false);
   @Output() addItem = new EventEmitter<IItemFormResult>(false);
-
-  constructor(private _fb: UntypedFormBuilder, private dialog: MatDialog) {}
 
   ngOnInit() {
     this.changeCategoryForm = this._fb.group({

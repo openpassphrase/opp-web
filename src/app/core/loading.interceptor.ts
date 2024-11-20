@@ -3,15 +3,15 @@ import {
   HttpInterceptor,
   HttpRequest,
 } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { finalize } from 'rxjs/operators';
 import { LoadingService } from './loading.service';
 
 @Injectable()
 export class LoadingInterceptor implements HttpInterceptor {
-  private totalRequests = 0;
+  private loadingService = inject(LoadingService);
 
-  constructor(private loadingService: LoadingService) {}
+  private totalRequests = 0;
 
   intercept(request: HttpRequest<any>, next: HttpHandler) {
     this.totalRequests++;

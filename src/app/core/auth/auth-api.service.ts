@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
 export interface LoginRequest {
@@ -19,7 +19,8 @@ abstract class AuthApiServiceBase {
 
 @Injectable()
 export class AuthApiService implements AuthApiServiceBase {
-  constructor(private http: HttpClient, private location: Location) {}
+  private http = inject(HttpClient);
+  private location = inject(Location);
 
   login(data: LoginRequest) {
     return this.http.post<{ access_token: string }>(

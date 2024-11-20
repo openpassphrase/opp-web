@@ -3,8 +3,8 @@
 @tailwind components;
 @tailwind utilities;
 @import '@angular/material/prebuilt-themes/deeppurple-amber.css';
-$config: mat.define-typography-config();
-$mat-font-family: mat.font-family($config);
+$config: mat.m2-define-typography-config();
+$mat-font-family: mat.m2-font-family($config);
 
 html,
 body {

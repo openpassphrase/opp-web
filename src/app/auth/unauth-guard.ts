@@ -1,11 +1,12 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { map, take } from 'rxjs/operators';
 import { AuthService } from '../core/auth/auth.service';
 
 @Injectable()
-export class UnAuthGuard  {
-  constructor(private auth: AuthService, private router: Router) {}
+export class UnAuthGuard {
+  private auth = inject(AuthService);
+  private router = inject(Router);
 
   canActivate() {
     return this.auth.isLoggedIn$.pipe(

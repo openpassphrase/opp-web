@@ -1,3 +1,4 @@
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -5,6 +6,10 @@ import {
   Input,
   Output,
 } from '@angular/core';
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { MatTooltip } from '@angular/material/tooltip';
+import { ClipboardModule } from 'ngx-clipboard';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -13,6 +18,15 @@ import { map } from 'rxjs/operators';
   templateUrl: './show-hide-password.component.html',
   styleUrls: ['./show-hide-password.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgIf,
+    ClipboardModule,
+    MatTooltip,
+    MatIconButton,
+    MatIcon,
+    AsyncPipe,
+  ],
 })
 export class ShowHidePasswordComponent {
   @Input() password: string;

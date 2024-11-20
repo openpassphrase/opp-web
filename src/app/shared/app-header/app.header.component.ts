@@ -1,3 +1,4 @@
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -7,14 +8,19 @@ import {
   Input,
   Output,
 } from '@angular/core';
+import { MatButton } from '@angular/material/button';
+import { MatToolbar } from '@angular/material/toolbar';
 import { Observable, of } from 'rxjs';
 import { version } from '../../../assets/version';
+import { InstallPwaComponent } from '../install-pwa/install-pwa.component';
 
 @Component({
   selector: 'app-header',
   templateUrl: './app.header.component.html',
   styleUrls: ['./app.header.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [MatToolbar, InstallPwaComponent, NgIf, MatButton, AsyncPipe],
 })
 export class AppHeaderComponent implements AfterViewInit {
   @Input() loggedIn: Observable<boolean> | undefined;

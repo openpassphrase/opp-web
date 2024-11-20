@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { Inject, Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SwUpdate } from '@angular/service-worker';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
@@ -9,17 +9,17 @@ import { InstallOnIosInstructionsComponent } from './components/install-on-ios-i
 import { UpdateAvailableComponent } from './components/update-available/update-available.component';
 @Injectable()
 export class PwaService {
+  private swUpdate = inject(SwUpdate);
+  private snackBar = inject(MatSnackBar);
+  private doc = inject<Document>(DOCUMENT);
+
   private promptEventSubj$ = new BehaviorSubject<any>(undefined);
   private isAppInstalledSubj$ = new BehaviorSubject<boolean>(false);
   promptEvent$ = this.promptEventSubj$.asObservable();
   showCustomButton$: Observable<boolean>;
   showIosCustomButton = this.isIos() && !this.isInStandaloneMode();
 
-  constructor(
-    private swUpdate: SwUpdate,
-    private snackBar: MatSnackBar,
-    @Inject(DOCUMENT) private doc: Document
-  ) {
+  constructor() {
     window.addEventListener('beforeinstallprompt', (event) => {
       this.promptEventSubj$.next(event);
     });

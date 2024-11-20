@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { environment } from '../../environments/environment';
 
 /**
@@ -12,15 +12,15 @@ import { environment } from '../../environments/environment';
  */
 @Injectable()
 export class CspService {
-  constructor(
-    @Inject(DOCUMENT) private doc: Document
-  ) { }
+  private doc = inject<Document>(DOCUMENT);
 
   register() {
     if (environment.name !== 'dev') {
       const meta: HTMLMetaElement = this.doc.createElement('meta');
       meta.setAttribute('http-equiv', 'Content-Security-Policy');
-      meta.setAttribute('content', `
+      meta.setAttribute(
+        'content',
+        `
         default-src 'self';
         font-src 'self' data:;
         style-src 'self' 'unsafe-inline';

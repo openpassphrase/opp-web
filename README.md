@@ -8,7 +8,7 @@
 
 ### Install deps:
 
-- Run `yarn`
+- Run `npm i`
 
 ## Development
 
@@ -23,7 +23,7 @@
 
 If you just got latest, make sure you have all dependencies installed:
 
-- Run `yarn`
+- Run `npm i`
 
 If you want to develop with mock data, the just run `npm start`.
 

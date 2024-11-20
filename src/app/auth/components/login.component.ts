@@ -1,34 +1,77 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { NgFor, NgIf } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnInit,
+  signal,
+} from '@angular/core';
+import {
+  ReactiveFormsModule,
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import {
+  MatCard,
+  MatCardContent,
+  MatCardHeader,
+  MatCardSubtitle,
+  MatCardTitle,
+} from '@angular/material/card';
+import { MatOption } from '@angular/material/core';
+import { MatFormField } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { MatProgressBar } from '@angular/material/progress-bar';
+import { MatSelect } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { catchError, of, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../core/auth/auth.service';
+import { AutofocusDirective } from '../../shared/directives/autofocus';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgIf,
+    MatProgressBar,
+    MatCard,
+    MatCardHeader,
+    MatCardTitle,
+    MatCardSubtitle,
+    MatCardContent,
+    ReactiveFormsModule,
+    MatFormField,
+    MatInput,
+    AutofocusDirective,
+    MatSelect,
+    NgFor,
+    MatOption,
+    MatButton,
+  ],
 })
 export class LoginComponent implements OnInit {
+  private auth = inject(AuthService);
+  private router = inject(Router);
+  private _fb = inject(UntypedFormBuilder);
+  private snackBar = inject(MatSnackBar);
+
   authForm: UntypedFormGroup;
   userNameAutocompleteState = 'off';
   showTokenExp = false;
-  loading = false;
+  loading = signal(false);
 
   deltaMultiplierOpts = [
     { val: '60', text: 'minutes' },
     { val: '3600', text: 'hours' },
     { val: '86400', text: 'days' },
   ];
-
-  constructor(
-    private auth: AuthService,
-    private router: Router,
-    private _fb: UntypedFormBuilder,
-    private snackBar: MatSnackBar
-  ) {}
 
   ngOnInit() {
     this.authForm = this._fb.group({
@@ -79,26 +122,28 @@ export class LoginComponent implements OnInit {
           this.authForm.value.exp_delta_amount *
           this.authForm.value.exp_delta_multiplier,
       };
-      this.loading = true;
-      this.auth.login(toSubmit).subscribe(
-        // We're assuming the response will be an object
-        // with the JWT on an id_token key
-        () => {
-          this.loading = false;
-          this.router.navigate(['your', 'phrase']);
-        },
-        (error) => {
-          console.log('error', error);
-          this.loading = false;
-          if (error.status === 401) {
-            this.snackBar.open('invalid user name or password.', undefined, {
-              duration: 6000,
-            });
-          } else {
-            console.error(error);
-          }
-        }
-      );
+      this.loading.set(true);
+      this.auth
+        .login(toSubmit)
+        .pipe(
+          tap(() => {
+            this.loading.set(false);
+            this.router.navigate(['your', 'phrase']);
+          }),
+          catchError((error) => {
+            console.log('error', error);
+            this.loading.set(false);
+            if (error.status === 401) {
+              this.snackBar.open('invalid user name or password.', undefined, {
+                duration: 6000,
+              });
+            } else {
+              console.error(error);
+            }
+            return of(null);
+          })
+        )
+        .subscribe();
     }
   }
 }

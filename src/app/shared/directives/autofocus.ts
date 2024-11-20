@@ -5,15 +5,20 @@ import {
   ElementRef,
   HostListener,
   Input,
-  Optional
+  inject,
 } from '@angular/core';
 import { MatInput } from '@angular/material/input';
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[autofocus]',
+  standalone: true,
 })
 export class AutofocusDirective implements AfterViewInit {
+  private el = inject(ElementRef);
+  private _cd = inject(ChangeDetectorRef);
+  private matInput = inject(MatInput, { optional: true });
+
   private _autofocus = true;
 
   @Input() set autofocus(condition: boolean | '') {
@@ -21,12 +26,6 @@ export class AutofocusDirective implements AfterViewInit {
   }
 
   @Input() focusOnKey: string | undefined;
-
-  constructor(
-    private el: ElementRef,
-    private _cd: ChangeDetectorRef,
-    @Optional() private matInput?: MatInput
-  ) {}
 
   ngAfterViewInit() {
     if (this._autofocus) {

@@ -1,153 +1,148 @@
-<ng-container *ngLet="categories$ | async as categories">
-  <div class="grid mx-4 relative">
-    <div
-      [@smoothHorizontalCollapse]="
-        searchExpInput.isOpen || addCategoryForm.isOpen
-      "
-      class="same-area max-w-fit flex gap-4 pt-3 z-10"
+@let categories = categories$ | async;
+
+<div class="grid mx-4 relative">
+  <div
+    [@smoothHorizontalCollapse]="
+      searchExpInput.isOpen || addCategoryForm.isOpen
+    "
+    class="same-area max-w-fit flex gap-4 pt-3 z-10"
+  >
+    <button
+      *ngIf="categories"
+      mat-mini-fab
+      matTooltip="Toggle all categories"
+      (click)="toggleAll()"
+      type="button"
     >
-      <button
-        *ngIf="categories"
-        mat-mini-fab
-        matTooltip="Toggle all categories"
-        (click)="toggleAll()"
-        type="button"
-      >
-        <mat-icon>
-          {{
-            (areAllCategoriesClosed$ | async)
-              ? 'border_horizontal'
-              : 'border_outer'
-          }}
-        </mat-icon>
-      </button>
+      <mat-icon>
+        {{
+          (areAllCategoriesClosed$ | async)
+            ? 'border_horizontal'
+            : 'border_outer'
+        }}
+      </mat-icon>
+    </button>
 
-      <button
-        mat-mini-fab
-        type="button"
-        matTooltip="Download all data"
-        (click)="downloadAllData()"
-      >
-        <mat-icon>cloud_download</mat-icon>
-      </button>
-    </div>
-
-    <div
-      class="same-area"
-      [@z-index]="searchExpInput.isOpen"
-      [@margin-right]="searchExpInput.isOpen"
-      [@smoothHorizontalCollapse]="addCategoryForm.isOpen"
+    <button
+      mat-mini-fab
+      type="button"
+      matTooltip="Download all data"
+      (click)="downloadAllData()"
     >
-      <app-expandable-input
-        #searchExpInput
-        (keydown.escape)="escSearch()"
-        openOnKey="/"
-        group="g1"
-        class="flex-1"
-      >
-        <mat-form-field *ngsExpInput>
-          <mat-label>Search</mat-label>
-
-          <input matInput [formControl]="searchForControl" type="text" />
-        </mat-form-field>
-
-        <button *ngsExpIconOpen mat-mini-fab>
-          <mat-icon matRipple>search</mat-icon>
-        </button>
-
-        <button
-          *ngsExpIconClose
-          mat-mini-fab
-          type="button"
-          (click)="clearSearch()"
-        >
-          <mat-icon matRipple>close</mat-icon>
-        </button>
-      </app-expandable-input>
-    </div>
-
-    <app-add-category-form
-      #addCategoryForm
-      (add)="addCategory($event)"
-      [@smoothHorizontalCollapse]="searchExpInput.isOpen"
-      class="same-area"
-    ></app-add-category-form>
+      <mat-icon>cloud_download</mat-icon>
+    </button>
   </div>
 
-  <div class="categories">
-    <mat-accordion multi>
-      <ng-container *ngFor="let c of categories; trackBy: trackByCategory">
-        <ng-container
-          [appCategoryExpandedTracker]="c.id"
-          #categoryExpandedTracker="categoryExpandedTracker"
-        >
-          <ng-container
-            *ngLet="categoryExpandedTracker.isExpanded$ | async as isExpanded"
-          >
-            <mat-expansion-panel [expanded]="isExpanded">
-              <mat-expansion-panel-header
-                (click)="toggleExpandedCategory(c.id)"
-              >
-                <app-category
-                  [category]="c"
-                  [isExpanded]="!!isExpanded"
+  <div
+    class="same-area"
+    [@z-index]="searchExpInput.isOpen"
+    [@margin-right]="searchExpInput.isOpen"
+    [@smoothHorizontalCollapse]="addCategoryForm.isOpen"
+  >
+    <app-expandable-input
+      #searchExpInput
+      (keydown.escape)="escSearch()"
+      openOnKey="/"
+      group="g1"
+      class="flex-1"
+    >
+      <mat-form-field *ngsExpInput>
+        <mat-label>Search</mat-label>
+
+        <input matInput [formControl]="searchForControl" type="text" />
+      </mat-form-field>
+
+      <button *ngsExpIconOpen mat-mini-fab>
+        <mat-icon matRipple>search</mat-icon>
+      </button>
+
+      <button
+        *ngsExpIconClose
+        mat-mini-fab
+        type="button"
+        (click)="clearSearch()"
+      >
+        <mat-icon matRipple>close</mat-icon>
+      </button>
+    </app-expandable-input>
+  </div>
+
+  <app-add-category-form
+    #addCategoryForm
+    (add)="addCategory($event)"
+    [@smoothHorizontalCollapse]="searchExpInput.isOpen"
+    class="same-area"
+  ></app-add-category-form>
+</div>
+
+<div class="categories">
+  <mat-accordion multi>
+    <ng-container *ngFor="let c of categories; trackBy: trackByCategory">
+      <ng-container
+        [appCategoryExpandedTracker]="c.id"
+        #categoryExpandedTracker="categoryExpandedTracker"
+      >
+        @let isExpanded = categoryExpandedTracker.isExpanded$ | async;
+        <mat-expansion-panel [expanded]="isExpanded">
+          <mat-expansion-panel-header (click)="toggleExpandedCategory(c.id)">
+            <app-category
+              [category]="c"
+              [isExpanded]="!!isExpanded"
+              [searchFor]="searchFor$ | async"
+              (update)="updateCategory($event)"
+              (remove)="removeCategory($event)"
+              (addItem)="addItem($event)"
+            >
+            </app-category>
+          </mat-expansion-panel-header>
+
+          <ng-template matExpansionPanelContent>
+            <div class="category-items">
+              <table class="resp-table">
+                <tr>
+                  <th>Name</th>
+                  <th>Account</th>
+                  <th>Username</th>
+                  <th>Password</th>
+                  <th>Blob</th>
+                  <th>&nbsp;</th>
+                </tr>
+                <tr
+                  *ngFor="let item of c.items; trackBy: trackByItem"
+                  app-item
+                  [item]="item"
                   [searchFor]="searchFor$ | async"
-                  (update)="updateCategory($event)"
-                  (remove)="removeCategory($event)"
-                  (addItem)="addItem($event)"
-                >
-                </app-category>
-              </mat-expansion-panel-header>
-
-              <ng-template matExpansionPanelContent>
-                <div class="category-items">
-                  <table class="resp-table">
-                    <tr>
-                      <th>Name</th>
-                      <th>Account</th>
-                      <th>Username</th>
-                      <th>Password</th>
-                      <th>Blob</th>
-                      <th>&nbsp;</th>
-                    </tr>
-                    <tr
-                      *ngFor="let item of c.items; trackBy: trackByItem"
-                      app-item
-                      [item]="item"
-                      [searchFor]="searchFor$ | async"
-                      (updateItem)="updateItem($event)"
-                      (removeItem)="removeItem($event)"
-                    ></tr>
-                  </table>
-                </div>
-              </ng-template>
-            </mat-expansion-panel>
-          </ng-container>
-        </ng-container>
+                  (updateItem)="updateItem($event)"
+                  (removeItem)="removeItem($event)"
+                ></tr>
+              </table>
+            </div>
+          </ng-template>
+        </mat-expansion-panel>
       </ng-container>
-    </mat-accordion>
+    </ng-container>
+  </mat-accordion>
 
-    <mat-paginator
-      [length]="pagination.totalItemsLength$ | async"
-      [pageIndex]="pagination.pageIndex$ | async"
-      [pageSize]="pagination.pageSize$ | async"
-      (page)="pagination.setPageIndex($event.pageIndex)"
-      aria-label="Select page"
-      hidePageSize
-    >
-    </mat-paginator>
-  </div>
+  <mat-paginator
+    [length]="pagination.totalItemsLength$ | async"
+    [pageIndex]="pagination.pageIndex$ | async"
+    [pageSize]="pagination.pageSize$ | async"
+    (page)="pagination.setPageIndex($event.pageIndex)"
+    aria-label="Select page"
+    hidePageSize
+  >
+  </mat-paginator>
+</div>
 
-  <div>
-    <table class="resp-table">
-      <tr
-        *ngFor="let item of itemsWithoutCategory$ | async; trackBy: trackByItem"
-        app-item
-        [item]="item"
-        [searchFor]="searchFor$ | async"
-        (updateItem)="updateItem($event)"
-        (removeItem)="removeItem($event)"
-      ></tr>
-    </table>
-  </div>
-</ng-container>
+<div>
+  <table class="resp-table">
+    <tr
+      *ngFor="let item of itemsWithoutCategory$ | async; trackBy: trackByItem"
+      app-item
+      [item]="item"
+      [searchFor]="searchFor$ | async"
+      (updateItem)="updateItem($event)"
+      (removeItem)="removeItem($event)"
+    ></tr>
+  </table>
+</div>

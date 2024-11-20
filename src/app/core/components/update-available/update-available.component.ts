@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { MatButton } from '@angular/material/button';
 import { MatSnackBarRef } from '@angular/material/snack-bar';
 
 @Component({
@@ -6,9 +7,12 @@ import { MatSnackBarRef } from '@angular/material/snack-bar';
   templateUrl: './update-available.component.html',
   styleUrls: ['./update-available.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [MatButton],
 })
 export class UpdateAvailableComponent {
-  constructor(private snackBarRef: MatSnackBarRef<UpdateAvailableComponent>) {}
+  private snackBarRef =
+    inject<MatSnackBarRef<UpdateAvailableComponent>>(MatSnackBarRef);
 
   dismiss() {
     this.snackBarRef.dismiss();

@@ -27,7 +27,7 @@ describe('InstallPwaComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [InstallPwaComponent],
+      imports: [InstallPwaComponent],
       providers: [
         { provide: PwaService, useClass: PwaServiceMock },
         { provide: SwUpdate, useValue: {} },

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -6,6 +6,9 @@ import { AuthStorage } from '../auth-token-storage';
 
 @Injectable()
 export class AuthStateService {
+  private router = inject(Router);
+  private dialog = inject(MatDialog);
+
   private readonly isAuthenticatedSubj: BehaviorSubject<boolean>;
   private readonly isPathPhraseCorrectSubj = new BehaviorSubject<boolean>(
     false
@@ -14,7 +17,7 @@ export class AuthStateService {
   isPathPhraseCorrect$ = this.isPathPhraseCorrectSubj.asObservable();
   secret: string | undefined;
 
-  constructor(private router: Router, private dialog: MatDialog) {
+  constructor() {
     const token = AuthStorage.getToken();
     const sessionExpirationTime = AuthStorage.getSessionExpirationTime();
     const isAuthed =

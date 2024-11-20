@@ -5,13 +5,28 @@ import {
   EventEmitter,
   OnInit,
   Output,
-  ViewChild
+  ViewChild,
+  inject,
 } from '@angular/core';
 import {
+  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormControl,
-  UntypedFormGroup
+  UntypedFormGroup,
 } from '@angular/forms';
+import { MatMiniFabButton } from '@angular/material/button';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatIcon } from '@angular/material/icon';
+import { MatInput } from '@angular/material/input';
+import { MatTooltip } from '@angular/material/tooltip';
+import {
+  ExpIconActionDirective,
+  ExpIconCloseDirective,
+  ExpIconOpenDirective,
+  ExpInputDirective,
+} from '@ngspot/expandable-input';
+
+import { AutofocusDirective } from '../../../shared/directives/autofocus';
 import { AppExpandableInputComponent } from '../../../shared/expandable-input';
 
 @Component({
@@ -19,8 +34,26 @@ import { AppExpandableInputComponent } from '../../../shared/expandable-input';
   templateUrl: './add-category-form.component.html',
   styleUrls: ['./add-category-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    ReactiveFormsModule,
+    ExpInputDirective,
+    MatFormField,
+    MatLabel,
+    MatInput,
+    AutofocusDirective,
+    ExpIconOpenDirective,
+    MatMiniFabButton,
+    MatTooltip,
+    MatIcon,
+    ExpIconCloseDirective,
+    ExpIconActionDirective,
+    AppExpandableInputComponent,
+  ],
 })
 export class AddCategoryFormComponent implements OnInit {
+  private _fb = inject(UntypedFormBuilder);
+
   addCategoryForm: UntypedFormGroup;
   categoryControl = new UntypedFormControl('');
 
@@ -35,8 +68,6 @@ export class AddCategoryFormComponent implements OnInit {
   get isOpen() {
     return this.expandableInput?.isOpen;
   }
-
-  constructor(private _fb: UntypedFormBuilder) {}
 
   ngOnInit() {
     this.addCategoryForm = this._fb.group({
